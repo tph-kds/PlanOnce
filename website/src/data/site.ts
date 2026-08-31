@@ -1,8 +1,8 @@
 export const site = {
   name: 'PlanOnce',
-  version: '0.7.0',
+  version: '1.0.0',
   description: 'Open-source production engineering control for building high-quality software with any AI coding agent.',
-  install: 'npx skills add <owner>/planonce-agent-skills --all',
+  install: 'npx skills add tph-kds/PlanOnce --all',
 };
 
 export const agents = [

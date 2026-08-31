@@ -1,6 +1,6 @@
 {
   "name": "planonce-site",
-  "version": "0.7.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "packageManager": "npm@10.9.2",

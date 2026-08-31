@@ -1,0 +1,57 @@
+---
+import { providers } from '../data/providers';
+
+// split into two rows for dual-direction marquee
+const firstRow = providers.filter(p => p.tier === 'first-class');
+const secondRow = [
+  ...providers.filter(p => p.tier === 'extended'),
+  ...providers.slice(0,4)
+];
+const icon = (id: string) => {
+  const map: Record<string, string> = {
+    'claude-code': '<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>',
+    'codex': '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 9l3 3 3-3"/>',
+    'opencode': '<circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/>',
+    'cursor': '<path d="M5 3l14 8-7 2-4 7z"/>',
+    'gemini-cli': '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 3"/>',
+    'github-copilot': '<path d="M9 19c-5 1.5-5-2.5-7-3"/><circle cx="12" cy="8" r="6"/>',
+    'cline': '<path d="M3 12h18"/><path d="M12 3v18"/>',
+    'kilo': '<path d="M12 3l9 6-9 6-9-6 9-6z"/><path d="M3 12l9 6 9-6"/>',
+    'kiro-cli': '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8h8v8H8z"/>',
+    'roo': '<circle cx="12" cy="8" r="5"/><path d="M5 20c0-3 3-5 7-5s7 2 7 5"/>',
+    'windsurf': '<path d="M2 12c4-4 8 4 12 0 4 4 8-4 8 0"/>',
+    'qwen-code': '<circle cx="12" cy="12" r="10"/><path d="M8 10h8M8 14h8"/>',
+    'goose': '<path d="M12 3a9 9 0 100 18 9 9 0 000-18z"/><path d="M9 12c1 2 5 2 6 0"/>',
+    'openhands': '<path d="M12 5l7 4-7 4-7-4 7-4z"/><path d="M5 12l7 4 7-4"/>',
+  };
+  return map[id] || '<circle cx="12" cy="12" r="8"/>';
+};
+---
+<section class="marquee-section" aria-label="Supported providers">
+  <div class="container marquee-heading">
+    <strong>Trusted across 14 runtimes</strong>
+    <span>One workflow vocabulary — provider-neutral by design</span>
+  </div>
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      {[...firstRow, ...firstRow].map(p => (
+        <div class="provider-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icon(p.id)} />
+          {p.name}
+          <span class="tier">first-class</span>
+        </div>
+      ))}
+    </div>
+  </div>
+  <div class="marquee-wrap">
+    <div class="marquee-track reverse">
+      {[...secondRow, ...secondRow].map(p => (
+        <div class={`provider-chip ${p.tier === 'extended' ? 'extended' : ''}`}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icon(p.id)} />
+          {p.name}
+          <span class="tier">{p.tier}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

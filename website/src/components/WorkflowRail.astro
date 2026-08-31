@@ -1,12 +1,23 @@
 ---
 import { workflows } from '../data/site';
+const icons: Record<string, string> = {
+  'Greenfield small': '<path d="M12 3l7 4-7 4-7-4 7-4z"/><path d="M5 12l7 4 7-4"/><path d="M5 16l7 4 7-4"/>',
+  'Greenfield normal': '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12h8M12 8v8"/>',
+  'Greenfield large': '<path d="M3 8l9-5 9 5-9 5-9-5z"/><path d="M3 14l9 5 9-5"/>',
+  'Brownfield small': '<path d="M14 7l3 3-7 7H7v-3l7-7z"/><circle cx="6" cy="6" r="2"/>',
+  'Brownfield normal': '<path d="M12 7l7 4-7 4-7-4 7-4z"/><path d="M5 12v4l7 4 7-4v-4"/>',
+  'Brownfield large': '<path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/><circle cx="12" cy="6" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="18" r="1" fill="currentColor"/>',
+};
 ---
 <div class="workflow-rail">
   {workflows.map((workflow) => (
     <article class="workflow-row reveal">
-      <div>
-        <h3>{workflow.name}</h3>
-        <code>{workflow.skill}</code>
+      <div class="workflow-head">
+        <span class="workflow-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={icons[workflow.name] || icons['Greenfield small']} /></span>
+        <div>
+          <h3>{workflow.name}</h3>
+          <code>{workflow.skill}</code>
+        </div>
       </div>
       <p>{workflow.when}</p>
       <div class="workflow-flow" aria-label={`${workflow.name} steps`}>

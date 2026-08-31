@@ -4,23 +4,45 @@ import Command from '../components/Command.astro';
 import WorkflowRail from '../components/WorkflowRail.astro';
 import ProviderTabs from '../components/ProviderTabs.astro';
 import BrandOrbit from '../components/BrandOrbit.astro';
-import { agents, projectFacts, qualitySkills, reliabilityControls, site } from '../data/site';
+import ProviderMarquee from '../components/ProviderMarquee.astro';
+import GitHubStars from '../components/GitHubStars.astro';
+import { projectFacts, qualitySkills, reliabilityControls, site } from '../data/site';
 import '../styles/landing.css';
 const base = import.meta.env.BASE_URL;
+const reliabilityIcons = [
+  '<path d="M12 2l7 4-7 4-7-4 7-4z"/><path d="M5 12l7 4 7-4"/><path d="M5 16l7 4 7-4"/>',
+  '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>',
+  '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+  '<path d="M12 8l-6 6h4v4h4v-4h4z"/><path d="M12 3v2"/>',
+  '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h10"/><circle cx="9" cy="14" r="1" fill="currentColor"/><circle cx="15" cy="14" r="1" fill="currentColor"/>',
+  '<path d="M3 3v18h18"/><path d="M7 16l3-3 3 3 4-6"/>',
+];
+const qualityIcons = [
+  '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/><path d="M11 8v6l3 2"/>',
+  '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>',
+  '<path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/>',
+  '<path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/>',
+];
 ---
 <BaseLayout title="PlanOnce" description="Open-source production engineering control for building high-quality software with any AI coding agent.">
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy-block">
-        <div class="release-line reveal"><span>PlanOnce v{site.version}</span><span>Workflow Reliability Layer</span></div>
-        <div class="kicker reveal">Open-source production engineering control for AI coding agents</div>
-        <h1 class="display reveal">One plan. Every agent. Production that holds up.</h1>
-        <p class="hero-copy reveal">Route work, freeze intent, verify fresh evidence, and keep humans in control across any coding agent.</p>
+        <div class="release-line reveal"><span>PlanOnce v{site.version}</span><span>Workflow Reliability Layer</span><span style="margin-left:6px;display:inline-flex;align-items:center;gap:6px;"><span style="width:6px;height:6px;border-radius:50%;background:var(--success);display:inline-block;"></span>v1.0 Stable</span></div>
+        <div class="kicker reveal no-line" style="margin:10px 0 8px;gap:8px;">OPEN-SOURCE • PRODUCTION ENGINEERING CONTROL</div>
+        <h1 class="display reveal">One plan.<br/>Every agent.<br/><em>Production that holds.</em></h1>
+        <p class="hero-copy reveal">Route work, freeze intent, verify fresh evidence, and keep humans in control — across 14 AI coding runtimes. No chaos, just proof.</p>
         <div class="hero-actions reveal">
-          <a class="button" href={`${base}docs/getting-started/`}>Start with one task</a>
-          <a class="button-quiet" href={`${base}docs/reliability/`}>Explore reliability</a>
+          <a class="button button-primary" href={`${base}docs/getting-started/`}>Start with one task →</a>
+          <a class="button-quiet" href={`${base}docs/architecture/`}>Architecture</a>
+          <GitHubStars />
         </div>
         <div class="hero-command reveal"><Command command={site.install} label="Copy the PlanOnce install command" /></div>
+        <div class="reveal" style="margin-top:14px;display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:.78rem;font-weight:600;">
+          <span style="display:inline-flex;gap:6px;align-items:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg> 12 Agent Skills</span>
+          <span>•</span><span>Pinned Agent OS 3.0 + GSD 1.12</span>
+          <span>•</span><span>Evidence-bound verification</span>
+        </div>
       </div>
       <div class="reveal"><BrandOrbit /></div>
     </div>
@@ -29,33 +51,34 @@ const base = import.meta.env.BASE_URL;
   <section class="fact-strip" aria-label="PlanOnce release facts">
     <div class="container fact-grid">
       {projectFacts.map(([value, label]) => <div><strong>{value}</strong><span>{label}</span></div>)}
+      <div><strong>1.0</strong><span>stable release</span></div>
     </div>
   </section>
 
-  <section class="agent-strip" aria-label="Compatible coding agents">
-    <div class="container agent-list">
-      <strong>First-class guidance</strong>
-      {agents.map((agent) => <span>{agent}</span>)}
-    </div>
-  </section>
+  <ProviderMarquee />
 
   <section class="section" id="why">
     <div class="container">
       <div class="section-intro reveal">
         <div class="kicker">Why PlanOnce</div>
         <div>
-          <h2 class="display">AI can move fast. Engineering still needs memory, boundaries, and proof.</h2>
-          <p>PlanOnce turns recurring planning, execution, recovery, verification, security, and ship-readiness decisions into one durable workflow contract instead of another pile of prompts.</p>
+          <h2 class="display">AI moves fast.<br/>Engineering needs memory.</h2>
+          <p>PlanOnce turns recurring planning, execution, recovery, and ship-readiness into one durable contract — not a pile of prompts. Minimal ceremony by default, stronger gates only when risk demands it.</p>
         </div>
       </div>
       <div class="problem-grid">
         <div class="problem-statement reveal">
-          <p>The goal is not more agent autonomy. It is higher-value autonomy that stays inside accepted intent and produces evidence a human can trust.</p>
+          <p>Higher-value autonomy that stays inside accepted intent — and produces evidence a human can trust.</p>
+          <div style="margin-top:16px;display:inline-flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1;">
+            <span style="padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:.72rem;font-weight:700;letter-spacing:.04em;">Plan once</span>
+            <span style="padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:.72rem;font-weight:700;letter-spacing:.04em;">Verify fresh</span>
+            <span style="padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:.72rem;font-weight:700;letter-spacing:.04em;">Ship with proof</span>
+          </div>
         </div>
         <div class="proof-stack reveal" aria-label="PlanOnce operating promises">
-          <div class="proof"><strong>Plan once</strong><span>One accepted planning authority, then bounded execution.</span></div>
-          <div class="proof"><strong>Stay fresh</strong><span>Evidence expires when relevant code or worktree state changes.</span></div>
-          <div class="proof"><strong>Recover cleanly</strong><span>Fix defects without replanning; amend only when reality invalidates the plan.</span></div>
+          <div class="proof"><strong>Plan once</strong><span>One accepted planning authority, then bounded execution. No second planner.</span></div>
+          <div class="proof"><strong>Stay fresh</strong><span>Evidence is revision-bound — relevant changes invalidate prior proof until rerun.</span></div>
+          <div class="proof"><strong>Recover cleanly</strong><span><code>FIX_REVERIFY</code> for defects, <code>BLOCKED_AMEND</code> when reality invalidates the plan.</span></div>
         </div>
       </div>
     </div>
@@ -67,14 +90,15 @@ const base = import.meta.env.BASE_URL;
         <div class="kicker">Workflow reliability layer</div>
         <div>
           <h2 class="display">Make the important promises machine-checkable.</h2>
-          <p>Versioned artifacts, plan fingerprints, revision-bound evidence, failure routing, workspace protection, and executable evals turn workflow discipline into something PlanOnce can verify.</p>
+          <p>Versioned artifacts, plan fingerprints, revision-bound evidence, failure routing, workspace protection, and executable evals — all verifiable.</p>
         </div>
       </div>
       <div class="reliability-grid">
         {reliabilityControls.map((control, index) => (
           <article class="reliability-row reveal">
             <span class="reliability-index">0{index + 1}</span>
-            <div><div class="kicker">{control.label}</div><h3>{control.name}</h3></div>
+            <span style="width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--accent-soft);border:1px solid color-mix(in srgb, var(--accent) 10%, var(--line));color:var(--accent);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={reliabilityIcons[index]} /></span>
+            <div><div class="kicker no-line" style="font-size:.62rem;">{control.label}</div><h3>{control.name}</h3></div>
             <p>{control.copy}</p>
           </article>
         ))}
@@ -90,8 +114,8 @@ const base = import.meta.env.BASE_URL;
       <div class="section-intro reveal">
         <div class="kicker">Six implementation routes</div>
         <div>
-          <h2 class="display">Start with one router, then use the smallest safe workflow.</h2>
-          <p><code>planonce-task</code> classifies only enough context to choose Greenfield or Brownfield and Small, Normal, or Large. It then exits so the selected implementation workflow remains the single planning authority.</p>
+          <h2 class="display">Start with one router.<br/>Use the smallest safe workflow.</h2>
+          <p><code>planonce-task</code> classifies only enough context to choose Greenfield/Brownfield × Small/Normal/Large — then exits so the selected workflow remains the single planning authority.</p>
         </div>
       </div>
       <div class="router-callout reveal">
@@ -107,18 +131,21 @@ const base = import.meta.env.BASE_URL;
     <div class="container architecture-grid">
       <div class="architecture-copy reveal">
         <div class="kicker">One authority, pinned upstream engines</div>
-        <h2 class="display">Use Agent OS and GSD strengths without making users operate three frameworks.</h2>
-        <p>PlanOnce v0.7 vendors pinned Agent OS v3.0.0 and GSD Core v1.12.0 source/runtime material, compiles the useful semantics into provider-neutral skills, and keeps raw upstream command surfaces inactive at repository root.</p>
-        <a class="button-quiet" href={`${base}docs/architecture/`}>Read the runtime architecture</a>
+        <h2 class="display">Use Agent OS & GSD strengths — without operating three frameworks.</h2>
+        <p>PlanOnce v1.0 vendors pinned <strong>Agent OS v3.0.0</strong> and <strong>GSD Core v1.12.0</strong> source/runtime, compiles the useful semantics into provider-neutral skills, and keeps raw upstream command surfaces inactive at repository root.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
+          <a class="button" href={`${base}docs/architecture/`}>Read architecture →</a>
+          <a class="button-quiet" href="https://github.com/tph-kds/PlanOnce" target="_blank" rel="noopener">View source</a>
+        </div>
       </div>
       <div class="authority-stack reveal" aria-label="Runtime authority model">
         <div class="authority-node authority-human"><span>Highest authority</span><strong>Human + repository policy</strong></div>
         <div class="authority-arrow">↓</div>
-        <div class="authority-node authority-planonce"><span>Orchestration authority</span><strong>PlanOnce</strong></div>
+        <div class="authority-node authority-planonce"><span>Orchestration authority</span><strong>PlanOnce v1.0</strong></div>
         <div class="authority-arrow">↓</div>
         <div class="authority-sources">
           <div><span>Agent OS v3.0.0</span><strong>standards + spec shaping</strong></div>
-          <div><span>GSD Core v1.12.0</span><strong>bounded execution + audit discipline</strong></div>
+          <div><span>GSD Core v1.12.0</span><strong>bounded execution + audit</strong></div>
         </div>
       </div>
     </div>
@@ -128,17 +155,20 @@ const base = import.meta.env.BASE_URL;
     <div class="container quality-layout">
       <div class="quality-copy reveal">
         <div class="kicker">Security and ship readiness</div>
-        <h2 class="display">Shipping is a claim. Fresh evidence earns it.</h2>
-        <p>Security and production review are first-class workflows. Review treats stale revision-bound evidence as unverified, separates introduced blockers from brownfield backlog, and never turns missing evidence into confidence.</p>
-        <a class="button-quiet" href={`${base}docs/security-review/`}>See the review contracts</a>
+        <h2 class="display">Shipping is a claim.<br/>Fresh evidence earns it.</h2>
+        <p>Security and production review are first-class workflows. Stale evidence is treated as unverified, blockers are separated from brownfield backlog, and missing checks stay visible as <code>NOT_RUN</code>.</p>
+        <a class="button-quiet" href={`${base}docs/security-review/`}>See review contracts →</a>
       </div>
       <div class="evidence-list">
-        {qualitySkills.map((item) => (
+        {qualitySkills.map((item, i) => (
           <article class="evidence-item reveal">
-            <div>
-              <h3>{item.label}</h3>
-              <p>{item.copy}</p>
-              <code>{item.skill}</code>
+            <div style="display:flex;gap:14px;">
+              <span style="width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--paper-2);border:1px solid var(--line);color:var(--accent);flex:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={qualityIcons[i]} /></span>
+              <div>
+                <h3>{item.label}</h3>
+                <p>{item.copy}</p>
+                <code>{item.skill}</code>
+              </div>
             </div>
             <span class="status">evidence gate</span>
           </article>
@@ -151,8 +181,8 @@ const base = import.meta.env.BASE_URL;
     <div class="container install-lab reveal">
       <div class="install-heading">
         <div class="kicker">Provider-neutral distribution</div>
-        <h2 class="display">Install one repo. Target the runtime only when you need to.</h2>
-        <p>The exact workflow vocabulary stays stable across providers. The Skills CLI is the primary cross-provider surface; provider adapters translate capabilities without owning the methodology.</p>
+        <h2 class="display">Install one repo.<br/>Target the runtime only when you need to.</h2>
+        <p>The workflow vocabulary stays stable across providers. The Skills CLI is the primary surface; provider adapters translate capabilities without owning methodology.</p>
       </div>
       <ProviderTabs />
     </div>
@@ -163,22 +193,22 @@ const base = import.meta.env.BASE_URL;
       <div class="section-intro reveal">
         <div class="kicker">Documentation</div>
         <div>
-          <h2 class="display">Learn the framework at the depth your task requires.</h2>
-          <p>Start with one task, then go deeper into workflow routing, reliability contracts, runtime architecture, providers, and production review.</p>
+          <h2 class="display">Learn at the depth your task requires.</h2>
+          <p>Start with one task, then go deeper into routing, reliability, architecture, providers, and production review.</p>
         </div>
       </div>
       <div class="docs-preview">
         <a class="docs-main-link reveal" href={`${base}docs/getting-started/`}>
-          <span class="kicker">Start here</span>
-          <h3 class="display">Install once. Route one change. Keep the evidence.</h3>
-          <span>Open getting started →</span>
+          <span class="kicker no-line">Start here</span>
+          <h3 class="display">Install once.<br/>Route one change.<br/>Keep the evidence.</h3>
+          <span style="display:inline-flex;align-items:center;gap:8px;font-weight:700;">Open getting started →</span>
         </a>
         <div class="docs-links reveal">
-          <a class="docs-link" href={`${base}docs/reliability/`}><span><strong>Reliability layer</strong><p>Plan digests, freshness, failure routing, locks, and executable evals.</p></span><span>→</span></a>
-          <a class="docs-link" href={`${base}docs/architecture/`}><span><strong>Runtime architecture</strong><p>One authority with pinned Agent OS and GSD upstream engines.</p></span><span>→</span></a>
-          <a class="docs-link" href={`${base}docs/workflows/`}><span><strong>Workflow guide</strong><p>Route Greenfield or Brownfield, then scale ceremony by risk.</p></span><span>→</span></a>
-          <a class="docs-link" href={`${base}docs/providers/`}><span><strong>Provider support</strong><p>Use the same workflow vocabulary across 14 tracked targets.</p></span><span>→</span></a>
-          <a class="docs-link" href={`${base}docs/security-review/`}><span><strong>Security and review</strong><p>Findings, fresh evidence, readiness, backlog, and ship gates.</p></span><span>→</span></a>
+          <a class="docs-link" href={`${base}docs/reliability/`}><span><strong>Reliability layer</strong><p>Digests, freshness, failure routing, locks, and evals.</p></span><span>→</span></a>
+          <a class="docs-link" href={`${base}docs/architecture/`}><span><strong>Runtime architecture</strong><p>One authority with pinned Agent OS and GSD.</p></span><span>→</span></a>
+          <a class="docs-link" href={`${base}docs/workflows/`}><span><strong>Workflow guide</strong><p>Greenfield/Brownfield, risk, and ceremony.</p></span><span>→</span></a>
+          <a class="docs-link" href={`${base}docs/providers/`}><span><strong>Provider support</strong><p>Same vocabulary across 14 runtimes.</p></span><span>→</span></a>
+          <a class="docs-link" href={`${base}docs/security-review/`}><span><strong>Security and review</strong><p>Findings, readiness, backlog, and ship gates.</p></span><span>→</span></a>
         </div>
       </div>
     </div>
@@ -188,14 +218,14 @@ const base = import.meta.env.BASE_URL;
     <div class="container">
       <div class="section-intro reveal">
         <div class="kicker">Common questions</div>
-        <div><h2 class="display">Sophisticated inside. Simple at the developer surface.</h2></div>
+        <div><h2 class="display">Sophisticated inside.<br/>Simple at the surface.</h2></div>
       </div>
       <div class="faq reveal">
-        <details><summary>Do users need Agent OS and GSD installed separately?</summary><p>No. PlanOnce is the user-facing authority. The release vendors pinned upstream source/runtime material and compiles the required semantics into self-contained PlanOnce skills.</p></details>
-        <details><summary>Does planonce-task create another plan?</summary><p>No. It is deliberately route-only. It selects one canonical implementation workflow, explains why, and exits before planning begins.</p></details>
-        <details><summary>What happens when verification fails?</summary><p>An implementation defect routes to FIX_REVERIFY. A contradiction that invalidates accepted direction routes to BLOCKED_AMEND and requires the normal human amendment gate. Unknown causes route to DIAGNOSE.</p></details>
-        <details><summary>Can stale passing tests still count as verification?</summary><p>No. Verification is bound to the relevant revision and working-tree state. Relevant changes invalidate previous fresh evidence until affected checks are rerun.</p></details>
-        <details><summary>Does every task need the Large workflow?</summary><p>No. PlanOnce explicitly chooses the smallest safe workflow. Small changes are intended to stay lightweight; stronger gates appear only when risk and coordination justify them.</p></details>
+        <details><summary>Do users need Agent OS and GSD separately?</summary><p>No. PlanOnce v1.0 is the user-facing authority. Upstreams are vendored and compiled into self-contained skills.</p></details>
+        <details><summary>Does planonce-task create a plan?</summary><p>No — route-only. It selects one canonical workflow, explains why, and exits before planning.</p></details>
+        <details><summary>What happens when verification fails?</summary><p>Defect → <code>FIX_REVERIFY</code>. Plan contradiction → <code>BLOCKED_AMEND</code> + human amendment. Unknown → <code>DIAGNOSE</code>.</p></details>
+        <details><summary>Can stale passing tests count?</summary><p>No. Verification is bound to revision + worktree + digest. Relevant changes invalidate evidence until rerun.</p></details>
+        <details><summary>Does every task need Large?</summary><p>No. Always the smallest safe workflow. Small stays lightweight; gates appear only when risk justifies them.</p></details>
       </div>
     </div>
   </section>

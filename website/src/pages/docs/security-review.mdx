@@ -68,7 +68,7 @@ For already deployed systems, authorized read-only CI results, logs, traces, ale
 
 ## Stale evidence
 
-PlanOnce v0.7 treats verification freshness as part of readiness. If the relevant revision, worktree state, or accepted plan digest changed after a passing verification run, that evidence is stale.
+PlanOnce v1.0 treats verification freshness as part of readiness. If the relevant revision, worktree state, or accepted plan digest changed after a passing verification run, that evidence is stale.
 
 `planonce-review` must not downgrade stale required evidence into harmless backlog. Required stale evidence means the affected checks need to run again before a `READY` decision can be justified.
 

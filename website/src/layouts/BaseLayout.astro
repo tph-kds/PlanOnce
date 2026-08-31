@@ -38,6 +38,7 @@ const pageTitle = title === 'PlanOnce' ? 'PlanOnce | Production Engineering Cont
     </script>
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true"><div class="scroll-progress-fill" data-progress-fill></div><div class="scroll-progress-dot" data-progress-dot></div></div>
     <a class="skip-link" href="#main">Skip to content</a>
     <SiteHeader />
     <main id="main"><slot /></main>
@@ -90,6 +91,24 @@ const pageTitle = title === 'PlanOnce' ? 'PlanOnce | Production Engineering Cont
         });
       }, { threshold: 0.12 });
       document.querySelectorAll('.reveal').forEach((node) => reveal.observe(node));
+
+      // vertical scroll progress line (top -> end)
+      const fill = document.querySelector('[data-progress-fill]');
+      const dot = document.querySelector('[data-progress-dot]');
+      const updateProgress = () => {
+        if (!fill || !dot) return;
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        const p = h > 0 ? (window.scrollY / h) * 100 : 0;
+        fill.style.height = p + '%';
+        dot.style.top = p + '%';
+      };
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('resize', updateProgress);
+        updateProgress();
+      } else {
+        fill && (fill.style.height = '100%');
+      }
 
       // Fix absolute markdown/docs links for GitHub Pages project site base (/PlanOnce/)
       // Astro components already use base, this handles MDX content links like href="/docs/..."
