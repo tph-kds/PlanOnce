@@ -1,0 +1,213 @@
+---
+// 3D SPHERE + FLOWING GRADIENT BETWEEN SCENES — mysterious, smooth, harmonious
+---
+<div class="curved-progress" aria-hidden="true">
+  <svg viewBox="0 0 88 1000" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="progressGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#22d3ee" stop-opacity="1">
+          <animate attributeName="stop-color" values="#22d3ee;#6366f1;#22d3ee" dur="9s" repeatCount="indefinite" />
+        </stop>
+        <stop offset="34%" stop-color="#6366f1" stop-opacity="1">
+          <animate attributeName="stop-color" values="#6366f1;#8b5cf6;#6366f1" dur="9s" repeatCount="indefinite" />
+        </stop>
+        <stop offset="72%" stop-color="#8b5cf6" stop-opacity="1">
+          <animate attributeName="stop-color" values="#8b5cf6;#ec4899;#8b5cf6" dur="9s" repeatCount="indefinite" />
+        </stop>
+        <stop offset="100%" stop-color="#ec4899" stop-opacity="1" />
+      </linearGradient>
+      <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+        <stop offset="32%" stop-color="#ffffff" stop-opacity="0.95" />
+        <stop offset="52%" stop-color="#22d3ee" stop-opacity="1" />
+        <stop offset="68%" stop-color="#ffffff" stop-opacity="0.95" />
+        <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+      </linearGradient>
+      <radialGradient id="sphereGradient" cx="32%" cy="28%" r="78%">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+        <stop offset="16%" stop-color="#f0f7ff" stop-opacity="1" />
+        <stop offset="34%" stop-color="#a5b4fc" stop-opacity="1" />
+        <stop offset="58%" stop-color="#6366f1" stop-opacity="1" />
+        <stop offset="82%" stop-color="#3730a3" stop-opacity="1" />
+        <stop offset="100%" stop-color="#1e1b4b" stop-opacity="1" />
+      </radialGradient>
+      <radialGradient id="haloGradient" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#6366f1" stop-opacity="0.26" />
+        <stop offset="55%" stop-color="#22d3ee" stop-opacity="0.16" />
+        <stop offset="100%" stop-color="#6366f1" stop-opacity="0" />
+      </radialGradient>
+      <filter id="sphereShadow" x="-70%" y="-70%" width="240%" height="240%">
+        <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#4338ca" flood-opacity="0.32"/>
+        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.22"/>
+      </filter>
+    </defs>
+
+    <!-- Mystery tube spine -->
+    <path class="track-bg" d="M44 0 C 52 78, 36 148, 44 226 C 54 304, 34 374, 44 452 C 52 528, 36 598, 44 676 C 54 752, 34 828, 44 904 C 50 944, 44 972, 44 1000" />
+    <path class="track" d="M44 0 C 52 78, 36 148, 44 226 C 54 304, 34 374, 44 452 C 52 528, 36 598, 44 676 C 54 752, 34 828, 44 904 C 50 944, 44 972, 44 1000" />
+    <path class="track-highlight" d="M44 0 C 52 78, 36 148, 44 226 C 54 304, 34 374, 44 452 C 52 528, 36 598, 44 676 C 54 752, 34 828, 44 904 C 50 944, 44 972, 44 1000" />
+    <path class="glow" d="M44 0 C 52 78, 36 148, 44 226 C 54 304, 34 374, 44 452 C 52 528, 36 598, 44 676 C 54 752, 34 828, 44 904 C 50 944, 44 972, 44 1000" />
+    <!-- scroll fill -->
+    <path class="fill" id="curvedFill" d="M44 0 C 52 78, 36 148, 44 226 C 54 304, 34 374, 44 452 C 52 528, 36 598, 44 676 C 54 752, 34 828, 44 904 C 50 944, 44 972, 44 1000" stroke-dasharray="1" stroke-dashoffset="1" />
+    <path class="fill-highlight" id="curvedHighlight" d="M44 0 C 52 78, 36 148, 44 226 C 54 304, 34 374, 44 452 C 52 528, 36 598, 44 676 C 54 752, 34 828, 44 904 C 50 944, 44 972, 44 1000" stroke-dasharray="1" stroke-dashoffset="1" />
+    <!-- FLOWING GRADIENT BETWEEN SCENES — bright segment that perpetually travels between sections -->
+    <path class="flow" id="curvedFlow" d="M44 0 C 52 78, 36 148, 44 226 C 54 304, 34 374, 44 452 C 52 528, 36 598, 44 676 C 54 752, 34 828, 44 904 C 50 944, 44 972, 44 1000" />
+
+    <!-- flowing light particle between scenes -->
+    <g id="flowDot" opacity="0">
+      <circle r="7" fill="url(#haloGradient)" opacity="0.55" />
+      <circle r="3.1" fill="white" opacity="0.98" style="filter: drop-shadow(0 0 8px rgba(255,255,255,0.9));" />
+      <circle r="1.1" fill="white" opacity="0.95" />
+    </g>
+
+    <!-- 3D CIRCLE -->
+    <g id="curvedOrb" opacity="0" style="transition: opacity 220ms ease;">
+      <circle class="pulse-ring" r="14" fill="none" stroke="url(#progressGradient)" stroke-opacity="0.20" stroke-width="1.1" />
+      <circle class="pulse-ring-2" r="14" fill="none" stroke="url(#progressGradient)" stroke-opacity="0.13" stroke-width="1.1" />
+      <circle r="16" fill="url(#haloGradient)" opacity="0.42" />
+      <g class="orbit-system">
+        <ellipse class="orbit orbit-a" cx="0" cy="0" rx="13.5" ry="5.5" fill="none" stroke="url(#progressGradient)" stroke-width="1.05" opacity="0.62" />
+        <ellipse class="orbit orbit-b" cx="0" cy="0" rx="13.5" ry="5.5" fill="none" stroke="white" stroke-opacity="0.48" stroke-width="0.6" stroke-dasharray="2 3.5" />
+      </g>
+      <g class="sphere-core" style="filter: url(#sphereShadow);">
+        <circle r="8.8" fill="url(#sphereGradient)" stroke="rgba(255,255,255,0.32)" stroke-width="0.9" />
+        <circle r="8.8" fill="none" stroke="white" stroke-opacity="0.18" stroke-width="1.4" />
+        <ellipse cx="-2.8" cy="-3.4" rx="3.2" ry="2.4" fill="white" opacity="0.96" />
+        <ellipse cx="-1.2" cy="-1.6" rx="1.2" ry="0.75" fill="white" opacity="0.52" />
+        <path class="sweep" d="M -5 -7 A 10 10 0 0 1 5 -5" fill="none" stroke="white" stroke-opacity="0.32" stroke-width="0.9" stroke-linecap="round" />
+        <path d="M -7 5.8 A 10.2 10.2 0 0 0 7 5.8 A 7.2 7.2 0 0 1 -7 5.8" fill="rgba(0,0,0,0.18)" />
+      </g>
+      <g transform="translate(4.2,-7.2) scale(0.42)">
+        <path d="M0 -3.8 L1 -1.2 L3.5 -0.7 L1.4 0.7 L1.9 3.2 L0 1.7 L-1.9 3.2 L-1.4 0.7 L-3.5 -0.7 L-1 -1.2 Z" fill="white" opacity="0.98" style="filter: drop-shadow(0 1px 3px rgba(99,102,241,0.6));"/>
+      </g>
+      <circle class="trail" r="1.35" fill="white" opacity="0.0" />
+    </g>
+
+    <g opacity="0.82">
+      <circle cx="44" cy="226" r="3.6" fill="var(--paper)" stroke="var(--line)" stroke-width="1.15"/>
+      <circle cx="44" cy="226" r="1.6" fill="url(#progressGradient)"/>
+      <circle cx="44" cy="452" r="3.6" fill="var(--paper)" stroke="var(--line)" stroke-width="1.15"/>
+      <circle cx="44" cy="452" r="1.6" fill="url(#progressGradient)"/>
+      <circle cx="44" cy="676" r="3.6" fill="var(--paper)" stroke="var(--line)" stroke-width="1.15"/>
+      <circle cx="44" cy="676" r="1.6" fill="url(#progressGradient)"/>
+      <circle cx="44" cy="904" r="3.6" fill="var(--paper)" stroke="var(--line)" stroke-width="1.15"/>
+      <circle cx="44" cy="904" r="1.6" fill="url(#progressGradient)"/>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .track-bg { fill: none; stroke: var(--line); stroke-width: 4.2; opacity: 0.18; stroke-linecap: round; filter: blur(0.6px); }
+  .track { fill: none; stroke: var(--line); stroke-width: 1.7; opacity: 0.62; stroke-linecap: round; }
+  .track-highlight { fill: none; stroke: white; stroke-width: 0.9; opacity: 0.38; stroke-linecap: round; stroke-dasharray: 0.8 3.5; }
+  .glow { fill: none; stroke: url(#progressGradient); stroke-width: 9; opacity: 0.09; filter: blur(7px); }
+  .fill { fill: none; stroke: url(#progressGradient); stroke-width: 2.6; stroke-linecap: round; filter: drop-shadow(0 2px 10px rgba(99,102,241,0.22)); }
+  .fill-highlight { fill: none; stroke: white; stroke-width: 1.1; opacity: 0.38; stroke-linecap: round; }
+  .flow { fill: none; stroke: url(#flowGradient); stroke-width: 3.4; stroke-linecap: round; opacity: 0.0; filter: drop-shadow(0 0 8px rgba(255,255,255,0.85)); }
+  .pulse-ring { animation: pulseScale 1.9s cubic-bezier(0.4,0,0.6,1) infinite; transform-origin: center; }
+  .pulse-ring-2 { animation: pulseScale 1.9s cubic-bezier(0.4,0,0.6,1) 0.9s infinite; transform-origin: center; }
+  .orbit { transform-origin: center; }
+  .orbit-a { animation: orbitSpin 4.2s linear infinite; }
+  .orbit-b { animation: orbitSpin 5.6s linear infinite reverse; }
+  .sphere-core { animation: sphereFloat 3.2s ease-in-out infinite; transform-origin: center; }
+  .sweep { animation: sweepMove 2.8s ease-in-out infinite; }
+  @keyframes pulseScale { 0% { transform: scale(0.68); opacity: 0.30; } 70% { opacity: 0.06; } 100% { transform: scale(2.05); opacity: 0; } }
+  @keyframes orbitSpin { 0% { transform: rotate(-18deg) rotateZ(0deg); } 100% { transform: rotate(-18deg) rotateZ(360deg); } }
+  @keyframes sphereFloat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+  @keyframes sweepMove { 0%, 100% { opacity: 0.18; } 50% { opacity: 0.42; } }
+  @keyframes flowDash { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -80; } }
+  @media (prefers-reduced-motion: reduce) {
+    .pulse-ring, .pulse-ring-2, .orbit, .sphere-core, .sweep { animation: none; }
+    .pulse-ring, .pulse-ring-2, .flow { opacity: 0 !important; }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const fill = document.getElementById('curvedFill');
+    const highlight = document.getElementById('curvedHighlight');
+    const flow = document.getElementById('curvedFlow');
+    const orb = document.getElementById('curvedOrb');
+    const flowDot = document.getElementById('flowDot');
+    const trail = orb?.querySelector('.trail');
+    if (!fill || !orb || !highlight || !flow) return;
+    const path = fill;
+    const len = path.getTotalLength();
+    [fill, highlight].forEach(p => { p.style.strokeDasharray = len + ' ' + len; p.style.strokeDashoffset = String(len); });
+    // flow is short bright segment that perpetually travels between scenes
+    const flowLen = 52;
+    flow.style.strokeDasharray = flowLen + ' ' + (len - flowLen);
+    flow.style.opacity = '0';
+    flow.style.strokeDashoffset = String(len);
+    flow.style.animation = 'flowDash 1.9s linear infinite';
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      [fill, highlight].forEach(p => p.style.strokeDashoffset = '0');
+      flow.style.opacity = '0';
+      flow.style.animation = 'none';
+      orb.style.opacity = '0';
+      if (flowDot) flowDot.style.opacity = '0';
+      return;
+    }
+    let ticking = false;
+    let lastY = window.scrollY;
+    let lastTime = performance.now();
+    // independent flowing particle between scenes
+    let flowT = 0;
+    const flowSpeed = 0.00042; // ~2.4s loop
+    const updateFlowDot = (now) => {
+      if (!flowDot) return;
+      flowT = (flowT + flowSpeed * 16) % 1;
+      try {
+        const pt = path.getPointAtLength(len * flowT);
+        flowDot.setAttribute('transform', `translate(${pt.x} ${pt.y})`);
+        // only visible where fill has passed or in mysterious low opacity elsewhere
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        const p = h > 0 ? window.scrollY / h : 0;
+        const visible = flowT < p ? 0.88 : 0.22; // brighter between passed scenes, ghost ahead
+        flowDot.style.opacity = String(visible);
+      } catch {}
+      requestAnimationFrame(updateFlowDot);
+    };
+    requestAnimationFrame(updateFlowDot);
+
+    const update = () => {
+      ticking = false;
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      const p = h > 0 ? window.scrollY / h : 0;
+      const draw = len * (1 - p);
+      fill.style.strokeDashoffset = String(draw);
+      highlight.style.strokeDashoffset = String(draw);
+      // flow is visible only within drawn portion, clipped by scroll
+      const flowVisible = p > 0.02 ? '0.92' : '0';
+      flow.style.opacity = flowVisible;
+      flow.style.strokeDashoffset = String(draw);
+      const now = performance.now();
+      const dy = Math.abs(window.scrollY - lastY);
+      const dt = Math.max(16, now - lastTime);
+      const vel = Math.min(1, dy / dt * 0.08);
+      lastY = window.scrollY; lastTime = now;
+      try {
+        const pt = path.getPointAtLength(len * p);
+        const ahead = path.getPointAtLength(Math.min(len, len * p + 2));
+        const ang = Math.atan2(ahead.y - pt.y, ahead.x - pt.x) * 180 / Math.PI;
+        const tilt = Math.max(-12, Math.min(12, ang * 0.16));
+        const scale = 1 + vel * 0.12;
+        const squash = 1 - vel * 0.06;
+        orb.setAttribute('transform', `translate(${pt.x} ${pt.y}) rotate(${tilt}) scale(${scale} ${squash})`);
+        orb.style.opacity = p > 0.012 && p < 0.988 ? '1' : '0';
+        if (trail) {
+          const trailPt = path.getPointAtLength(Math.max(0, len * p - 14));
+          trail.setAttribute('cx', String(trailPt.x - pt.x));
+          trail.setAttribute('cy', String(trailPt.y - pt.y));
+          trail.style.opacity = String(0.32 * (1 - vel) * (p > 0.02 && p < 0.98 ? 1 : 0));
+        }
+      } catch {}
+      path.style.filter = `drop-shadow(0 3px 10px rgba(99,102,241,${0.22 + p*0.10 + vel*0.12}))`;
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>

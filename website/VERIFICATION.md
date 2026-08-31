@@ -1,12 +1,12 @@
 # Website verification
 
-This website source is synchronized to PlanOnce v0.7.0 and packaged as canonical Astro + TypeScript + MDX + CSS source only.
+This website source is synchronized to PlanOnce v1.0.0 and packaged as canonical Astro + TypeScript + MDX + CSS source only.
 
 ## Verified in the packaging environment
 
 - source validator: PASS
 - website version/content synchronization: PASS
-- 14-provider website matrix matches the PlanOnce v0.7 provider registry: PASS
+- 14-provider website matrix matches the PlanOnce v1.0 provider registry: PASS
 - MDX frontmatter and TOC heading ids across 8 documentation pages: PASS
 - TypeScript data modules compile with the available TypeScript compiler: PASS
 - CSS brace structure across global/landing/docs styles: PASS

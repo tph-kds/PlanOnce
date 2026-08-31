@@ -1,6 +1,6 @@
 const base = import.meta.env.BASE_URL;
 export const searchIndex = [
-  { title: 'Overview', href: `${base}docs/`, text: 'PlanOnce v0.7, core contract, project state, and documentation map.' },
+  { title: 'Overview', href: `${base}docs/`, text: 'PlanOnce v1.0, core contract, project state, and documentation map.' },
   { title: 'Getting started', href: `${base}docs/getting-started/`, text: 'Install PlanOnce, initialize a project, use planonce-task, and run your first controlled change.' },
   { title: 'Workflow guide', href: `${base}docs/workflows/`, text: 'Greenfield and brownfield workflows for small, normal, and large changes, escalation, human gates, and recovery.' },
   { title: 'Reliability layer', href: `${base}docs/reliability/`, text: 'Artifact schemas, plan fingerprints, revision-bound evidence, failure routing, workspace locks, and executable evals.' },

@@ -28,9 +28,8 @@ const qualityIcons = [
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy-block">
-        <div class="release-line reveal"><span>PlanOnce v{site.version}</span><span>Workflow Reliability Layer</span><span style="margin-left:6px;display:inline-flex;align-items:center;gap:6px;"><span style="width:6px;height:6px;border-radius:50%;background:var(--success);display:inline-block;"></span>v1.0 Stable</span></div>
-        <div class="kicker reveal no-line" style="margin:10px 0 8px;gap:8px;">OPEN-SOURCE • PRODUCTION ENGINEERING CONTROL</div>
-        <h1 class="display reveal">One plan.<br/>Every agent.<br/><em>Production that holds.</em></h1>
+        <div class="eyebrow reveal" style="backdrop-filter: blur(8px);"><span style="width:6px;height:6px;border-radius:50%;background:var(--success);display:inline-block;"></span> Open-source • Production engineering control</div>
+        <h1 class="display-serif reveal">One plan.<br/>Every agent.<br/><em>Production that holds.</em></h1>
         <p class="hero-copy reveal">Route work, freeze intent, verify fresh evidence, and keep humans in control — across 14 AI coding runtimes. No chaos, just proof.</p>
         <div class="hero-actions reveal">
           <a class="button button-primary" href={`${base}docs/getting-started/`}>Start with one task →</a>
@@ -51,7 +50,6 @@ const qualityIcons = [
   <section class="fact-strip" aria-label="PlanOnce release facts">
     <div class="container fact-grid">
       {projectFacts.map(([value, label]) => <div><strong>{value}</strong><span>{label}</span></div>)}
-      <div><strong>1.0</strong><span>stable release</span></div>
     </div>
   </section>
 

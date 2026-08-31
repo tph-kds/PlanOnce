@@ -1,4 +1,4 @@
-# PlanOnce v0.7.0
+# PlanOnce v1.0.0
 
 PlanOnce is an open-source framework for building high-quality software with any AI coding agent.
 
@@ -6,7 +6,7 @@ Core principle: route to the smallest safe workflow, plan once, execute in bound
 
 ## Main documentation
 
-- /docs/ - Overview and v0.7 contract
+- /docs/ - Overview and v1.0 contract
 - /docs/getting-started/ - Installation, initialization, planonce-task, and first controlled change
 - /docs/workflows/ - Greenfield and Brownfield workflow guide
 - /docs/reliability/ - Artifact schemas, plan fingerprints, evidence freshness, recovery, workspace locks, and evals

@@ -27,7 +27,7 @@ const toc = frontmatter.toc || [];
       <div class="docs-side-version">
         <span>Current release</span>
         <strong>v1.0.0</strong>
-        <span style="margin-top:6px;display:inline-flex;gap:6px;"><span style="width:6px;height:6px;border-radius:50%;background:var(--success);display:inline-block;"></span> Stable</span>
+        <span class="v">Stable</span>
       </div>
     </aside>
     <article class="docs-main">
@@ -38,9 +38,12 @@ const toc = frontmatter.toc || [];
       </header>
       <slot />
       {frontmatter.next && (
-        <div class="docs-next">
-          <span class="muted">Next</span>
-          <a href={frontmatter.next.href.startsWith('/') ? `${base}${frontmatter.next.href.slice(1)}` : frontmatter.next.href}>{frontmatter.next.label} →</a>
+        <div class="docs-next-block">
+          <span>Up next</span>
+          <a href={frontmatter.next.href.startsWith('/') ? `${base}${frontmatter.next.href.slice(1)}` : frontmatter.next.href}>
+            {frontmatter.next.label}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
         </div>
       )}
     </article>

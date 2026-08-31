@@ -1,6 +1,6 @@
 # PlanOnce Website
 
-Landing page and technical documentation for **PlanOnce v0.7.0 - Workflow Reliability Layer**.
+Landing page and technical documentation for **PlanOnce v1.0.0 - Workflow Reliability Layer**.
 
 PlanOnce is an open-source framework for building high-quality software with any AI coding agent. This website mirrors the current release concepts: route-only workflow selection, one planning authority, plan fingerprints, revision-bound evidence, failure routing, workspace safety, executable evals, security/readiness gates, pinned Agent OS/GSD upstream engines, and multi-provider installation.
 
@@ -16,7 +16,7 @@ Canonical source lives under `src/`. Generated HTML belongs only in `dist/` afte
 
 ## Brand
 
-The v0.7 site uses the PlanOnce moon-orbit identity under `public/brand/`:
+The v1.0 site uses the PlanOnce moon-orbit identity under `public/brand/`:
 
 ```text
 brand/
@@ -63,7 +63,7 @@ npm run preview
 
 ## Provider data
 
-`src/data/providers.ts` mirrors the PlanOnce v0.7 provider matrix with 14 tracked targets: Claude Code, Codex, OpenCode, Cursor, Gemini CLI, GitHub Copilot, Cline, Kilo Code, Kiro, Roo Code, Windsurf, Qwen Code, Goose, and OpenHands.
+`src/data/providers.ts` mirrors the PlanOnce v1.0 provider matrix with 14 tracked targets: Claude Code, Codex, OpenCode, Cursor, Gemini CLI, GitHub Copilot, Cline, Kilo Code, Kiro, Roo Code, Windsurf, Qwen Code, Goose, and OpenHands.
 
 Kilo and Kiro keep explicit caveats because current discovery/install behavior differs from the most portable `.agents/skills` path.
 
