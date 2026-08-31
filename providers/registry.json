@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "checked_on": "2026-08-30",
+  "skills_cli_source": "https://github.com/vercel-labs/skills/blob/main/src/agents.ts",
+  "policy": "npx-agent-ids-follow-current-vercel-skills-cli; native paths are documented separately when provider docs differ",
+  "providers": [
+    {
+      "npx_agent": "claude-code",
+      "display_name": "Claude Code",
+      "support_tier": "first-class",
+      "adapter": "claude-code.md",
+      "project_path": ".claude/skills",
+      "global_path": "~/.claude/skills"
+    },
+    {
+      "npx_agent": "codex",
+      "display_name": "Codex",
+      "support_tier": "first-class",
+      "adapter": "codex.md",
+      "project_path": ".agents/skills",
+      "global_path": "~/.codex/skills"
+    },
+    {
+      "npx_agent": "opencode",
+      "display_name": "OpenCode",
+      "support_tier": "first-class",
+      "adapter": "opencode.md",
+      "project_path": ".agents/skills",
+      "global_path": "~/.config/opencode/skills",
+      "native_project_path": ".opencode/skills",
+      "portable_project_path": ".agents/skills",
+      "native_note": "OpenCode officially discovers .opencode/skills, .claude/skills, and .agents/skills at project scope."
+    },
+    {
+      "npx_agent": "cursor",
+      "display_name": "Cursor",
+      "support_tier": "first-class",
+      "adapter": "cursor.md",
+      "project_path": ".agents/skills",
+      "global_path": "~/.cursor/skills"
+    },
+    {
+      "npx_agent": "gemini-cli",
+      "display_name": "Gemini CLI",
+      "support_tier": "first-class",
+      "adapter": "gemini-cli.md",
+      "project_path": ".agents/skills",
+      "global_path": "~/.gemini/skills"
+    },
+    {
+      "npx_agent": "github-copilot",
+      "display_name": "GitHub Copilot",
+      "support_tier": "first-class",
+      "adapter": "github-copilot.md",
+      "project_path": ".agents/skills",
+      "global_path": "~/.copilot/skills"
+    },
+    {
+      "npx_agent": "cline",
+      "display_name": "Cline",
+      "support_tier": "first-class",
+      "adapter": "cline.md",
+      "project_path": ".agents/skills",
+      "global_path": "~/.agents/skills"
+    },
+    {
+      "npx_agent": "kilo",
+      "display_name": "Kilo Code",
+      "support_tier": "first-class",
+      "adapter": "kilo-code.md",
+      "project_path": ".kilocode/skills",
+      "global_path": "~/.kilocode/skills",
+      "preferred_project_path": ".kilo/skills",
+      "preferred_global_path": "~/.kilo/skills",
+      "portable_project_path": ".agents/skills",
+      "cli_mapping_note": "The current vercel-labs/skills main branch still maps agent id kilo to the legacy .kilocode/skills path. Current Kilo documentation prefers .kilo/skills and also loads the portable .agents/skills directory. Keep this discrepancy visible and verify discovery after installation."
+    },
+    {
+      "npx_agent": "kiro-cli",
+      "display_name": "Kiro",
+      "support_tier": "first-class",
+      "adapter": "kiro.md",
+      "project_path": ".kiro/skills",
+      "global_path": "~/.kiro/skills",
+      "post_install": "The default Kiro agent discovers skills automatically. Custom Kiro agents must include skill://.kiro/skills/*/SKILL.md (and optionally skill://~/.kiro/skills/*/SKILL.md) in resources."
+    },
+    {
+      "npx_agent": "roo",
+      "display_name": "Roo Code",
+      "support_tier": "first-class",
+      "adapter": "roo-code.md",
+      "project_path": ".roo/skills",
+      "global_path": "~/.roo/skills"
+    },
+    {
+      "npx_agent": "windsurf",
+      "display_name": "Windsurf",
+      "support_tier": "first-class",
+      "adapter": "windsurf.md",
+      "project_path": ".windsurf/skills",
+      "global_path": "~/.codeium/windsurf/skills"
+    },
+    {
+      "npx_agent": "qwen-code",
+      "display_name": "Qwen Code",
+      "support_tier": "extended",
+      "adapter": "generic.md",
+      "project_path": ".qwen/skills",
+      "global_path": "~/.qwen/skills"
+    },
+    {
+      "npx_agent": "goose",
+      "display_name": "Goose",
+      "support_tier": "extended",
+      "adapter": "generic.md",
+      "project_path": ".goose/skills",
+      "global_path": "~/.config/goose/skills"
+    },
+    {
+      "npx_agent": "openhands",
+      "display_name": "OpenHands",
+      "support_tier": "extended",
+      "adapter": "generic.md",
+      "project_path": ".openhands/skills",
+      "global_path": "~/.openhands/skills"
+    }
+  ]
+}

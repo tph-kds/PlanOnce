@@ -1,0 +1,17 @@
+---
+import { workflows } from '../data/site';
+---
+<div class="workflow-rail">
+  {workflows.map((workflow) => (
+    <article class="workflow-row reveal">
+      <div>
+        <h3>{workflow.name}</h3>
+        <code>{workflow.skill}</code>
+      </div>
+      <p>{workflow.when}</p>
+      <div class="workflow-flow" aria-label={`${workflow.name} steps`}>
+        {workflow.flow.map((step) => <span>{step}</span>)}
+      </div>
+    </article>
+  ))}
+</div>

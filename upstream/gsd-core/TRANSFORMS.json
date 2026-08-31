@@ -1,0 +1,9 @@
+{
+  "purpose": "Remove machine-local path rewrites introduced by the Claude local installer while preserving runtime semantics for audit.",
+  "transforms": [
+    {"kind": "project_claude_root", "replacement": "~/.claude/"},
+    {"kind": "project_root", "replacement": "./"},
+    {"kind": "machine_node_executable", "replacement": "node"}
+  ],
+  "note": "Exact local source paths are intentionally not retained. The original installer manifest is kept as ORIGINAL_INSTALL_MANIFEST.json; current vendored hashes are recorded in manifest.json after de-localization."
+}

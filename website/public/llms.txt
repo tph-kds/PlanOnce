@@ -1,0 +1,72 @@
+# PlanOnce v0.7.0
+
+PlanOnce is an open-source framework for building high-quality software with any AI coding agent.
+
+Core principle: route to the smallest safe workflow, plan once, execute in bounded steps, verify revision-bound fresh evidence, recover without unnecessary replanning, and keep humans in control at meaningful gates.
+
+## Main documentation
+
+- /docs/ - Overview and v0.7 contract
+- /docs/getting-started/ - Installation, initialization, planonce-task, and first controlled change
+- /docs/workflows/ - Greenfield and Brownfield workflow guide
+- /docs/reliability/ - Artifact schemas, plan fingerprints, evidence freshness, recovery, workspace locks, and evals
+- /docs/architecture/ - PlanOnce authority with Agent OS v3.0.0 and GSD Core v1.12.0 upstream engines
+- /docs/providers/ - Provider support and installation
+- /docs/security-review/ - Security, stale evidence, production review, backlog, and readiness
+- /docs/design-system/ - Moon-orbit website design system and brand assets
+
+## Canonical skill names
+
+- planonce-init
+- planonce-task
+- planonce-green-small
+- planonce-green-normal
+- planonce-green-large
+- planonce-brown-small
+- planonce-brown-normal
+- planonce-brown-large
+- planonce-security
+- planonce-security-fix
+- planonce-review
+- planonce-skill-audit
+
+## Workflow control loop
+
+CLASSIFY -> CONTEXT -> SHAPE -> APPROVE -> EXECUTE -> VERIFY -> REVIEW -> SHIP
+
+planonce-task is route-only and exits before implementation planning.
+
+Normal and Large workflows fingerprint the human-approved PLAN.md. Verification is bound to the relevant Git revision, working-tree digest, and accepted plan digest. Failed checks route to FIX_REVERIFY, BLOCKED_AMEND, or DIAGNOSE based on evidence.
+
+## Installation
+
+Primary cross-provider install:
+
+npx skills add <owner>/planonce-agent-skills --all
+
+Project-local copy:
+
+npx skills add <owner>/planonce-agent-skills --all --copy -y
+
+Validated provider ids include:
+
+- claude-code
+- codex
+- opencode
+- cursor
+- gemini-cli
+- github-copilot
+- cline
+- kilo
+- kiro-cli
+- roo
+- windsurf
+- qwen-code
+- goose
+- openhands
+
+Example targeted install:
+
+npx skills add <owner>/planonce-agent-skills --skill '*' -a opencode -y
+
+Replace <owner> after the GitHub repository owner is finalized.

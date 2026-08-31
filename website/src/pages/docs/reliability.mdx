@@ -1,0 +1,121 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Reliability layer
+heading: Make workflow promises machine-checkable.
+description: PlanOnce v0.7 adds versioned artifacts, plan fingerprints, revision-bound evidence, explicit failure routing, workspace protection, and executable evals.
+toc:
+  - id: versioned-artifacts
+    label: Versioned artifacts
+  - id: approved-plan-fingerprint
+    label: Approved plan fingerprint
+  - id: revision-bound-evidence
+    label: Revision-bound evidence
+  - id: failure-routing
+    label: Failure routing
+  - id: workspace-safety
+    label: Workspace safety
+  - id: executable-evals
+    label: Executable evals
+next:
+  href: /docs/architecture/
+  label: Runtime architecture
+---
+
+## Versioned artifacts
+
+PlanOnce keeps its primary artifacts human-readable Markdown while adding stable frontmatter schemas such as:
+
+```text
+planonce.context/v1
+planonce.design/v1
+planonce.plan/v1
+planonce.state/v1
+planonce.verify/v1
+```
+
+This allows humans and coding agents to read the same files while deterministic tooling validates identity, workflow, status, revision, and integrity fields.
+
+## Approved plan fingerprint
+
+Normal and Large workflows fingerprint the human-approved `PLAN.md` with deterministic SHA-256 and record the digest in `STATE.md`.
+
+```text
+human approves PLAN.md
+        ↓
+normalize + hash
+        ↓
+approved_plan_digest
+        ↓
+execution / resume checks
+```
+
+If the current plan digest no longer matches the accepted digest, execution must not silently continue. A semantic change requires the normal amendment protocol.
+
+Small workflows keep an approved micro-plan but record `NOT_APPLICABLE` for the `PLAN.md` digest because they deliberately avoid heavyweight artifacts.
+
+## Revision-bound evidence
+
+`VERIFY.md` uses `schema: planonce.verify/v1` and binds fresh evidence to:
+
+- current Git `HEAD` when available;
+- a relevant working-tree digest excluding PlanOnce bookkeeping;
+- accepted plan digest or `NOT_APPLICABLE` for Small.
+
+A relevant source, configuration, test, migration, or contract change makes prior evidence stale until affected checks are rerun.
+
+Repository-level installs can validate work artifacts with:
+
+```bash
+python scripts/reliability.py validate-work .planonce/work/<change> --repo .
+```
+
+<div class="docs-callout">
+<strong>Freshness is part of correctness.</strong><br />
+A passing test from before the final code change is historical information, not current ship evidence.
+</div>
+
+## Failure routing
+
+PlanOnce separates three cases:
+
+### FIX_REVERIFY
+
+The plan is still correct. Fix the implementation or test defect and rerun affected evidence. No unnecessary replanning or human amendment is required.
+
+### BLOCKED_AMEND
+
+Repository evidence invalidates accepted scope, architecture, or approach. Set the change to `BLOCKED`, record the contradiction, propose the smallest amendment, obtain human approval, and resume from the updated accepted artifact.
+
+### DIAGNOSE
+
+The cause is unknown. Gather evidence before changing code or the plan.
+
+## Workspace safety
+
+PlanOnce records enough workspace context to protect existing user work:
+
+- baseline revision;
+- current branch;
+- dirty state at start;
+- current revision;
+- isolation mode when used.
+
+Large and high-risk work should prefer an isolated worktree or equivalent workspace when the provider supports it. PlanOnce must not reset or overwrite pre-existing user changes merely to obtain a clean tree.
+
+When parallel workers can overlap, `.planonce/locks/` can hold lightweight cooperative file-scope locks. These are coordination contracts, not a networked lock service.
+
+## Executable evals
+
+PlanOnce release gates run deterministic runtime scenarios that exercise framework behavior rather than merely checking whether documentation contains the right words.
+
+Current deterministic scenarios cover areas such as:
+
+- Greenfield/Brownfield routing;
+- risk escalation;
+- accepted-plan mutation detection;
+- failure route selection;
+- scope-lock collision behavior.
+
+A provider-neutral external-agent harness uses a simple adapter protocol so the same scenario can be run against real coding agents without making the release gate depend on provider credentials or network access.
+
+External-agent benchmark results should be reported separately from deterministic framework checks. A mock adapter proves the harness contract, not real-model effectiveness.

@@ -1,0 +1,20 @@
+{
+  "planonce_version": "0.7.0",
+  "update_policy": "release-pinned-no-runtime-auto-update",
+  "agent_os": {
+    "repo": "https://github.com/buildermethods/agent-os",
+    "tag": "v3.0.0",
+    "commit": "809fb4e3e20451e3dd9ad9b253111776db373518",
+    "license": "MIT",
+    "materialization": "exact git archive",
+    "role": "standards discovery/index/injection, product context, spec shaping"
+  },
+  "gsd_core": {
+    "repo": "https://github.com/open-gsd/gsd-core",
+    "tag": "v1.12.0",
+    "commit": "ceed559",
+    "license": "MIT",
+    "materialization": "de-localized capture of installed v1.12.0 runtime plus inert Claude core,audit profile surface",
+    "role": "brownfield discovery, bounded execution, state, verification, audit and review semantics"
+  }
+}

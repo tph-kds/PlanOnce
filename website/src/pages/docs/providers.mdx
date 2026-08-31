@@ -1,0 +1,137 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Providers
+heading: Keep the workflow stable while runtimes change.
+description: PlanOnce tracks 14 provider targets and keeps one workflow vocabulary across Claude Code, Codex, OpenCode, Kilo, Kiro, Roo, Windsurf, Cursor, Gemini CLI, Copilot, Cline, and portable Agent Skills runtimes.
+toc:
+  - id: support-model
+    label: Support model
+  - id: provider-matrix
+    label: Provider matrix
+  - id: npx-installation
+    label: npx installation
+  - id: provider-caveats
+    label: Provider caveats
+  - id: portability-rule
+    label: Portability rule
+next:
+  href: /docs/security-review/
+  label: Security and review
+---
+
+## Support model
+
+PlanOnce skill names are the canonical workflow identity. Providers may expose them as slash commands, skill names, plugin actions, or natural-language invocations.
+
+The methodology remains stable:
+
+```text
+PlanOnce workflow contracts
+          ↓
+provider capability adapter
+          ↓
+Claude / Codex / OpenCode / Kilo / Kiro / Roo / Windsurf / others
+```
+
+The framework defines semantic capabilities such as asking the human, reading/writing files, running deterministic commands, optional fresh workers, and optional isolated workspaces. Provider adapters translate those capabilities without changing the accepted workflow.
+
+## Provider matrix
+
+| Provider | Exact Skills CLI id | Project skill path | Support |
+| --- | --- | --- | --- |
+| Claude Code | `claude-code` | `.claude/skills` | First-class |
+| Codex | `codex` | `.agents/skills` | First-class |
+| OpenCode | `opencode` | `.agents/skills` | First-class |
+| Cursor | `cursor` | `.agents/skills` | First-class |
+| Gemini CLI | `gemini-cli` | `.agents/skills` | First-class |
+| GitHub Copilot | `github-copilot` | `.agents/skills` | First-class |
+| Cline | `cline` | `.agents/skills` | First-class |
+| Kilo Code | `kilo` | `.kilocode/skills` via current Skills CLI mapping | First-class |
+| Kiro | `kiro-cli` | `.kiro/skills` | First-class |
+| Roo Code | `roo` | `.roo/skills` | First-class |
+| Windsurf | `windsurf` | `.windsurf/skills` | First-class |
+| Qwen Code | `qwen-code` | `.qwen/skills` | Extended |
+| Goose | `goose` | `.goose/skills` | Extended |
+| OpenHands | `openhands` | `.openhands/skills` | Extended |
+
+## npx installation
+
+Primary cross-provider installation:
+
+```bash
+npx skills add <owner>/planonce-agent-skills --all
+```
+
+Project-local copies suitable for committing:
+
+```bash
+npx skills add <owner>/planonce-agent-skills --all --copy -y
+```
+
+Target one provider with the exact Skills CLI id:
+
+```bash
+npx skills add <owner>/planonce-agent-skills --skill '*' -a opencode -y
+npx skills add <owner>/planonce-agent-skills --skill '*' -a kilo -y
+npx skills add <owner>/planonce-agent-skills --skill '*' -a kiro-cli -y
+npx skills add <owner>/planonce-agent-skills --skill '*' -a roo -y
+npx skills add <owner>/planonce-agent-skills --skill '*' -a windsurf -y
+```
+
+Install across the complete first-class set:
+
+```bash
+npx skills add <owner>/planonce-agent-skills --skill '*' \
+  -a claude-code \
+  -a codex \
+  -a opencode \
+  -a kilo \
+  -a kiro-cli \
+  -a roo \
+  -a cursor \
+  -a gemini-cli \
+  -a github-copilot \
+  -a cline \
+  -a windsurf \
+  -y
+```
+
+If a runtime does not expose slash commands, invoke the exact skill name semantically:
+
+```text
+Use planonce-task to implement this change.
+```
+
+## Provider caveats
+
+### Kilo Code
+
+The tracked Skills CLI mapping for `kilo` uses legacy `.kilocode/skills`. Current Kilo guidance prefers `.kilo/skills` and also supports portable `.agents/skills`. PlanOnce keeps this discrepancy visible instead of pretending every installer and runtime path has already converged. Verify skill discovery after installation.
+
+### Kiro
+
+Use the exact Skills CLI id `kiro-cli`, not `kiro`. Default Kiro agents discover `.kiro/skills`. Custom agents need to expose the corresponding `skill://` resource paths in their resources configuration.
+
+### OpenCode
+
+The Skills CLI project target is `.agents/skills`. OpenCode also discovers `.opencode/skills` and `.claude/skills`, so PlanOnce does not need to maintain a duplicated OpenCode-only skill tree.
+
+### Fresh workers and worktrees
+
+Fresh-context workers and isolated workspaces are optional capabilities. If a runtime does not support them, PlanOnce falls back to sequential execution and the current worktree while keeping durable state, human gates, plan integrity, and verification freshness unchanged.
+
+## Portability rule
+
+PlanOnce core skills should not hard-code one provider's internal tool names.
+
+Prefer concepts such as:
+
+- ask the human;
+- read current files and repository evidence;
+- edit the smallest coherent scope;
+- run deterministic checks;
+- use a fresh worker when available;
+- isolate risky work when available;
+- persist state and evidence on disk.
+
+The exact provider registry in the main project remains the source of truth for installation ids and paths.

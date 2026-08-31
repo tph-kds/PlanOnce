@@ -1,0 +1,22 @@
+{
+  "name": "planonce-site",
+  "version": "0.7.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@10.9.2",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "validate": "node scripts/validate-source.mjs"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "7.0.8",
+    "astro": "7.2.9"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "typescript": "6.0.3"
+  }
+}

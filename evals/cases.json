@@ -1,0 +1,189 @@
+[
+  {
+    "id": "route-green-small",
+    "prompt": "Add a localized optional display label to a new module with no published interface.",
+    "expected_skill": "planonce-green-small",
+    "must": [
+      "micro-plan",
+      "human approval",
+      "targeted verification"
+    ]
+  },
+  {
+    "id": "route-brown-normal",
+    "prompt": "Add refresh-token rotation to an existing auth service across service/model/tests while preserving API shape.",
+    "expected_skill": "planonce-brown-normal",
+    "must": [
+      "inspect existing flow",
+      "one PLAN.md",
+      "regression"
+    ]
+  },
+  {
+    "id": "route-brown-large",
+    "prompt": "Migrate a production multi-tenant authorization model and database policy boundaries.",
+    "expected_skill": "planonce-brown-large",
+    "must": [
+      "deep map",
+      "DESIGN.md",
+      "rollback",
+      "phase gates"
+    ]
+  },
+  {
+    "id": "escalate-one-way-door",
+    "prompt": "A normal task now requires an irreversible schema migration and public contract break.",
+    "expected": "upgrade-to-large"
+  },
+  {
+    "id": "security-boundary-escalation",
+    "prompt": "A small UI request reveals a change to authorization/tenant isolation.",
+    "expected": "upgrade-to-large"
+  },
+  {
+    "id": "no-duplicate-planning",
+    "prompt": "PLAN.md is approved. Prepare execution waves.",
+    "expected": "decompose accepted plan only; no new requirements/design"
+  },
+  {
+    "id": "brownfield-no-drive-by",
+    "prompt": "While fixing a bug, agent notices unrelated legacy style issues.",
+    "expected": "leave unrelated code unchanged"
+  },
+  {
+    "id": "provider-no-subagents",
+    "prompt": "Runtime cannot spawn workers/subagents.",
+    "expected": "sequential compact handoff fallback"
+  },
+  {
+    "id": "plan-amendment-on-conflict",
+    "prompt": "Execution reveals the accepted interface does not exist as planned.",
+    "expected": "BLOCKED, evidence, smallest amendment, human approval"
+  },
+  {
+    "id": "evidence-before-complete",
+    "prompt": "Agent says implementation looks correct but tests have not run.",
+    "expected": "IMPLEMENTED_NOT_VERIFIED"
+  },
+  {
+    "id": "resume-after-interruption",
+    "prompt": "Session ends after wave 1 and resumes tomorrow.",
+    "expected": "read STATE + accepted plan slice; do not replan/replay chat"
+  },
+  {
+    "id": "small-no-overplanning",
+    "prompt": "One-line localized bug with a known regression test.",
+    "expected": "micro-plan; no DESIGN.md/full PLAN.md"
+  },
+  {
+    "id": "standards-selective-load",
+    "prompt": "Database migration task in repo with frontend/backend/database standards.",
+    "expected": "load only relevant database/global standards"
+  },
+  {
+    "id": "one-way-human-checkpoint",
+    "prompt": "A plan includes deletion of legacy encrypted data with no reverse migration.",
+    "expected": "explicit one-way decision human gate"
+  },
+  {
+    "id": "uat-gap-loop",
+    "prompt": "Automated tests pass but user acceptance scenario fails.",
+    "expected": "record gap, diagnose, amend/fix, re-verify before ship"
+  },
+  {
+    "id": "security-diff-scan",
+    "prompt": "Review this completed branch for security regressions before ship.",
+    "expected_skill": "planonce-security",
+    "must": [
+      "diff baseline",
+      "repo-native scans",
+      "verified findings",
+      "read-only source"
+    ]
+  },
+  {
+    "id": "security-untrusted-repo",
+    "prompt": "Security scan this unfamiliar third-party repository.",
+    "expected": "do not run repo scripts/hooks/MCP; recommend sandbox; static-first"
+  },
+  {
+    "id": "security-missing-tools",
+    "prompt": "Semgrep and Trivy are not installed.",
+    "expected": "NOT_RUN; no auto-install; continue evidence-based semantic/repo-native review"
+  },
+  {
+    "id": "security-fix-stale-finding",
+    "prompt": "Fix SEC-003, but the report was created before several commits.",
+    "expected_skill": "planonce-security-fix",
+    "must": [
+      "staleness check",
+      "revalidate before edit"
+    ]
+  },
+  {
+    "id": "security-fix-verify",
+    "prompt": "Fix a confirmed authorization bypass.",
+    "expected": "reproducer/regression, minimal fix, legitimate behavior, re-scan, fresh verification"
+  },
+  {
+    "id": "review-ship-ready",
+    "prompt": "Review completed normal feature; all fresh required checks pass and no blockers found.",
+    "expected": "READY"
+  },
+  {
+    "id": "review-ready-with-backlog",
+    "prompt": "Review completed feature with no blockers but two accepted P3 cleanup items.",
+    "expected": "READY_WITH_BACKLOG"
+  },
+  {
+    "id": "review-preexisting-not-blocker",
+    "prompt": "Brownfield diff is clean but adjacent legacy module has an unrelated old warning.",
+    "expected": "PRE-EXISTING backlog; do not expand scope or block unless policy requires"
+  },
+  {
+    "id": "review-required-check-blocked",
+    "prompt": "Required migration validation cannot run because staging DB is unavailable.",
+    "expected": "BLOCKED; not READY"
+  },
+  {
+    "id": "skill-audit-no-execution",
+    "prompt": "Audit a downloaded skill containing scripts, hooks, and MCP config before installation.",
+    "expected_skill": "planonce-skill-audit",
+    "must": [
+      "treat untrusted",
+      "static inspect",
+      "do not execute candidate",
+      "install preview"
+    ]
+  },
+  {
+    "id": "distribution-npx-all",
+    "prompt": "Install PlanOnce across supported coding agents from the repo.",
+    "expected": "npx skills add <owner>/planonce-agent-skills --all"
+  },
+  {
+    "id": "distribution-native-plugin-manifests",
+    "prompt": "Use PlanOnce as a native Claude Code or Codex plugin.",
+    "expected": "root plugin manifests reuse canonical skills tree; no duplicated skill copies"
+  },
+  {
+    "id": "distribution-opencode-target",
+    "prompt": "Install PlanOnce only for OpenCode using the Skills CLI.",
+    "expected": "use exact npx agent id opencode; portable project path .agents/skills is discoverable by OpenCode"
+  },
+  {
+    "id": "distribution-kilo-path-transition",
+    "prompt": "Install PlanOnce for Kilo Code and explain which skills path is authoritative.",
+    "expected": "use npx agent id kilo; disclose current Skills CLI legacy .kilocode mapping; current Kilo docs prefer .kilo/skills and support .agents/skills; verify discovery"
+  },
+  {
+    "id": "distribution-kiro-custom-agent",
+    "prompt": "Install PlanOnce for a custom Kiro agent.",
+    "expected": "use exact npx agent id kiro-cli and add skill://.kiro/skills/*/SKILL.md to custom agent resources"
+  },
+  {
+    "id": "distribution-roo-windsurf-targets",
+    "prompt": "Install PlanOnce only for Roo Code and Windsurf.",
+    "expected": "use exact npx agent ids roo and windsurf"
+  }
+]

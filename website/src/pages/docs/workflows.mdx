@@ -1,0 +1,126 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Workflow guide
+heading: Route by context first, then by risk.
+description: Six delivery workflows cover Greenfield and Brownfield software changes while sharing one planning, execution, verification, recovery, and ship vocabulary.
+toc:
+  - id: route-only-entry
+    label: Route-only entry
+  - id: workflow-matrix
+    label: Workflow matrix
+  - id: greenfield
+    label: Greenfield
+  - id: brownfield
+    label: Brownfield
+  - id: escalation
+    label: Escalation
+  - id: recovery
+    label: Recovery
+  - id: human-gates
+    label: Human gates
+next:
+  href: /docs/reliability/
+  label: Reliability layer
+---
+
+## Route-only entry
+
+`planonce-task` is the recommended entry point when the user wants PlanOnce to select a workflow. It is intentionally **not a planning skill**.
+
+```text
+user task
+   ↓
+planonce-task
+   ↓
+Greenfield / Brownfield
+   ↓
+Small / Normal / Large
+   ↓
+selected implementation skill
+```
+
+This preserves the rule that each change has one implementation planning authority.
+
+## Workflow matrix
+
+| Skill | Best use | Core behavior |
+| --- | --- | --- |
+| `planonce-green-small` | Narrow new feature | context, micro-plan, approval, build, verify |
+| `planonce-green-normal` | Standard new product work | one plan, approval, plan digest, bounded waves, review |
+| `planonce-green-large` | Architecture-heavy new work | design gate, one plan, digest, phased execution, readiness |
+| `planonce-brown-small` | Small fix in existing code | inspect, micro-plan, patch, regression verification |
+| `planonce-brown-normal` | Standard change to existing behavior | inspect, compatible plan, digest, waves, review |
+| `planonce-brown-large` | High-risk transformation | map current system, design gate, digest, phased delivery, readiness |
+
+## Greenfield
+
+Choose Greenfield when the requested behavior is mostly new and the agent is not primarily modifying established production contracts.
+
+### Small
+
+Use a micro-plan when scope is narrow, dependencies are limited, and there is no major security, architecture, migration, or public-contract boundary.
+
+### Normal
+
+Use one `PLAN.md`. After human approval the plan is fingerprinted. Execution can decompose it into bounded waves without replanning product intent.
+
+### Large
+
+Use `DESIGN.md` followed by one `PLAN.md`. Architecture, migration, rollback, observability, security, and costly decisions should be visible before phased execution begins.
+
+## Brownfield
+
+Brownfield starts with **inspection**, not coding. The workflow reads current implementation, tests, interfaces, migrations, dependencies, and nearby analogous patterns before shaping a change.
+
+Preserve existing behavior unless the accepted requirements explicitly change it. Avoid drive-by refactors that do not directly support the accepted change.
+
+### Small
+
+Prefer a focused regression test when practical. Keep the patch coherent and verify that the original behavior gap is actually closed.
+
+### Normal
+
+Use one compatibility-aware `PLAN.md`, fingerprint it after approval, then execute bounded waves against the mapped current state.
+
+### Large
+
+Use deeper current-state mapping plus `DESIGN.md` and one `PLAN.md`. High-risk migrations, auth boundaries, tenant isolation, public API changes, destructive data operations, and cross-service consistency belong here.
+
+## Escalation
+
+Workflow size is a one-way safety ratchet during a change. Hidden complexity can move Small to Normal or Large.
+
+Typical escalation triggers include:
+
+- authentication or authorization boundaries;
+- destructive or irreversible migrations;
+- tenant isolation;
+- payment or correctness-critical paths;
+- public API compatibility;
+- one-way architecture decisions;
+- multiple services with consistency or rollout risk;
+- insufficient evidence or observability for a production-critical behavior.
+
+Do not downgrade a workflow mid-change just to reduce ceremony.
+
+## Recovery
+
+Not every failed check means the plan was wrong.
+
+| Route | Use when | Next action |
+| --- | --- | --- |
+| `FIX_REVERIFY` | accepted direction is valid but implementation/tests are defective | fix the implementation and rerun affected evidence |
+| `BLOCKED_AMEND` | repository evidence invalidates accepted scope, design, or approach | block, propose smallest amendment, obtain human approval, resume |
+| `DIAGNOSE` | root cause is not yet known | gather evidence before choosing a fix or amendment path |
+
+## Human gates
+
+Humans approve decisions whose cost of being wrong is material, not every implementation step.
+
+| Gate | Typical purpose |
+| --- | --- |
+| Micro-plan or plan approval | Confirm scope, requirements, acceptance criteria, and intended direction |
+| Design approval | Confirm architecture, migration, rollback, and one-way decisions |
+| Amendment approval | Resolve conflict between accepted direction and implementation reality |
+| Phase gate | Review evidence before continuing a high-risk rollout |
+| Ship gate | Decide whether fresh evidence is sufficient for release |

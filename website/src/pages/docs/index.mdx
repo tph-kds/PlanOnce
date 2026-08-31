@@ -1,0 +1,119 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Documentation
+heading: Build high-quality software with a workflow your agent can prove.
+description: PlanOnce v0.7 combines controlled routing, one planning authority, durable state, fresh evidence, production review, and provider-neutral execution.
+toc:
+  - id: what-planonce-is
+    label: What PlanOnce is
+  - id: core-contract
+    label: Core contract
+  - id: release-v07
+    label: Release v0.7
+  - id: durable-state
+    label: Durable state
+  - id: documentation-map
+    label: Documentation map
+next:
+  href: /docs/getting-started/
+  label: Getting started
+---
+
+## What PlanOnce is
+
+PlanOnce is an **open-source framework for building high-quality software with any AI coding agent**. It acts as a production engineering control layer around coding agents so planning, execution, verification, security review, recovery, and ship readiness follow one durable contract.
+
+The end-user surface stays deliberately small:
+
+```text
+install PlanOnce
+      ↓
+describe one change
+      ↓
+route to the smallest safe workflow
+      ↓
+approve meaningful decisions
+      ↓
+review fresh evidence
+      ↓
+ship
+```
+
+Users do **not** need to operate Agent OS and GSD as separate workflow frameworks. PlanOnce vendors pinned upstream source/runtime material from Agent OS v3.0.0 and GSD Core v1.12.0, then compiles the useful semantics into provider-neutral PlanOnce skills.
+
+## Core contract
+
+Every implementation workflow follows the same control vocabulary:
+
+```text
+CLASSIFY
+   ↓
+CONTEXT
+   ↓
+SHAPE
+   ↓
+APPROVE
+   ↓
+EXECUTE
+   ↓
+VERIFY
+   ↓
+REVIEW
+   ↓
+SHIP
+```
+
+The six implementation routes vary the amount of planning, inspection, isolation, and review. They do not create six unrelated methodologies.
+
+<div class="docs-callout">
+<strong>One planning authority</strong><br />
+Execution may decompose an accepted plan into bounded phases or waves. It must not silently redesign requirements, architecture, or accepted scope.
+</div>
+
+## Release v0.7
+
+PlanOnce v0.7 adds a **Workflow Reliability Layer** that makes important promises machine-checkable without requiring a daemon or database:
+
+- `planonce-task` is a route-only entry point that selects one canonical implementation workflow;
+- Markdown artifacts carry stable `planonce.* /v1` metadata schemas;
+- approved Normal and Large plans receive deterministic SHA-256 fingerprints;
+- verification binds to Git revision, relevant worktree state, and accepted plan digest;
+- failures route explicitly to `FIX_REVERIFY`, `BLOCKED_AMEND`, or `DIAGNOSE`;
+- optional cooperative scope locks reduce collisions between parallel workers;
+- deterministic runtime evals run as part of the release gate;
+- a provider-neutral adapter protocol allows the same eval scenarios to be exercised with real coding agents.
+
+Read [Reliability layer](/docs/reliability/) for the full contract.
+
+## Durable state
+
+Important decisions do not live only in chat history. A PlanOnce project may keep:
+
+```text
+.planonce/
+├── PROJECT.md
+├── POLICY.yml
+├── standards/
+│   └── index.yml
+├── locks/
+└── work/<change>/
+    ├── CONTEXT.md
+    ├── DESIGN.md
+    ├── PLAN.md
+    ├── STATE.md
+    └── VERIFY.md
+```
+
+`DESIGN.md` is used for Large changes. `PLAN.md` is the single accepted planning authority for Normal and Large changes. Small workflows use an approved micro-plan inside their lighter artifact set.
+
+## Documentation map
+
+| Page | Use it for |
+| --- | --- |
+| [Getting started](/docs/getting-started/) | Installation, initialization, `planonce-task`, and first controlled change |
+| [Workflow guide](/docs/workflows/) | Greenfield and Brownfield behavior by risk and change size |
+| [Reliability layer](/docs/reliability/) | Schemas, plan fingerprints, evidence freshness, recovery, locks, and evals |
+| [Runtime architecture](/docs/architecture/) | PlanOnce authority and pinned Agent OS/GSD upstream engines |
+| [Providers](/docs/providers/) | Cross-provider installation and runtime guidance |
+| [Security and review](/docs/security-review/) | Security findings, stale evidence, backlog, and ship readiness |
+| [Design system](/docs/design-system/) | Moon-orbit visual system and contributor rules |

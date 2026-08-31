@@ -1,0 +1,10 @@
+version: 3.0
+default_profile: test-profile
+
+# Optional: define inheritance relationships for profiles
+# Profiles not listed here still work, they just have no inheritance
+profiles:
+  test-profile:
+    inherits_from: mid-profile
+  mid-profile:
+    inherits_from: base-profile

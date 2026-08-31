@@ -1,0 +1,129 @@
+{
+  "upstream": "https://github.com/buildermethods/agent-os",
+  "version": "v3.0.0",
+  "commit": "809fb4e3e20451e3dd9ad9b253111776db373518",
+  "kind": "exact-git-archive",
+  "hash_algorithm": "sha256",
+  "files": [
+    {
+      "path": "LICENSE",
+      "size": 1089,
+      "sha256": "105e66d3c3122b66b015dd03e97b5740a128b66a55406827e6843f0c722d1014"
+    },
+    {
+      "path": "PROVENANCE.md",
+      "size": 647,
+      "sha256": "5f6d8cf1ae4f7ee40c1d469532d16c92425c6a48499788407f2e564174392f2d"
+    },
+    {
+      "path": "SOURCE/.github/CODE_OF_CONDUCT.md",
+      "size": 185,
+      "sha256": "e2a61ed13734f8042a57dfd66090c9bf3e87c65e9f9d524852aa8effc9c4a1c0"
+    },
+    {
+      "path": "SOURCE/.github/CONTRIBUTING.md",
+      "size": 1981,
+      "sha256": "f6c4a71e049f0ccf757bb13801f37db2992b5f35fcacfafb3ab4634524812b9c"
+    },
+    {
+      "path": "SOURCE/.github/ISSUE_TEMPLATE/config.yml",
+      "size": 1111,
+      "sha256": "3bcee0507cd56c09d1f840d19caab9f8bf70bb420d261055378127438559e829"
+    },
+    {
+      "path": "SOURCE/.github/PULL_REQUEST_TEMPLATE.md",
+      "size": 533,
+      "sha256": "e9c3dbc4762c7d64a92ad0d24ef0e351f0f4e3b530e31db037ab26e8092bfc56"
+    },
+    {
+      "path": "SOURCE/.github/SECURITY.yml",
+      "size": 184,
+      "sha256": "30c853860c7281a9d9d2171be3e69ef6370ca11589c9d0f44e60e42d7b0c7479"
+    },
+    {
+      "path": "SOURCE/.github/SUPPORT.md",
+      "size": 857,
+      "sha256": "8906ca9871ad40700a8b89404e38599933e8ac3532a38961b64052ac0e2c2251"
+    },
+    {
+      "path": "SOURCE/.github/workflows/pr-decline.yml",
+      "size": 5026,
+      "sha256": "0b64247deeadfdbcad798a72b5f711f343b3967ff5571d79d6c4b74b067afb3b"
+    },
+    {
+      "path": "SOURCE/.github/workflows/stale.yml",
+      "size": 782,
+      "sha256": "c70c0a4e927e9b8016a791278318a461236a75e32bcb8a52b188c6c3653756d9"
+    },
+    {
+      "path": "SOURCE/.gitignore",
+      "size": 288,
+      "sha256": "708440bae74e38c1cb55a7ee8b10f001c9339e92cb7e2bd4be425ed8bff69d6f"
+    },
+    {
+      "path": "SOURCE/CHANGELOG.md",
+      "size": 30215,
+      "sha256": "7292822dbbcfefd9e9bce9a17df3eb49b6e7da3421fe0a65ca0f5b4ae634bd83"
+    },
+    {
+      "path": "SOURCE/LICENSE",
+      "size": 1091,
+      "sha256": "0778a7fd6d469519910305401e58e2fd51160150337b9f00a47ac25fb102bd3a"
+    },
+    {
+      "path": "SOURCE/README.md",
+      "size": 1659,
+      "sha256": "e02b640d2f1eb40d06ead692329b85be0f078bf1dd02b367c3931fda531e7fe0"
+    },
+    {
+      "path": "SOURCE/commands/agent-os/discover-standards.md",
+      "size": 5937,
+      "sha256": "cc06fe209490a247f5381a3028be78e695c823ffe796bc8150d3312017b4417a"
+    },
+    {
+      "path": "SOURCE/commands/agent-os/index-standards.md",
+      "size": 3398,
+      "sha256": "adf483013262a33a3f8adc591f5a665e3fb677bacd9bbd8d0293d3ec577a12d8"
+    },
+    {
+      "path": "SOURCE/commands/agent-os/inject-standards.md",
+      "size": 8354,
+      "sha256": "334ff2ac64b56e704c46b1570d4b61650d1cf889a98ae9b1aab27a729f5cb6e5"
+    },
+    {
+      "path": "SOURCE/commands/agent-os/plan-product.md",
+      "size": 4572,
+      "sha256": "ecd1abef7c3b7f12e886ee444e373f9ec7ad526c1a3ec41760088010e89e20e3"
+    },
+    {
+      "path": "SOURCE/commands/agent-os/shape-spec.md",
+      "size": 6684,
+      "sha256": "fbe80764a0b39eea0b94cc1ba293b05b4584fa1dfbadcbc5d45da5f0b7ed4d57"
+    },
+    {
+      "path": "SOURCE/config.yml",
+      "size": 275,
+      "sha256": "b00ae8a61e8cb5ac198b9667868c87d41a4f57575d8e585a9fa1a2308ee10aea"
+    },
+    {
+      "path": "SOURCE/profiles/default/global/tech-stack.md",
+      "size": 195,
+      "sha256": "b2d784751b257d0abc85b82b6519628fbeaec41e474a6ca58544dbab1f6960f6"
+    },
+    {
+      "path": "SOURCE/scripts/common-functions.sh",
+      "size": 6048,
+      "sha256": "3fae4835a5993105edbdbeedd3215bc5488bc4618502888cb1b8f8492cbdeade"
+    },
+    {
+      "path": "SOURCE/scripts/project-install.sh",
+      "size": 14988,
+      "sha256": "da66416358ca321abcabb268726747a2bf8ed7fe5dd6793086493068f7e2d469"
+    },
+    {
+      "path": "SOURCE/scripts/sync-to-profile.sh",
+      "size": 14689,
+      "sha256": "b58b06a98bdfb3980ed7da996d917b0339e5dc34da6347f4548560762d2fe1ce"
+    }
+  ]
+}

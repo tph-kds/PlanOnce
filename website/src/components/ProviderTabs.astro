@@ -1,0 +1,47 @@
+---
+import { firstClassProviders, installCommand } from '../data/providers';
+
+const tabs = [
+  {
+    id: 'all',
+    label: 'All skills',
+    command: installCommand(),
+    note: 'Recommended when you want the complete PlanOnce workflow layer and do not need to target one runtime explicitly.',
+  },
+  ...firstClassProviders.map((provider) => ({
+    id: provider.id,
+    label: provider.name,
+    command: installCommand(provider.id),
+    note: provider.note ?? `Install the full PlanOnce skill pack for ${provider.name} using the exact Skills CLI agent id ${provider.id}.`,
+  })),
+];
+---
+<div class="provider-tabs" role="tablist" aria-label="Install commands">
+  {tabs.map((provider, index) => (
+    <button
+      class="provider-tab"
+      type="button"
+      role="tab"
+      aria-selected={index === 0 ? 'true' : 'false'}
+      aria-controls={`provider-${provider.id}`}
+      data-provider-tab={provider.id}
+    >
+      {provider.label}
+    </button>
+  ))}
+</div>
+{tabs.map((provider, index) => (
+  <section
+    class="provider-panel"
+    id={`provider-${provider.id}`}
+    role="tabpanel"
+    data-provider-panel={provider.id}
+    data-active={index === 0 ? 'true' : 'false'}
+  >
+    <p>{provider.note}</p>
+    <div class="command">
+      <code>{provider.command}</code>
+      <button type="button" data-copy={provider.command} aria-label={`Copy ${provider.label} install command`}>Copy</button>
+    </div>
+  </section>
+))}

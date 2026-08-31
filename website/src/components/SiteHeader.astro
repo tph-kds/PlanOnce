@@ -1,0 +1,31 @@
+---
+import Logo from './Logo.astro';
+const path = Astro.url.pathname;
+const base = import.meta.env.BASE_URL;
+---
+<header class="site-header">
+  <div class="container nav">
+    <Logo />
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href={`${base}#workflows`}>Workflows</a>
+      <a href={`${base}#reliability`}>Reliability</a>
+      <a href={`${base}#quality`}>Quality gates</a>
+      <a href={`${base}#providers`}>Providers</a>
+      <a href={`${base}docs/`} aria-current={path.includes('/docs') ? 'page' : undefined}>Docs</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-button" type="button" data-search-open aria-label="Search documentation" title="Search documentation">⌕</button>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle color theme" title="Toggle color theme">◐</button>
+      <a class="button-quiet docs-link" href={`${base}docs/getting-started/`}>Get started</a>
+      <button class="icon-button menu-button" type="button" data-menu-toggle aria-expanded="false" aria-label="Open navigation">☰</button>
+    </div>
+  </div>
+  <div class="container mobile-menu" data-mobile-menu data-open="false">
+    <a href={`${base}#workflows`}>Workflows</a>
+    <a href={`${base}#reliability`}>Reliability</a>
+    <a href={`${base}#quality`}>Quality gates</a>
+    <a href={`${base}#providers`}>Providers</a>
+    <a href={`${base}docs/`}>Docs</a>
+    <a href={`${base}docs/getting-started/`}>Get started</a>
+  </div>
+</header>

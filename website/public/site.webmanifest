@@ -1,0 +1,17 @@
+{
+  "name": "PlanOnce",
+  "short_name": "PlanOnce",
+  "description": "Open-source production engineering control for building high-quality software with any AI coding agent.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070a16",
+  "theme_color": "#070a16",
+  "icons": [
+    {
+      "src": "/brand/planonce-mark-primary.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

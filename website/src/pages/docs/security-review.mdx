@@ -1,0 +1,115 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Security and review
+heading: Make security findings, evidence freshness, and ship readiness explicit.
+description: PlanOnce quality skills scan, verify, recommend fixes, surface backlog, reject stale evidence, and require a human ship decision.
+toc:
+  - id: security-scan
+    label: Security scan
+  - id: finding-scoped-fix
+    label: Finding-scoped fix
+  - id: production-review
+    label: Production review
+  - id: stale-evidence
+    label: Stale evidence
+  - id: skill-audit
+    label: Skill audit
+  - id: readiness-status
+    label: Readiness status
+next:
+  href: /docs/design-system/
+  label: Design system
+---
+
+## Security scan
+
+`planonce-security` reviews a diff or codebase for security-relevant behavior. Its purpose is not to say that code "looks safe." It should produce findings with enough evidence for a developer to assess the claim.
+
+Useful output includes:
+
+- severity and confidence;
+- affected files, contracts, or behavior;
+- whether the issue is `INTRODUCED`, `PRE-EXISTING`, or `UNKNOWN`;
+- exploit or failure reasoning when appropriate;
+- concrete remediation guidance;
+- deterministic or independent re-checks for high-impact findings when available.
+
+External scanners remain optional and are never auto-installed. A new networked scanner should not send repository or dependency metadata without project authorization or user consent.
+
+## Finding-scoped fix
+
+`planonce-security-fix` operates on one explicit validated Finding ID instead of opportunistically rewriting unrelated code.
+
+Before closure it should:
+
+1. confirm the finding/report is still current;
+2. make the smallest coherent change;
+3. add or run a regression/reproducer when practical;
+4. rerun relevant security and correctness checks;
+5. record the fresh evidence that supports closure.
+
+## Production review
+
+`planonce-review` asks whether a change is sensible to ship, not only whether code compiles.
+
+Review areas include:
+
+- correctness and edge cases;
+- tests and regression coverage;
+- API and data compatibility;
+- security and trust boundaries;
+- migration and rollback;
+- performance and resource behavior;
+- observability and operational evidence;
+- known Brownfield backlog;
+- residual or intentionally unverified risk.
+
+For already deployed systems, authorized read-only CI results, logs, traces, alerts, SLOs, incidents, and migration evidence may inform the review. Missing operational evidence is labeled **unverified**, not interpreted as healthy.
+
+## Stale evidence
+
+PlanOnce v0.7 treats verification freshness as part of readiness. If the relevant revision, worktree state, or accepted plan digest changed after a passing verification run, that evidence is stale.
+
+`planonce-review` must not downgrade stale required evidence into harmless backlog. Required stale evidence means the affected checks need to run again before a `READY` decision can be justified.
+
+```text
+PASS at old revision
+       ↓
+relevant code changes
+       ↓
+STALE
+       ↓
+rerun affected checks
+```
+
+## Skill audit
+
+`planonce-skill-audit` treats external Agent Skills, plugins, hooks, MCP configuration, scripts, and remote dependencies as supply-chain inputs before trust or installation.
+
+The audit looks for issues such as:
+
+- hidden prompt injection or instruction override;
+- destructive or networked scripts;
+- credential access;
+- excessive permissions;
+- unpinned remote dependencies or downloads;
+- provenance and license uncertainty;
+- hooks that silently alter repository or runtime behavior.
+
+## Readiness status
+
+Production review uses a deliberately small status vocabulary:
+
+| Status | Meaning |
+| --- | --- |
+| `READY` | Required evidence is fresh/pass and no P0/P1 finding remains |
+| `READY_WITH_BACKLOG` | No P0/P1 remains; accepted P2/P3 backlog is explicit and non-blocking |
+| `NOT_READY` | Known blocker, failed required check, or required stale evidence remains |
+| `BLOCKED` | Required information or evidence cannot currently be obtained |
+
+Findings use `P0 BLOCKER`, `P1 MUST_FIX`, `P2 SHOULD_FIX`, and `P3 BACKLOG`, plus an origin of `INTRODUCED`, `PRE-EXISTING`, or `UNKNOWN`.
+
+<div class="docs-callout">
+<strong>Evidence before completion</strong><br />
+Passing one check is not proof that every requirement is satisfied. A ship decision must match the evidence that was actually run, observed, and still fresh.
+</div>

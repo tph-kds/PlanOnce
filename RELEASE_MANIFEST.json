@@ -1,0 +1,55 @@
+{
+  "project": "PlanOnce Agent Skills",
+  "version": "0.7.0",
+  "release_profile": "workflow-reliability-production",
+  "built_on": "2026-08-31",
+  "skills_count": 12,
+  "provider_targets_count": 14,
+  "first_class_provider_adapters_count": 11,
+  "skill_tree_fingerprint": "6d0925fa1e84d07dea076000a28d1c14be9368c102ddbd0abf5fa53cc6a50870",
+  "source_files_count": 904,
+  "source_tree_sha256": "432ba9eb1e5b4c3c5917074caff07bfa4aea9457110ad6ca7ef9f542c7f99af5",
+  "source_tree_hash_algorithm": "sha256(sorted relative path + NUL + bytes + NUL), excluding RELEASE_MANIFEST.json and caches",
+  "upstream_runtime": {
+    "agent_os_version": "v3.0.0",
+    "agent_os_commit": "809fb4e3e20451e3dd9ad9b253111776db373518",
+    "agent_os_vendored_files": 24,
+    "agent_os_materialization": "exact git archive",
+    "gsd_version": "1.12.0",
+    "gsd_release_commit": "ceed559",
+    "gsd_profile": "core,audit",
+    "gsd_profile_commands": 15,
+    "gsd_profile_agents": 20,
+    "gsd_vendored_files": 678,
+    "gsd_materialization": "de-localized installed runtime + inert Claude core,audit profile",
+    "root_runtime_activation": "disabled"
+  },
+  "reliability_layer": {
+    "artifact_schema": "planonce.* /v1",
+    "route_only_entry_skill": "planonce-task",
+    "approved_plan_digest": "sha256 normalized markdown",
+    "revision_bound_evidence": true,
+    "failure_routes": [
+      "FIX_REVERIFY",
+      "BLOCKED_AMEND",
+      "DIAGNOSE"
+    ],
+    "cooperative_scope_locks": true,
+    "deterministic_runtime_eval_cases": 7,
+    "external_agent_eval_protocol": "planonce.agent-eval-input/v1 -> planonce.agent-eval-result/v1"
+  },
+  "verification": {
+    "contract_tests": "58/58 PASS",
+    "runtime_evals": "7/7 PASS",
+    "agent_eval_harness_mock": "4/4 PASS",
+    "real_external_agent_evals": "NOT_RUN_PROVIDER_CREDENTIALS_ENV_SPECIFIC",
+    "release_gate": "PASS",
+    "static_skill_pack_audit": "PASS",
+    "upstream_hashes": "PASS",
+    "runtime_profile": "PASS",
+    "agent_os_exact_export": "PASS",
+    "external_npx_cli_smoke": "NOT_RUN_THIS_RELEASE_REWORK",
+    "release_manifest_integrity": "PASS",
+    "extracted_zip_release_gate": "PASS"
+  }
+}

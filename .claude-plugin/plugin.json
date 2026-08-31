@@ -1,0 +1,9 @@
+{
+  "name": "planonce",
+  "version": "0.7.0",
+  "description": "Production workflow, security, and code-review Agent Skills for AI coding agents.",
+  "author": {
+    "name": "PlanOnce contributors"
+  },
+  "license": "MIT"
+}

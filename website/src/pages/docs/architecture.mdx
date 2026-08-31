@@ -1,0 +1,110 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Runtime architecture
+heading: One orchestration authority with pinned upstream engines.
+description: PlanOnce keeps the useful Agent OS and GSD semantics while preventing raw upstream commands, hooks, and provider-specific runtime surfaces from competing with the PlanOnce workflow.
+toc:
+  - id: authority-model
+    label: Authority model
+  - id: agent-os
+    label: Agent OS
+  - id: gsd-core
+    label: GSD Core
+  - id: self-contained-skills
+    label: Self-contained skills
+  - id: state-model
+    label: State model
+  - id: provider-capabilities
+    label: Provider capabilities
+next:
+  href: /docs/providers/
+  label: Providers
+---
+
+## Authority model
+
+PlanOnce is the user-facing orchestration and implementation workflow authority.
+
+```text
+Human instructions + repository policy
+                 ↓
+              PlanOnce
+                 ↓
+accepted PlanOnce artifacts + state
+                 ↓
+compiled upstream-derived execution semantics
+```
+
+Raw Agent OS and GSD command surfaces are intentionally not activated as competing root workflows.
+
+Authority order is conceptually:
+
+1. human requirements and repository/company instructions;
+2. project context and approved standards;
+3. accepted PlanOnce design/plan or approved micro-plan;
+4. execution decomposition and durable state.
+
+Lower-authority execution logic cannot silently override higher-authority decisions.
+
+## Agent OS
+
+PlanOnce pins **Agent OS v3.0.0** and uses its strengths for:
+
+- discovering and indexing standards;
+- selectively injecting relevant standards;
+- establishing product/project context;
+- shaping stronger specifications and plans.
+
+The release keeps exact upstream source material for auditability, but users do not need to run Agent OS as a second workflow framework.
+
+## GSD Core
+
+PlanOnce pins **GSD Core v1.12.0** and preserves the useful `core,audit` runtime semantics for:
+
+- current-state discovery and codebase mapping;
+- bounded phase and wave execution;
+- fresh-context separation where supported;
+- verification and UAT discipline;
+- review and audit behavior;
+- progress, resume, pause, and workspace concepts.
+
+The preserved Claude `core,audit` profile is auditable source, not an active root `.claude` runtime. Machine-local paths, installer state, and automatic root hooks are excluded from the release.
+
+## Self-contained skills
+
+`npx skills` may install only a selected skill directory. Therefore each PlanOnce implementation skill carries its required upstream-derived runtime guidance inside the skill itself.
+
+This prevents a targeted installation such as:
+
+```bash
+npx skills add <owner>/planonce-agent-skills --skill planonce-brown-normal -a opencode -y
+```
+
+from depending on root-level upstream files that the installer may not copy.
+
+## State model
+
+An active change can persist:
+
+```text
+.planonce/work/<change>/
+├── CONTEXT.md
+├── DESIGN.md
+├── PLAN.md
+├── STATE.md
+└── VERIFY.md
+```
+
+`STATE.md` allows interruption and resume without replaying the whole conversation. Normal and Large also use accepted plan fingerprints. Verification is revision-bound rather than conversation-bound.
+
+## Provider capabilities
+
+PlanOnce core workflows describe semantic capabilities instead of provider-specific tool names:
+
+- **Ask human**
+- **Read/write**
+- **Run command**
+- optional **Fresh worker**
+- optional **Isolated workspace**
+
+If a provider lacks fresh workers, PlanOnce falls back to sequential bounded execution and durable handoff state. If it lacks workspace isolation, the workflow stays in the current worktree while preserving user changes and verification rigor.

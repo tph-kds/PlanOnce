@@ -1,0 +1,6 @@
+global: {}
+backend: {}
+frontend: {}
+database: {}
+testing: {}
+security: {}

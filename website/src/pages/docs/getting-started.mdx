@@ -1,0 +1,133 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Getting started
+heading: Install one repo. Route one change. Keep the evidence.
+description: The shortest path from installation to a controlled PlanOnce v0.7 workflow.
+toc:
+  - id: installation
+    label: Installation
+  - id: initialize
+    label: Initialize
+  - id: start-with-planonce-task
+    label: Start with planonce-task
+  - id: approve-and-execute
+    label: Approve and execute
+  - id: verify-and-ship
+    label: Verify and ship
+next:
+  href: /docs/workflows/
+  label: Workflow guide
+---
+
+## Installation
+
+The primary cross-provider path is the Skills CLI:
+
+```bash
+npx skills add <owner>/planonce-agent-skills --all
+```
+
+For project-local copies that can be committed:
+
+```bash
+npx skills add <owner>/planonce-agent-skills --all --copy -y
+```
+
+Target a provider when needed:
+
+```bash
+npx skills add <owner>/planonce-agent-skills --skill '*' -a opencode -y
+npx skills add <owner>/planonce-agent-skills --skill '*' -a kilo -y
+npx skills add <owner>/planonce-agent-skills --skill '*' -a kiro-cli -y
+```
+
+See [Providers](/docs/providers/) for the full validated matrix and Kilo/Kiro caveats.
+
+The `<owner>` placeholder remains until the repository is published under its final GitHub owner.
+
+## Initialize
+
+Use `planonce-init` once when a project needs durable PlanOnce context. It can establish project information, policy defaults, and standards indexing under `.planonce/`.
+
+Typical project state:
+
+```text
+.planonce/
+├── PROJECT.md
+├── POLICY.yml
+├── standards/
+│   └── index.yml
+└── work/
+```
+
+Initialization should not replace existing repository instructions. `AGENTS.md`, company policy, human requirements, and repository-specific commands remain higher-authority inputs.
+
+## Start with planonce-task
+
+For most work, start with the route-only skill:
+
+```text
+Use planonce-task to implement refresh-token rotation.
+```
+
+`planonce-task` inspects only enough context to select the smallest safe implementation route. It returns one of:
+
+```text
+planonce-green-small
+planonce-green-normal
+planonce-green-large
+planonce-brown-small
+planonce-brown-normal
+planonce-brown-large
+```
+
+It explains the routing decision and exits. It does **not** create a competing plan.
+
+A typical response should look conceptually like:
+
+```text
+Selected: planonce-brown-normal
+
+Why:
+- modifies an existing authentication flow
+- spans service + tests + contract behavior
+- no destructive migration or one-way architecture decision
+```
+
+## Approve and execute
+
+The selected implementation skill gathers the required context, shapes one accepted micro-plan, `PLAN.md`, or `DESIGN.md + PLAN.md`, and pauses at the appropriate human gate.
+
+For Normal and Large workflows, approval records a deterministic plan digest. Execution may split that accepted plan into bounded waves, but a silent semantic change to the plan becomes detectable.
+
+During execution PlanOnce also records workspace state and may use cooperative scope locks when parallel workers could touch overlapping files.
+
+## Verify and ship
+
+Verification is not just a previous test result. `VERIFY.md` binds fresh evidence to the relevant revision, worktree state, and accepted plan digest.
+
+If a required check fails:
+
+```text
+implementation defect
+      ↓
+FIX_REVERIFY
+      ↓
+fix + rerun evidence
+```
+
+If repository evidence invalidates the accepted direction:
+
+```text
+plan contradiction
+      ↓
+BLOCKED_AMEND
+      ↓
+smallest amendment
+      ↓
+human approval
+```
+
+Unknown causes go to `DIAGNOSE` until enough evidence exists to choose the correct route.
+
+A change reaches `COMPLETE` only after required fresh verification, final requirement/diff review, and the human ship gate.

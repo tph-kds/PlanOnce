@@ -1,0 +1,9 @@
+[
+  {"id":"route-green-small","type":"route","input":{"existing":false,"size":"small"},"expected":"planonce-green-small"},
+  {"id":"route-brown-normal","type":"route","input":{"existing":true,"size":"normal"},"expected":"planonce-brown-normal"},
+  {"id":"route-security-large","type":"route","input":{"existing":true,"size":"small","security_boundary":true},"expected":"planonce-brown-large"},
+  {"id":"failure-fix-reverify","type":"failure","input":{"plan_invalid":false,"implementation_defect":true},"expected":"FIX_REVERIFY"},
+  {"id":"failure-blocked-amend","type":"failure","input":{"plan_invalid":true,"implementation_defect":false},"expected":"BLOCKED_AMEND"},
+  {"id":"plan-digest-detects-mutation","type":"digest_mutation","input":{"before":"# Plan\n- A\n","after":"# Plan\n- A\n- B\n"},"expected":true},
+  {"id":"scope-lock-conflict","type":"lock_conflict","input":{"scope":"src/auth.py"},"expected":true}
+]

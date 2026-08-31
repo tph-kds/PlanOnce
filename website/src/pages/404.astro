@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/landing.css';
+const base = import.meta.env.BASE_URL;
+---
+<BaseLayout title="Page not found" description="The requested PlanOnce page could not be found.">
+  <section class="hero">
+    <div class="container">
+      <div class="kicker">404</div>
+      <h1 class="display" style="max-width:800px">This route is not part of the plan.</h1>
+      <p class="hero-copy">Return to the landing page or open the documentation to find the workflow you need.</p>
+      <div class="hero-actions">
+        <a class="button" href={base}>Go home</a>
+        <a class="button-quiet" href={`${base}docs/`}>Open docs</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

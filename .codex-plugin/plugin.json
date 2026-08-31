@@ -1,0 +1,35 @@
+{
+  "name": "planonce",
+  "version": "0.7.0",
+  "description": "Plan once, execute in bounded waves, review security and production readiness, verify with evidence.",
+  "author": {
+    "name": "PlanOnce contributors"
+  },
+  "license": "MIT",
+  "keywords": [
+    "agent-skills",
+    "code-review",
+    "security",
+    "spec-driven-development",
+    "production-readiness"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "PlanOnce",
+    "shortDescription": "Production engineering workflows for coding agents",
+    "longDescription": "Provider-neutral Greenfield/Brownfield workflows with automatic route-only classification, plan/evidence integrity, workspace safety, security, code review, skill supply-chain audit, and evidence-based ship gates.",
+    "developerName": "PlanOnce contributors",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use planonce-task to classify and route this change.",
+      "Use PlanOnce to choose the smallest safe workflow for this change.",
+      "Review this change with planonce-review.",
+      "Run planonce-security on this diff."
+    ]
+  }
+}

@@ -1,0 +1,128 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Design system
+heading: Mystery in the symbol. Precision in the interface.
+description: The PlanOnce website uses a moon-orbit identity with restrained cosmic color, editorial hierarchy, technical structure, and accessible light/dark parity.
+toc:
+  - id: brand-idea
+    label: Brand idea
+  - id: logo-variants
+    label: Logo variants
+  - id: color-system
+    label: Color system
+  - id: layout
+    label: Layout
+  - id: motion
+    label: Motion
+  - id: accessibility
+    label: Accessibility
+  - id: anti-patterns
+    label: Anti-patterns
+---
+
+## Brand idea
+
+The PlanOnce mark combines a **crescent moon, orbit, sequence nodes, and guiding star**.
+
+The metaphor maps naturally to the framework:
+
+- the crescent represents focus and intentional scope;
+- the orbit represents one controlled workflow around accepted intent;
+- the sequence nodes represent bounded phases/waves and durable progress;
+- the star represents the human-approved destination and ship decision;
+- the cosmic mood adds mystery without turning the product into generic AI decoration.
+
+The site should feel **technical, editorial, controlled, and quietly ambitious** rather than loud or gamified.
+
+## Logo variants
+
+Assets live under `public/brand/`:
+
+| Asset | Intended use |
+| --- | --- |
+| `planonce-logo-primary.png` | canonical general full wordmark / social preview |
+| `planonce-logo-normal.png` | explicit normal-mode alias of the primary full wordmark |
+| `planonce-logo-light.png` | full wordmark on light surfaces |
+| `planonce-logo-dark.png` | full wordmark on dark surfaces |
+| `planonce-mark-primary.png` | canonical standalone mark / favicon / compact brand use |
+| `planonce-mark-normal.png` | explicit normal-mode alias of the primary standalone mark |
+| `planonce-mark-light.png` | compact mark on light surfaces |
+| `planonce-mark-dark.png` | compact mark on dark surfaces |
+
+The header uses theme-aware mark swapping while keeping `PlanOnce` as live text for crisp rendering and accessibility.
+
+## Color system
+
+The interface uses restrained off-white/off-black neutrals and one primary interaction accent, with cyan and violet reserved for the brand language and meaningful visual emphasis.
+
+Core roles:
+
+```text
+ink / paper        reading hierarchy
+accent             interaction + links + primary CTA
+brand cyan         orbit / freshness / evidence signal
+brand violet       logo harmony + controlled decorative depth
+```
+
+Do not turn the entire page into a blue-purple mesh gradient. Brand color should concentrate around the moon/orbit identity, major documentation entry points, and selected evidence/control surfaces.
+
+## Layout
+
+Prefer editorial and engineering composition over repeated generic feature cards:
+
+- large readable statements;
+- continuous workflow rails;
+- evidence and reliability rows;
+- explicit authority diagrams;
+- asymmetric documentation previews;
+- sticky contextual navigation in docs;
+- visible install commands near decision points.
+
+The initial viewport should answer three questions quickly: what PlanOnce is, why it is different, and how to start.
+
+## Motion
+
+Motion intensity stays moderate. Use animation to clarify entry or state, not to simulate intelligence.
+
+Current interaction principles:
+
+- `IntersectionObserver` for reveal behavior;
+- native dialog for documentation search;
+- short hover/focus transitions;
+- no bounce or elastic navigation motion;
+- no hand-rolled scroll event loop;
+- `prefers-reduced-motion` disables nonessential motion.
+
+## Accessibility
+
+- Keep text contrast readable in both themes.
+- Preserve semantic headings and landmarks.
+- Give icon-only controls accessible names.
+- Keep keyboard focus visible.
+- Use live text for the primary brand name even when visual logo assets exist.
+- Do not encode workflow or status meaning by color alone.
+- Keep tables horizontally scrollable on narrow screens.
+
+## Anti-patterns
+
+Do not introduce these without a product-specific reason:
+
+- generic AI purple mesh across the full background;
+- three identical centered feature cards as the default section pattern;
+- cards nested inside more cards;
+- fake dashboards or fake terminal screenshots used only as decoration;
+- decorative status dots with no semantic state;
+- multiple unrelated CTA colors;
+- excessive pills and full-round containers;
+- gray text on saturated surfaces;
+- bounce or elastic motion for ordinary interactions;
+- logo glow strong enough to reduce readability;
+- website claims that are newer or stronger than the verified PlanOnce release.
+
+Before shipping site changes:
+
+```bash
+npm run validate
+npm run check
+npm run build
+```
