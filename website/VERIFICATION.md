@@ -1,29 +1,49 @@
 # Website verification
 
-This website source is synchronized to PlanOnce v1.0.0 and packaged as canonical Astro + TypeScript + MDX + CSS source only.
+This source package targets the PlanOnce **v1.0.0** website contract and is structured for deterministic, static-first validation.
 
-## Verified in the packaging environment
+## Release-source gate — no install required
 
-- source validator: PASS
-- website version/content synchronization: PASS
-- 14-provider website matrix matches the PlanOnce v1.0 provider registry: PASS
-- MDX frontmatter and TOC heading ids across 8 documentation pages: PASS
-- TypeScript data modules compile with the available TypeScript compiler: PASS
-- CSS brace structure across global/landing/docs styles: PASS
-- stale v0.6 and legacy signal-lime token scan: PASS
-- normal/light/dark moon-orbit logo assets present: PASS
-- canonical generated HTML in source: 0 files
-
-## Build gate
-
-The canonical publication gate is:
+The final ZIP can be validated immediately with Node.js, before installing dependencies:
 
 ```bash
-npm install
 npm run validate
-npm run check
-npm run build
-npm run preview
 ```
 
-In the packaging environment, `npm install` could not complete within the network timeout, so a dependency-backed Astro build is not claimed here. Generated `dist/` HTML is intentionally not included in the source ZIP.
+That gate combines:
+
+1. release/source-of-truth synchronization;
+2. source architecture/content checks;
+3. local provider-asset coverage and no provider-logo CDN runtime dependency;
+4. base-path-safe documentation links for the `/PlanOnce/` GitHub Pages deployment;
+5. ClientRouter lifecycle + Motion mini contracts;
+6. keyboard contracts for search/provider tabs;
+7. grouped docs IA, reference pages, reduced-motion and interaction contracts.
+
+## Full compiler gates
+
+In a normal network-enabled development environment:
+
+```bash
+npm ci
+npm run check
+npm run build
+```
+
+`node_modules/`, `.astro/`, and `dist/` are intentionally excluded from the release source ZIP. The committed `package-lock.json` is the reproducible dependency authority.
+
+## Release facts
+
+- 12 Agent Skills
+- 6 delivery workflows
+- 14 provider targets
+- 11 first-class adapters
+- 7 deterministic evals
+- Agent OS 3.0.0
+- GSD Core 1.12.0
+
+## Visual QA targets
+
+Capture landing/provider/workflow/reliability/docs/mobile-nav states at 1920, 1440, 1280, 1024, 768, and 390 pixels in light/dark themes; include reduced-motion states at 1440, 768, and 390.
+
+No horizontal overflow is acceptable. Reduced motion must freeze ticker/orbit/border beam/path drawing and expose final counter values immediately.

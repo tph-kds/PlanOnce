@@ -1,0 +1,38 @@
+---
+type IconName =
+  | 'search' | 'sun' | 'moon' | 'menu' | 'x' | 'github' | 'star'
+  | 'arrow-right' | 'copy' | 'check' | 'external' | 'chevron-down'
+  | 'book' | 'route' | 'shield' | 'terminal' | 'document';
+interface Props { name: IconName; size?: number; label?: string; class?: string; }
+const { name, size = 18, label, class: className } = Astro.props;
+const icons: Record<IconName, string> = {
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  moon: '<path d="M20.6 15.3A8.4 8.4 0 0 1 8.7 3.4 9 9 0 1 0 20.6 15.3Z"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  x: '<path d="m6 6 12 12M18 6 6 18"/>',
+  github: '<path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.69c-2.78.61-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.68a9.6 9.6 0 0 1 2.5.34c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85v2.89c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/>',
+  star: '<path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z"/>',
+  'arrow-right': '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  copy: '<rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>',
+  check: '<path d="m5 12 4 4L19 6"/>',
+  external: '<path d="M14 4h6v6M20 4l-9 9"/><path d="M19 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6"/>',
+  'chevron-down': '<path d="m6 9 6 6 6-6"/>',
+  book: '<path d="M4 4h6a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H4Z"/><path d="M20 4h-6a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h6Z"/>',
+  route: '<circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M8 6h5a3 3 0 0 1 3 3v3a3 3 0 0 1-3 3H8"/>',
+  shield: '<path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/>',
+  terminal: '<path d="m5 7 4 5-4 5M11 17h8"/>',
+  document: '<path d="M6 3h8l4 4v14H6Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>'
+};
+---
+<svg class:list={["icon-svg", className]} width={size} height={size} viewBox="0 0 24 24" fill={name === 'github' ? 'currentColor' : 'none'} stroke={name === 'github' ? 'none' : 'currentColor'} stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden={label ? undefined : 'true'} role={label ? 'img' : undefined} style="display:block;flex:none;">
+  {label && <title>{label}</title>}
+  <g set:html={icons[name]} />
+</svg>
+<style>
+  .icon-svg{ display:inline-block; vertical-align:middle; flex:none; }
+  /* Gradient stroke harmonization for icon inside gem or standalone with data-gradient */
+  :global(.icon-gem) .icon-svg{ color: var(--accent); }
+  :global([data-theme='dark'] .icon-gem) .icon-svg{ color: var(--accent-strong); }
+  :global(.gate-card) .icon-gem .icon-svg{ filter: drop-shadow(0 1px 6px color-mix(in srgb, var(--accent) 18%, transparent)); }
+</style>

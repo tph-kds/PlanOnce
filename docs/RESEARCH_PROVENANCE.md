@@ -1,6 +1,6 @@
 # Research provenance — v0.4 provider/distribution + security/review hardening
 
-Research reviewed on **2026-08-30**. PlanOnce v0.7 keeps the independently authored, provider-neutral security/review workflows and hardens multi-provider Agent Skills distribution informed by public patterns from the ecosystems below. No proprietary OpenAI/Anthropic security workflow is vendored or copied verbatim.
+Research reviewed on **2026-08-30**. PlanOnce v1.0 keeps the independently authored, provider-neutral security/review workflows and hardens multi-provider Agent Skills distribution informed by public patterns from the ecosystems below. No proprietary OpenAI/Anthropic security workflow is vendored or copied verbatim.
 
 ## Public references evaluated
 

@@ -1,6 +1,6 @@
 {
   "name": "planonce",
-  "version": "0.7.0",
+  "version": "1.0.0",
   "description": "Plan once, execute in bounded waves, review security and production readiness, verify with evidence.",
   "author": {
     "name": "PlanOnce contributors"

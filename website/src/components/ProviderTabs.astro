@@ -1,47 +1,403 @@
 ---
-import { firstClassProviders, installCommand } from '../data/providers';
-
-const tabs = [
-  {
-    id: 'all',
-    label: 'All skills',
-    command: installCommand(),
-    note: 'Recommended when you want the complete PlanOnce workflow layer and do not need to target one runtime explicitly.',
-  },
-  ...firstClassProviders.map((provider) => ({
-    id: provider.id,
-    label: provider.name,
-    command: installCommand(provider.id),
-    note: provider.note ?? `Install the full PlanOnce skill pack for ${provider.name} using the exact Skills CLI agent id ${provider.id}.`,
-  })),
-];
+import ProviderLogo from './ProviderLogo.astro';
+import Icon from './Icon.astro';
+import { providers, installCommand } from '../data/providers';
+const payload = providers.map((provider) => ({ ...provider, command: installCommand(provider.cliId) }));
+const first = payload[0];
 ---
-<div class="provider-tabs" role="tablist" aria-label="Install commands">
-  {tabs.map((provider, index) => (
-    <button
-      class="provider-tab"
-      type="button"
-      role="tab"
-      aria-selected={index === 0 ? 'true' : 'false'}
-      aria-controls={`provider-${provider.id}`}
-      data-provider-tab={provider.id}
-    >
-      {provider.label}
-    </button>
-  ))}
-</div>
-{tabs.map((provider, index) => (
-  <section
-    class="provider-panel"
-    id={`provider-${provider.id}`}
+<div class="provider-lab reveal" data-provider-tabs>
+  <div class="provider-tablist" role="tablist" aria-label="Provider installation">
+    {providers.map((provider, index) => (
+      <button
+        id={`provider-tab-${provider.id}`}
+        type="button"
+        role="tab"
+        aria-controls="provider-install-panel"
+        aria-selected={index === 0 ? 'true' : 'false'}
+        tabindex={index === 0 ? 0 : -1}
+        data-provider-tab={provider.id}
+      >
+        <ProviderLogo provider={provider.id} size="sm" />
+        <span>{provider.name}</span>
+      </button>
+    ))}
+  </div>
+  <div
+    id="provider-install-panel"
+    class="provider-live"
+    data-provider-live
+    data-active-provider={first.id}
     role="tabpanel"
-    data-provider-panel={provider.id}
-    data-active={index === 0 ? 'true' : 'false'}
+    aria-live="polite"
   >
-    <p>{provider.note}</p>
-    <div class="command">
-      <code>{provider.command}</code>
-      <button type="button" data-copy={provider.command} aria-label={`Copy ${provider.label} install command`}>Copy</button>
+    <div class="provider-live-head">
+      <div>
+        <span class="kicker">Selected runtime</span>
+        <h3 data-provider-name>{first.name}</h3>
+      </div>
+      <div class="provider-live-meta">
+        <span class="provider-tier">Skills CLI</span>
+        <span class="provider-status" aria-hidden="true">
+          <span class="provider-status-dot"></span>
+          <span class="provider-status-label">verified</span>
+        </span>
+      </div>
     </div>
-  </section>
-))}
+
+    <div class="provider-command" data-provider-command-wrap>
+      <span class="provider-command-prompt" aria-hidden="true">$_</span>
+      <code data-provider-command>{first.command}</code>
+      <button
+        type="button"
+        data-provider-copy
+        data-copy={first.command}
+        aria-label="Copy provider install command"
+      >
+        <span data-copy-idle><Icon name="copy" size={16} /></span>
+        <span data-copy-success><Icon name="check" size={16} /></span>
+      </button>
+    </div>
+
+    <dl class="provider-dl">
+      <div>
+        <dt>Project location</dt>
+        <dd><code data-provider-project>{first.projectPath}</code></dd>
+      </div>
+      <div>
+        <dt>Global location</dt>
+        <dd><code data-provider-global>{first.globalPath}</code></dd>
+      </div>
+    </dl>
+
+    <p class="provider-note" data-provider-note>{first.note || 'Standard PlanOnce skill discovery path.'}</p>
+  </div>
+  <script type="application/json" data-provider-data set:html={JSON.stringify(payload)}></script>
+</div>
+<style>
+.provider-lab {
+  display: grid;
+  gap: 18px;
+}
+
+/* Tab list */
+.provider-tablist {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px 8px;
+  margin: -4px -2px -4px;
+  scrollbar-width: thin;
+  scroll-snap-type: x proximity;
+}
+.provider-tablist button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: max-content;
+  padding: 8px 14px 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 88%, var(--paper-2));
+  color: var(--muted);
+  font: 650 .78rem "Space Grotesk", Inter, sans-serif;
+  letter-spacing: -.005em;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition:
+    transform .2s cubic-bezier(.22,1,.36,1),
+    border-color .2s ease,
+    background .2s ease,
+    color .2s ease,
+    box-shadow .2s ease;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--paper) 70%, transparent);
+}
+.provider-tablist button:hover {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--accent) 24%, var(--line));
+  transform: translateY(-1px);
+}
+.provider-tablist button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  outline-offset: 2px;
+}
+.provider-tablist button[aria-selected='true'] {
+  background: linear-gradient(180deg, var(--ink) 0%, color-mix(in srgb, var(--ink) 88%, var(--accent-strong)) 100%);
+  color: color-mix(in srgb, var(--paper) 96%, transparent);
+  border-color: color-mix(in srgb, var(--ink) 78%, var(--accent));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--paper) 16%, transparent),
+    0 6px 16px -8px rgba(15,23,42,.32);
+}
+.provider-tablist button[aria-selected='true']:hover {
+  transform: translateY(-1px);
+}
+[data-theme='dark'] .provider-tablist button {
+  background: color-mix(in srgb, var(--paper-2) 48%, var(--paper));
+  color: var(--ink-soft);
+  border-color: color-mix(in srgb, var(--line) 56%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--paper) 12%, transparent);
+}
+[data-theme='dark'] .provider-tablist button[aria-selected='true'] {
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-strong) 100%);
+  color: var(--paper);
+  border-color: color-mix(in srgb, var(--accent) 80%, var(--violet));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--paper) 30%, transparent),
+    0 8px 20px -8px rgba(119,117,255,.55);
+}
+
+/* Live panel */
+.provider-live {
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--line) 86%, transparent);
+  border-radius: 20px;
+  background:
+    radial-gradient(520px 280px at 0% 0%, color-mix(in srgb, var(--accent) 06%, transparent), transparent 70%),
+    color-mix(in srgb, var(--paper-2) 56%, var(--paper));
+  padding: 24px 24px 22px;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--paper) 88%, transparent),
+    0 18px 44px -28px rgba(15,23,42,.22);
+  isolation: isolate;
+}
+[data-theme='dark'] .provider-live {
+  background:
+    radial-gradient(560px 320px at 0% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
+    color-mix(in srgb, var(--paper-2) 36%, var(--paper));
+  border-color: color-mix(in srgb, var(--line) 56%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--paper) 14%, transparent),
+    0 22px 50px -22px rgba(0,0,0,.5);
+}
+
+/* Header */
+.provider-live-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.provider-live-head .kicker {
+  color: var(--muted);
+}
+.provider-live h3 {
+  margin: 4px 0 0;
+  color: var(--ink);
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -.025em;
+}
+.provider-live-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Tier badge */
+.provider-tier {
+  font: 700 .62rem "JetBrains Mono", monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line));
+  padding: 5px 9px;
+  border-radius: 999px;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--paper) 78%, transparent);
+}
+
+/* Status pill */
+.provider-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px 5px 8px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--success) 28%, var(--line));
+  background: color-mix(in srgb, var(--success) 10%, var(--paper));
+  font: 700 .58rem "JetBrains Mono", monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--success) 84%, var(--ink));
+}
+.provider-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--success) 22%, transparent);
+  animation: status-pulse 2.4s ease-in-out infinite;
+}
+[data-theme='dark'] .provider-status {
+  background: color-mix(in srgb, var(--success) 14%, var(--paper-2));
+  color: color-mix(in srgb, var(--success) 88%, var(--paper));
+  border-color: color-mix(in srgb, var(--success) 36%, var(--line));
+}
+
+/* Command block — terminal-style */
+.provider-command {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 10px 10px 14px;
+  border: 1px solid color-mix(in srgb, var(--line) 92%, transparent);
+  border-radius: 14px;
+  background:
+    color-mix(in srgb, var(--ink) 03%, var(--paper));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--paper) 80%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--line) 30%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+.provider-command::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 08%, transparent), transparent 30%);
+  pointer-events: none;
+}
+.provider-command-prompt {
+  font: 700 .78rem "JetBrains Mono", ui-monospace, monospace;
+  color: var(--accent);
+  flex-shrink: 0;
+  letter-spacing: .02em;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.provider-command code {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  white-space: nowrap;
+  font: 500 .78rem "JetBrains Mono", ui-monospace, monospace;
+  color: var(--ink);
+  letter-spacing: -.005em;
+}
+[data-theme='dark'] .provider-command {
+  background:
+    color-mix(in srgb, var(--paper) 04%, var(--paper-2));
+  border-color: color-mix(in srgb, var(--line) 70%, transparent);
+}
+[data-theme='dark'] .provider-command code {
+  color: color-mix(in srgb, var(--paper) 92%, var(--cyan));
+}
+
+/* Copy button */
+.provider-command button {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--line) 84%, transparent);
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--paper) 80%, transparent);
+}
+.provider-command button:hover {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--paper) 86%, transparent),
+    0 8px 18px -10px rgba(81,71,230,.32);
+}
+.provider-command button:active {
+  transform: translateY(0);
+}
+.provider-command button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
+  outline-offset: 2px;
+}
+.provider-command button[data-copied='true'] {
+  color: var(--success);
+  border-color: color-mix(in srgb, var(--success) 50%, var(--line));
+  background: color-mix(in srgb, var(--success) 12%, var(--paper));
+}
+[data-theme='dark'] .provider-command button {
+  background: color-mix(in srgb, var(--paper-2) 56%, var(--paper));
+  border-color: color-mix(in srgb, var(--line) 60%, transparent);
+  color: var(--ink-soft);
+}
+[data-theme='dark'] .provider-command button:hover {
+  color: var(--cyan);
+  border-color: color-mix(in srgb, var(--cyan) 40%, var(--line));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--paper) 20%, transparent),
+    0 8px 20px -10px rgba(34,211,238,.4);
+}
+
+/* Definition list — mini-card layout */
+.provider-dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0 0;
+}
+.provider-dl > div {
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--line) 86%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--paper) 90%, var(--paper-2));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--paper) 80%, transparent);
+}
+.provider-dl dt {
+  font: 700 .62rem "JetBrains Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.provider-dl dd {
+  margin: 0;
+}
+.provider-dl dd code {
+  font: 600 .74rem "JetBrains Mono", ui-monospace, monospace;
+  color: var(--ink);
+  letter-spacing: -.005em;
+  word-break: break-all;
+}
+[data-theme='dark'] .provider-dl > div {
+  background: color-mix(in srgb, var(--paper-2) 38%, var(--paper));
+  border-color: color-mix(in srgb, var(--line) 50%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--paper) 14%, transparent);
+}
+[data-theme='dark'] .provider-dl dd code {
+  color: color-mix(in srgb, var(--paper) 90%, var(--cyan));
+}
+
+/* Provider note */
+.provider-note {
+  margin: 14px 0 0;
+  padding-top: 12px;
+  border-top: 1px dashed color-mix(in srgb, var(--line) 78%, transparent);
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.55;
+}
+
+/* Icon swap inside copy button — global.css handles [data-copied] visibility */
+.provider-command button > span[data-copy-success] {
+  display: none;
+}
+.provider-command button[data-copied='true'] > span[data-copy-idle] {
+  display: none;
+}
+.provider-command button[data-copied='true'] > span[data-copy-success] {
+  display: inline-flex;
+}
+
+@media (max-width: 640px) {
+  .provider-dl { grid-template-columns: 1fr; }
+  .provider-live { padding: 20px 18px 18px; border-radius: 16px; }
+  .provider-live-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .provider-command { flex-wrap: wrap; }
+  .provider-command code { font-size: .74rem; }
+}
+</style>

@@ -1,79 +1,61 @@
-# PlanOnce Website
+# PlanOnce website
 
-Landing page and technical documentation for **PlanOnce v1.0.0 - Workflow Reliability Layer**.
+Astro + TypeScript + MDX website for **PlanOnce v1.0.0**, modernized around the design principle:
 
-PlanOnce is an open-source framework for building high-quality software with any AI coding agent. This website mirrors the current release concepts: route-only workflow selection, one planning authority, plan fingerprints, revision-bound evidence, failure routing, workspace safety, executable evals, security/readiness gates, pinned Agent OS/GSD upstream engines, and multi-provider installation.
+> **Orbital engineering. Calm control. Evidence in motion.**
 
-## Stack
+The implementation stays static-first and deliberately avoids React islands for animation. Motion is supplied by `motion/mini`, Astro `ClientRouter`, handwritten CSS, and lifecycle-safe `astro:page-load` setup.
 
-- Astro 7.2.9
-- TypeScript 6
-- MDX
-- handwritten modular CSS
-- native browser interactions
+## What changed
 
-Canonical source lives under `src/`. Generated HTML belongs only in `dist/` after `npm run build` and is intentionally not committed or packaged.
+- canonical standalone release snapshot in `project-metadata.json` + generated `src/data/release.generated.ts`;
+- 14 generated provider records and 11 first-class adapters;
+- local theme-safe provider SVG assets under `public/providers/` with a third-party trademark policy;
+- `ProviderLogo` + static constellation + accessible gentle ticker, with no runtime provider logo CDN;
+- moon-orbit hero state diagram, evidence/control-loop storytelling, workflow lanes, reliability failure routing, animated counters, selective border beam, icon-based copy/star/theme controls;
+- Astro `ClientRouter` with idempotent `astro:page-load` initialization and `astro:after-swap` theme restoration;
+- grouped docs IA: START / CORE CONCEPTS / OPERATIONS / REFERENCE;
+- breadcrumbs, previous/next, mobile docs dialog, Edit-on-GitHub, TOC scrollspy, search categories, and new Artifacts / Evals / Troubleshooting pages;
+- global reduced-motion contract and responsive behavior down to 390px.
 
-## Brand
-
-The v1.0 site uses the PlanOnce moon-orbit identity under `public/brand/`:
-
-```text
-brand/
-├── planonce-logo-primary.png
-├── planonce-logo-normal.png
-├── planonce-logo-light.png
-├── planonce-logo-dark.png
-├── planonce-mark-primary.png
-├── planonce-mark-normal.png
-├── planonce-mark-light.png
-└── planonce-mark-dark.png
-```
-
-The mark combines a crescent moon, orbit, sequence nodes, and guiding star. Light and dark variants are swapped by theme; the interface keeps live text for the primary brand name for accessibility and rendering quality.
-
-## Local development
+## Development
 
 ```bash
-npm install
+npm ci
 npm run validate
 npm run check
+npm run build
 npm run dev
 ```
 
-Production build:
+Validation is intentionally layered:
 
 ```bash
-npm run build
-npm run preview
+npm run check:release
+npm run check:modernization
+node scripts/validate-source.mjs
 ```
 
-## Documentation routes
+`npm run sync:metadata` regenerates release facts from the standalone snapshot and, when this folder lives inside the full repository, can also observe root `VERSION` / `RELEASE_MANIFEST.json`.
+
+## Provider assets
+
+`public/providers/**/mark-light.svg` and `mark-dark.svg` are PlanOnce-authored **compatibility glyphs**, not copies of provider trademark artwork. Provider names and trademarks remain property of their respective owners. See `public/providers/THIRD_PARTY_BRANDS.md`.
+
+If approved official assets are later supplied, keep the same local component/metadata contract and update `src/data/provider-brands.ts` instead of reintroducing runtime logo CDNs.
+
+## Architecture
 
 ```text
-/docs/
-/docs/getting-started/
-/docs/workflows/
-/docs/reliability/
-/docs/architecture/
-/docs/providers/
-/docs/security-review/
-/docs/design-system/
+src/components/       Astro UI primitives and product visualizations
+src/data/             release/provider/search source-of-truth snapshots
+src/layouts/          BaseLayout + grouped DocsLayout
+src/motion/           semantic motion tokens
+src/scripts/          lifecycle-safe browser setup
+src/pages/docs/       MDX documentation
+src/styles/           global / landing / docs / motion CSS
+public/providers/     local provider compatibility assets
+scripts/              release sync + source/modernization validators
 ```
 
-## Provider data
-
-`src/data/providers.ts` mirrors the PlanOnce v1.0 provider matrix with 14 tracked targets: Claude Code, Codex, OpenCode, Cursor, Gemini CLI, GitHub Copilot, Cline, Kilo Code, Kiro, Roo Code, Windsurf, Qwen Code, Goose, and OpenHands.
-
-Kilo and Kiro keep explicit caveats because current discovery/install behavior differs from the most portable `.agents/skills` path.
-
-## Publishing hygiene
-
-Do not commit:
-
-- `node_modules/`
-- `.astro/`
-- `dist/`
-- generated static preview folders
-
-The public source should remain Astro + TypeScript + MDX + CSS plus intentional public brand assets.
+The quality target is **quietly sophisticated, not loudly animated**.

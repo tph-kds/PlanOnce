@@ -1,0 +1,9 @@
+---
+interface Props { value: string | number; label: string; }
+const { value, label } = Astro.props;
+const numeric = typeof value === 'number' ? value : Number(value);
+---
+<div class="release-fact">
+  <strong data-counter={Number.isFinite(numeric) ? numeric : undefined}>{value}</strong>
+  <span>{label}</span>
+</div>

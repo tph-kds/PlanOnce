@@ -1,0 +1,18 @@
+{
+  "provider": "Claude Code",
+  "slug": "claude-code",
+  "research_date": "2026-09-01",
+  "official_identity_source": "https://github.com/anthropics/claude-code",
+  "normalized_geometry_source": "https://github.com/lobehub/lobe-icons/blob/master/src/ClaudeCode/components/Mono.tsx",
+  "official_light_dark_assets_verified": false,
+  "included_files_are_byte_identical_official_downloads": false,
+  "included_variant_method": "exact/normalized current public geometry + contrast-safe monochrome theme adaptation",
+  "confidence": "high",
+  "note": "Claude Code-specific glyph, not the generic Anthropic/Claude model mark.",
+  "files": [
+    "icon-light.svg",
+    "icon-dark.svg",
+    "icon-light.png",
+    "icon-dark.png"
+  ]
+}

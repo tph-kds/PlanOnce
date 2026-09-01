@@ -35,7 +35,7 @@ implementation workflow
 
 Large changes always include security + production-readiness review. Small/Normal changes trigger security when auth/authz, tenant isolation, credentials, payments, destructive data operations, untrusted inputs/actions, public trust boundaries, or AI/MCP/tool authority are involved.
 
-## Recommended v0.7 entry point
+## Recommended v1.0 entry point
 
 When you do not want to choose a workflow manually:
 

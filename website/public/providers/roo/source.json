@@ -1,0 +1,18 @@
+{
+  "provider": "Roo Code",
+  "slug": "roo-code",
+  "research_date": "2026-09-01",
+  "official_identity_source": "https://github.com/RooCodeInc/Roo-Code/blob/main/src/assets/images/roo-logo.svg",
+  "normalized_geometry_source": "https://github.com/lobehub/lobe-icons/blob/master/src/RooCode/components/Mono.tsx",
+  "official_light_dark_assets_verified": false,
+  "included_files_are_byte_identical_official_downloads": false,
+  "included_variant_method": "exact/normalized current public geometry + contrast-safe monochrome theme adaptation",
+  "confidence": "high",
+  "note": "Roo kangaroo symbol corroborated against the project SVG asset; archived upstream repo remains readable.",
+  "files": [
+    "icon-light.svg",
+    "icon-dark.svg",
+    "icon-light.png",
+    "icon-dark.png"
+  ]
+}

@@ -1,0 +1,73 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Artifact schemas
+heading: Durable state that humans and agents can inspect.
+description: CONTEXT, DESIGN, PLAN, STATE, and VERIFY remain readable Markdown while stable frontmatter makes workflow state machine-checkable.
+toc:
+  - id: artifact-model
+    label: Artifact model
+  - id: context
+    label: CONTEXT.md
+  - id: design
+    label: DESIGN.md
+  - id: plan
+    label: PLAN.md
+  - id: state
+    label: STATE.md
+  - id: verify
+    label: VERIFY.md
+  - id: digest
+    label: Plan digest
+---
+
+## Artifact model
+
+PlanOnce keeps its durable workflow state in Markdown rather than hiding authority inside a daemon or proprietary database. Each artifact has a different responsibility, and versioned frontmatter lets deterministic tooling validate identity, status, revision, and relationships.
+
+```text
+CONTEXT.md → DESIGN.md → PLAN.md → STATE.md → VERIFY.md
+                         │          │          │
+                         └─ digest ─┴─ binds ──┘
+```
+
+Small work may use a reduced artifact set. Normal and Large work retain the stronger design, plan-fingerprint, execution-state, and verification contract.
+
+## CONTEXT.md
+
+`CONTEXT.md` captures the repository facts and constraints that materially shape the change: relevant architecture, existing behavior, invariants, dependencies, risks, and user-owned work that must be preserved.
+
+It is evidence for planning, not a generic repository summary.
+
+## DESIGN.md
+
+`DESIGN.md` is used when the work needs an explicit technical choice before implementation. It records the selected approach, important alternatives, contracts affected, migration concerns, and decisions that need human acceptance.
+
+## PLAN.md
+
+`PLAN.md` is the implementation authority after approval. Normal and Large workflows fingerprint its normalized accepted content so later execution can prove which plan it followed.
+
+A plan should be executable enough to sequence work but should not contain speculative implementation trivia that belongs to the coding step.
+
+## STATE.md
+
+`STATE.md` records durable execution state: current phase or wave, accepted plan digest, progress, recovery status, blockers, and evidence references. It lets a fresh agent resume without re-planning the task.
+
+## VERIFY.md
+
+`VERIFY.md` captures the verification decision and the evidence identity behind it. A passing test name alone is insufficient; PlanOnce binds relevant evidence to the current revision/worktree state and accepted plan digest.
+
+## Plan digest
+
+The plan fingerprint is a deterministic SHA-256 over normalized approved `PLAN.md` content. Its purpose is not cryptographic secrecy. Its purpose is to make plan drift observable.
+
+```text
+human approves PLAN.md
+        ↓
+normalize accepted plan
+        ↓
+SHA-256 fingerprint
+        ↓
+STATE.md + VERIFY.md reference the same accepted intent
+```
+
+If the accepted plan changes, the workflow must deliberately amend and establish a new approved authority rather than silently continuing under stale evidence.

@@ -106,7 +106,7 @@ for provider in [
         errors.append(f"missing provider: {provider}")
 
 version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
-if version != "0.7.0":
+if version != "1.0.0":
     errors.append(f"unexpected version: {version}")
 for rel in [
     ".claude-plugin/plugin.json", ".codex-plugin/plugin.json",

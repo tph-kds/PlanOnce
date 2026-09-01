@@ -1,0 +1,13 @@
+---
+import { providerBrands } from '../data/provider-brands';
+interface Props { provider: string; size?: 'sm' | 'md' | 'lg'; decorative?: boolean; }
+const { provider, size = 'md', decorative = true } = Astro.props;
+const brand = providerBrands[provider];
+if (!brand) throw new Error(`Unknown provider brand: ${provider}`);
+const base = import.meta.env.BASE_URL;
+const asset = (value: string) => `${base.replace(/\/$/, '')}${value}`;
+---
+<span class={`provider-logo provider-logo-${size}`} title={decorative ? undefined : brand.name} data-provider={provider}>
+  <img class="provider-logo-light" src={asset(brand.lightAsset)} alt={decorative ? '' : brand.name} aria-hidden={decorative ? 'true' : undefined} loading={size === 'lg' ? 'eager' : 'lazy'} decoding="async" width="48" height="48" fetchpriority={size === 'lg' ? 'high' : undefined} />
+  <img class="provider-logo-dark" src={asset(brand.darkAsset)} alt="" aria-hidden="true" loading={size === 'lg' ? 'eager' : 'lazy'} decoding="async" width="48" height="48" fetchpriority={size === 'lg' ? 'high' : undefined} />
+</span>

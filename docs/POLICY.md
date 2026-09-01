@@ -16,4 +16,4 @@ Repository policy may make gates stricter. A workflow must not silently weaken a
 
 ## Reliability defaults
 
-The v0.7 template also keeps reliability behavior explicit: Normal/Large plans use an approved digest, verification is revision-bound, pre-existing user changes are preserved, Large work prefers isolation, and cooperative scope locks are used when parallel workers can overlap. Project policy may make these stricter but should not disable integrity/freshness checks merely to reduce ceremony.
+The v1.0 template also keeps reliability behavior explicit: Normal/Large plans use an approved digest, verification is revision-bound, pre-existing user changes are preserved, Large work prefers isolation, and cooperative scope locks are used when parallel workers can overlap. Project policy may make these stricter but should not disable integrity/freshness checks merely to reduce ceremony.

@@ -1,57 +1,70 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import DocsBreadcrumbs from '../components/DocsBreadcrumbs.astro';
+import DocsMobileNav from '../components/DocsMobileNav.astro';
+import HeadingAnchor from '../components/HeadingAnchor.astro';
+import Icon from '../components/Icon.astro';
+import { release } from '../data/release.generated';
 import '../styles/docs.css';
 
 const { frontmatter } = Astro.props;
 const path = Astro.url.pathname;
 const base = import.meta.env.BASE_URL;
-const nav = [
-  [`${base}docs/`, 'Overview'],
-  [`${base}docs/getting-started/`, 'Getting started'],
-  [`${base}docs/workflows/`, 'Workflows'],
-  [`${base}docs/reliability/`, 'Reliability layer'],
-  [`${base}docs/architecture/`, 'Runtime architecture'],
-  [`${base}docs/providers/`, 'Providers'],
-  [`${base}docs/security-review/`, 'Security and review'],
-  [`${base}docs/design-system/`, 'Design system']
+const groups = [
+  { label: 'START', items: [
+    { href: `${base}docs/`, label: 'Overview' },
+    { href: `${base}docs/getting-started/`, label: 'Getting Started' },
+  ]},
+  { label: 'CORE CONCEPTS', items: [
+    { href: `${base}docs/workflows/`, label: 'Workflows' },
+    { href: `${base}docs/reliability/`, label: 'Reliability Layer' },
+    { href: `${base}docs/architecture/`, label: 'Runtime Architecture' },
+  ]},
+  { label: 'OPERATIONS', items: [
+    { href: `${base}docs/security-review/`, label: 'Security & Review' },
+    { href: `${base}docs/providers/`, label: 'Providers' },
+  ]},
+  { label: 'REFERENCE', items: [
+    { href: `${base}docs/artifacts/`, label: 'Artifact Schemas' },
+    { href: `${base}docs/evals/`, label: 'Evaluation Harness' },
+    { href: `${base}docs/troubleshooting/`, label: 'Troubleshooting' },
+    { href: `${base}docs/design-system/`, label: 'Design System' },
+  ]},
 ];
+const flat = groups.flatMap((group) => group.items);
+const normalize = (value: string) => value.replace(/\/+$/, '/') || '/';
+const currentIndex = flat.findIndex((item) => normalize(path) === normalize(item.href));
+const previous = currentIndex > 0 ? flat[currentIndex - 1] : undefined;
+const next = currentIndex >= 0 && currentIndex < flat.length - 1 ? flat[currentIndex + 1] : undefined;
 const toc = frontmatter.toc || [];
+const current = flat[currentIndex];
+const editSlug = path.replace(base, '').replace(/^docs\//, '').replace(/\/$/, '') || 'index';
+const editUrl = `https://github.com/tph-kds/PlanOnce/edit/main/website/src/pages/docs/${editSlug}.mdx`;
 ---
 <BaseLayout title={frontmatter.title} description={frontmatter.description}>
+  <DocsMobileNav groups={groups} currentPath={path} />
   <div class="container docs-shell">
     <aside class="docs-side" aria-label="Documentation navigation">
-      <div class="docs-group">Documentation</div>
-      <nav>
-        {nav.map(([href, label]) => <a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a>)}
-      </nav>
-      <div class="docs-side-version">
-        <span>Current release</span>
-        <strong>v1.0.0</strong>
-        <span class="v">Stable</span>
-      </div>
+      {groups.map((group) => <section><div class="docs-group">{group.label}</div><nav>{group.items.map((item) => <a href={item.href} aria-current={normalize(path) === normalize(item.href) ? 'page' : undefined}>{item.label}</a>)}</nav></section>)}
+      <div class="docs-side-version"><span>Current release</span><strong>v{release.version}</strong><span class="v">{release.status}</span></div>
     </aside>
     <article class="docs-main">
-      <header>
+      <DocsBreadcrumbs items={[{ label: 'Docs', href: `${base}docs/` }, { label: current?.label || frontmatter.title }]} />
+      <header class="docs-article-head">
         <div class="kicker">PlanOnce documentation</div>
-        <h1 class="display">{frontmatter.heading || frontmatter.title}</h1>
+        <div class="docs-title-row"><h1 class="display">{frontmatter.heading || frontmatter.title}</h1><HeadingAnchor id="top" label={frontmatter.heading || frontmatter.title} /></div>
         <p class="muted">{frontmatter.description}</p>
+        <div class="docs-meta"><span>Applies to PlanOnce {release.version}</span><a href={editUrl} target="_blank" rel="noreferrer">Edit on GitHub <Icon name="external" size={14} /></a></div>
       </header>
-      <slot />
-      {frontmatter.next && (
-        <div class="docs-next-block">
-          <span>Up next</span>
-          <a href={frontmatter.next.href.startsWith('/') ? `${base}${frontmatter.next.href.slice(1)}` : frontmatter.next.href}>
-            {frontmatter.next.label}
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-      )}
+      <div id="top" class="docs-content"><slot /></div>
+      <nav class="docs-prev-next" aria-label="Previous and next documentation pages">
+        <div>{previous && <a href={previous.href}><span>Previous</span><strong>← {previous.label}</strong></a>}</div>
+        <div>{next && <a href={next.href}><span>Next</span><strong>{next.label} →</strong></a>}</div>
+      </nav>
     </article>
     <aside class="docs-toc" aria-label="On this page">
       <strong>On this page</strong>
-      <nav>
-        {toc.map((item) => <a href={`#${item.id}`}>{item.label}</a>)}
-      </nav>
+      <nav>{toc.map((item) => <a href={`#${item.id}`}>{item.label}</a>)}</nav>
     </aside>
   </div>
 </BaseLayout>

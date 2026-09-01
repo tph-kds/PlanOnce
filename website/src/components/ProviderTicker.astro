@@ -1,0 +1,216 @@
+---
+import ProviderLogo from './ProviderLogo.astro';
+import { providers, firstClassProviders, extendedProviders } from '../data/providers';
+
+// Counts drive the HUD readouts — kept in sync with registry.json by the
+// generated providers module. This component is read-only and never edits
+// upstream data, so the same truth appears on the docs page.
+const totalCount = providers.length;
+const firstClassCount = firstClassProviders.length;
+const extendedCount = extendedProviders.length;
+---
+<aside class="provider-ticker-wrap reveal" aria-label="Live provider matrix: every supported Agent Skills runtime">
+  <div class="provider-ticker" data-provider-ticker tabindex="0">
+    {/* HUD: corner-anchored status, replaces the stitched rule label */}
+    <header class="provider-ticker-hud" aria-hidden="false">
+      <div class="provider-ticker-hud-left">
+        <span class="provider-ticker-hud-pulse" aria-hidden="true">
+          <span class="provider-ticker-hud-pulse-ring"></span>
+          <span class="provider-ticker-hud-pulse-dot"></span>
+        </span>
+        <span class="provider-ticker-hud-eyebrow">
+          <span class="provider-ticker-hud-eyebrow-label">PROVIDERS</span>
+          <span class="provider-ticker-hud-eyebrow-sep">·</span>
+          <span class="provider-ticker-hud-eyebrow-count">{totalCount}</span>
+          <span class="provider-ticker-hud-eyebrow-unit">ADAPTERS</span>
+        </span>
+        <span class="provider-ticker-hud-status">
+          <span class="provider-ticker-hud-status-dot"></span>
+          LIVE
+        </span>
+      </div>
+      <div class="provider-ticker-hud-right" aria-label="Adapter tier breakdown">
+        <span class="provider-ticker-hud-tier provider-ticker-hud-tier--first">
+          <span class="provider-ticker-hud-tier-dot"></span>
+          First-class
+          <span class="provider-ticker-hud-tier-count">{firstClassCount}</span>
+        </span>
+        <span class="provider-ticker-hud-divider" aria-hidden="true"></span>
+        <span class="provider-ticker-hud-tier provider-ticker-hud-tier--ext">
+          <span class="provider-ticker-hud-tier-dot"></span>
+          Extended
+          <span class="provider-ticker-hud-tier-count">{extendedCount}</span>
+        </span>
+      </div>
+    </header>
+
+    {/* First-class band — main horizontal scroll, slower cadence */}
+    <div class="provider-ticker-band provider-ticker-band--first">
+      <div class="provider-ticker-band-edge provider-ticker-band-edge--lead" aria-hidden="true">
+        <span class="provider-ticker-band-edge-tag">01</span>
+        <span class="provider-ticker-band-edge-name">First-class</span>
+      </div>
+      <div class="provider-ticker-stage">
+        <div class="provider-ticker-track provider-ticker-track--first">
+          <div class="provider-ticker-set">
+            {firstClassProviders.map((provider) => (
+              <span class={`provider-ticker-item provider-ticker-item--${provider.tier}`} data-provider={provider.id}>
+                <span class="provider-ticker-item-mark" aria-hidden="true">
+                  <ProviderLogo provider={provider.id} size="sm" />
+                </span>
+                <span class="provider-ticker-item-body">
+                  <span class="provider-ticker-item-name">{provider.name}</span>
+                  <span class="provider-ticker-item-path" title={provider.projectPath}>
+                    <span class="provider-ticker-item-path-arrow" aria-hidden="true">›</span>
+                    {provider.projectPath}
+                  </span>
+                </span>
+                <span class={`provider-ticker-item-tier provider-ticker-item-tier--${provider.tier}`} aria-hidden="true">FC</span>
+              </span>
+            ))}
+          </div>
+          <div class="provider-ticker-set" aria-hidden="true">
+            {firstClassProviders.map((provider) => (
+              <span class={`provider-ticker-item provider-ticker-item--${provider.tier}`} data-provider={provider.id}>
+                <span class="provider-ticker-item-mark" aria-hidden="true">
+                  <ProviderLogo provider={provider.id} size="sm" />
+                </span>
+                <span class="provider-ticker-item-body">
+                  <span class="provider-ticker-item-name">{provider.name}</span>
+                  <span class="provider-ticker-item-path" title={provider.projectPath}>
+                    <span class="provider-ticker-item-path-arrow" aria-hidden="true">›</span>
+                    {provider.projectPath}
+                  </span>
+                </span>
+                <span class={`provider-ticker-item-tier provider-ticker-item-tier--${provider.tier}`} aria-hidden="true">FC</span>
+              </span>
+            ))}
+          </div>
+          <div class="provider-ticker-set" aria-hidden="true">
+            {firstClassProviders.map((provider) => (
+              <span class={`provider-ticker-item provider-ticker-item--${provider.tier}`} data-provider={provider.id}>
+                <span class="provider-ticker-item-mark" aria-hidden="true">
+                  <ProviderLogo provider={provider.id} size="sm" />
+                </span>
+                <span class="provider-ticker-item-body">
+                  <span class="provider-ticker-item-name">{provider.name}</span>
+                  <span class="provider-ticker-item-path" title={provider.projectPath}>
+                    <span class="provider-ticker-item-path-arrow" aria-hidden="true">›</span>
+                    {provider.projectPath}
+                  </span>
+                </span>
+                <span class={`provider-ticker-item-tier provider-ticker-item-tier--${provider.tier}`} aria-hidden="true">FC</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div class="provider-ticker-band-edge provider-ticker-band-edge--trail" aria-hidden="true">
+        <span class="provider-ticker-band-edge-name">Adapter verified</span>
+        <span class="provider-ticker-band-edge-meta">{firstClassCount} of {totalCount}</span>
+      </div>
+    </div>
+
+    {/* Extended band — secondary scroll, opposite direction, faster cadence */}
+    <div class="provider-ticker-band provider-ticker-band--ext">
+      <div class="provider-ticker-band-edge provider-ticker-band-edge--lead" aria-hidden="true">
+        <span class="provider-ticker-band-edge-tag">02</span>
+        <span class="provider-ticker-band-edge-name">Extended</span>
+      </div>
+      <div class="provider-ticker-stage">
+        <div class="provider-ticker-track provider-ticker-track--ext">
+          <div class="provider-ticker-set">
+            {extendedProviders.map((provider) => (
+              <span class={`provider-ticker-item provider-ticker-item--${provider.tier}`} data-provider={provider.id}>
+                <span class="provider-ticker-item-mark" aria-hidden="true">
+                  <ProviderLogo provider={provider.id} size="sm" />
+                </span>
+                <span class="provider-ticker-item-body">
+                  <span class="provider-ticker-item-name">{provider.name}</span>
+                  <span class="provider-ticker-item-path" title={provider.projectPath}>
+                    <span class="provider-ticker-item-path-arrow" aria-hidden="true">›</span>
+                    {provider.projectPath}
+                  </span>
+                </span>
+                <span class={`provider-ticker-item-tier provider-ticker-item-tier--${provider.tier}`} aria-hidden="true">EX</span>
+              </span>
+            ))}
+          </div>
+          <div class="provider-ticker-set" aria-hidden="true">
+            {extendedProviders.map((provider) => (
+              <span class={`provider-ticker-item provider-ticker-item--${provider.tier}`} data-provider={provider.id}>
+                <span class="provider-ticker-item-mark" aria-hidden="true">
+                  <ProviderLogo provider={provider.id} size="sm" />
+                </span>
+                <span class="provider-ticker-item-body">
+                  <span class="provider-ticker-item-name">{provider.name}</span>
+                  <span class="provider-ticker-item-path" title={provider.projectPath}>
+                    <span class="provider-ticker-item-path-arrow" aria-hidden="true">›</span>
+                    {provider.projectPath}
+                  </span>
+                </span>
+                <span class={`provider-ticker-item-tier provider-ticker-item-tier--${provider.tier}`} aria-hidden="true">EX</span>
+              </span>
+            ))}
+          </div>
+          <div class="provider-ticker-set" aria-hidden="true">
+            {extendedProviders.map((provider) => (
+              <span class={`provider-ticker-item provider-ticker-item--${provider.tier}`} data-provider={provider.id}>
+                <span class="provider-ticker-item-mark" aria-hidden="true">
+                  <ProviderLogo provider={provider.id} size="sm" />
+                </span>
+                <span class="provider-ticker-item-body">
+                  <span class="provider-ticker-item-name">{provider.name}</span>
+                  <span class="provider-ticker-item-path" title={provider.projectPath}>
+                    <span class="provider-ticker-item-path-arrow" aria-hidden="true">›</span>
+                    {provider.projectPath}
+                  </span>
+                </span>
+                <span class={`provider-ticker-item-tier provider-ticker-item-tier--${provider.tier}`} aria-hidden="true">EX</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div class="provider-ticker-band-edge provider-ticker-band-edge--trail" aria-hidden="true">
+        <span class="provider-ticker-band-edge-name">Compatibility</span>
+        <span class="provider-ticker-band-edge-meta">{extendedCount} of {totalCount}</span>
+      </div>
+    </div>
+
+    {/* Foot rule: gradient progression line — suggests live data flowing */}
+    <footer class="provider-ticker-foot" aria-hidden="true">
+      <span class="provider-ticker-foot-rule"></span>
+      <span class="provider-ticker-foot-meta">
+        <span class="provider-ticker-foot-pulse" aria-hidden="true"></span>
+        <span class="provider-ticker-foot-text">Continuous adapter verification · fresh evidence per release</span>
+      </span>
+      <span class="provider-ticker-foot-rule"></span>
+    </footer>
+  </div>
+</aside>
+<style>
+/* Strip the rounded icon frame ONLY when logo sits inside the ticker mark slot */
+.provider-ticker-item-mark :global(.provider-logo) {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--paper) 92%, transparent) 0%, color-mix(in srgb, var(--paper-2) 28%, var(--paper)) 100%);
+  border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--paper) 80%, transparent), 0 2px 6px rgba(15,23,42,.05);
+  transition: border-color .22s ease, transform .22s ease;
+}
+.provider-ticker-item-mark :global(.provider-logo)::before,
+.provider-ticker-item-mark :global(.provider-logo)::after {
+  display: none;
+}
+.provider-ticker-item-mark :global(.provider-logo img) {
+  width: 60%;
+  height: 60%;
+  max-width: 60%;
+  max-height: 60%;
+  filter: none;
+  opacity: 1;
+}
+</style>

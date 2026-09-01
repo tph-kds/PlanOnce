@@ -1,4 +1,4 @@
-# PlanOnce v0.7 design
+# PlanOnce v1.0 design
 
 PlanOnce is a **single-install, provider-neutral Agent Skills workflow pack** for production-grade AI-assisted coding.
 

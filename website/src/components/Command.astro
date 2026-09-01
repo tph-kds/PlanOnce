@@ -1,8 +1,12 @@
 ---
-interface Props { command: string; label?: string; }
+import Icon from './Icon.astro';
 const { command, label = 'Copy command' } = Astro.props;
 ---
-<div class="command" data-command>
+<div class="command">
   <code>{command}</code>
-  <button type="button" data-copy={command} aria-label={label}>Copy</button>
+  <button type="button" data-copy={command} aria-label={label}>
+    <span data-copy-idle><Icon name="copy" size={16} /></span>
+    <span data-copy-success><Icon name="check" size={16} /></span>
+    <span class="sr-only">Copy</span>
+  </button>
 </div>

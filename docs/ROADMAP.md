@@ -21,7 +21,7 @@ Add only after real usage demonstrates need:
 
 Do not add a daemon, database, orchestration service, or auto-installed scanner without evidence that the portable skill model is insufficient.
 
-## v0.7 — Workflow Reliability Layer (implemented)
+## v1.0 — Workflow Reliability Layer (implemented)
 
 - route-only `planonce-task` entry point;
 - versioned Markdown artifact frontmatter;

@@ -1,0 +1,56 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Evaluation harness
+heading: Test the workflow contract, not only the generated code.
+description: PlanOnce uses deterministic runtime evals to verify routing, artifacts, recovery, evidence freshness, and provider-neutral behavior.
+toc:
+  - id: purpose
+    label: Purpose
+  - id: deterministic-evals
+    label: Deterministic evals
+  - id: adapter-protocol
+    label: Adapter protocol
+  - id: evidence
+    label: Evidence
+  - id: adding-an-eval
+    label: Adding an eval
+---
+
+## Purpose
+
+Application tests answer whether a code change works. PlanOnce evals answer whether the **engineering workflow itself** honored its contract: one planning authority, bounded execution, fresh evidence, explicit recovery, and a human-readable outcome.
+
+## Deterministic evals
+
+The release snapshot tracks seven deterministic runtime evals. The exact suite belongs to the core repository; the website should describe the contract rather than inventing additional passing counts.
+
+High-value eval behavior includes:
+
+- routing to the intended Greenfield/Brownfield size;
+- preserving the accepted plan fingerprint;
+- rejecting stale verification evidence;
+- distinguishing `FIX_REVERIFY` from `BLOCKED_AMEND`;
+- preserving user-owned workspace changes;
+- keeping provider capability translation semantically equivalent;
+- producing review state that can be inspected without hidden memory.
+
+## Adapter protocol
+
+A provider adapter maps a small semantic capability surface—ask the human, read/write files, run deterministic commands, optionally use fresh workers, and optionally use isolated workspaces—onto the host coding agent.
+
+The provider is allowed to change *how* a capability is invoked. It is not allowed to change the PlanOnce workflow contract.
+
+## Evidence
+
+An eval result is useful only when its inputs and revision are clear. Fresh evidence should identify the relevant code/worktree state and accepted plan digest so a later change cannot accidentally inherit a stale pass.
+
+## Adding an eval
+
+When a reliability promise is important enough to document, prefer making it executable:
+
+1. state the invariant in plain language;
+2. construct the smallest deterministic fixture that can violate it;
+3. observe the failing behavior;
+4. implement or repair the workflow contract;
+5. rerun the eval and related regression suite;
+6. keep the result tied to the current revision.

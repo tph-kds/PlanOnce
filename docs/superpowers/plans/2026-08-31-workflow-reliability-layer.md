@@ -8,7 +8,7 @@
 
 **Tech Stack:** Markdown Agent Skills, Python 3 standard library, JSON, Git CLI when available, unittest.
 
-**Spec:** `docs/RUNTIME_ARCHITECTURE.md`, `docs/WORKFLOW_ENGINE.md`, `docs/STATE_CONTRACT.md`, `docs/EVIDENCE_CONTRACT.md`, and the v0.7 requirements approved in chat.
+**Spec:** `docs/RUNTIME_ARCHITECTURE.md`, `docs/WORKFLOW_ENGINE.md`, `docs/STATE_CONTRACT.md`, `docs/EVIDENCE_CONTRACT.md`, and the v1.0 requirements approved in chat.
 
 ## Global Constraints
 

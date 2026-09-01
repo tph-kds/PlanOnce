@@ -1,208 +1,119 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const required = [
-  'astro.config.mjs',
-  'package.json',
-  'src/pages/index.astro',
-  'src/layouts/BaseLayout.astro',
-  'src/layouts/DocsLayout.astro',
-  'src/components/BrandOrbit.astro',
-  'src/styles/global.css',
-  'src/styles/landing.css',
-  'src/styles/docs.css',
-  'src/pages/docs/index.mdx',
-  'src/pages/docs/getting-started.mdx',
-  'src/pages/docs/workflows.mdx',
-  'src/pages/docs/reliability.mdx',
-  'src/pages/docs/architecture.mdx',
-  'src/pages/docs/providers.mdx',
-  'src/pages/docs/security-review.mdx',
-  'src/pages/docs/design-system.mdx',
-  'src/data/providers.ts',
-  'src/data/site.ts',
-  'public/llms.txt',
-  'public/site.webmanifest',
-  'public/brand/planonce-logo-primary.png',
-  'public/brand/planonce-logo-normal.png',
-  'public/brand/planonce-logo-light.png',
-  'public/brand/planonce-logo-dark.png',
-  'public/brand/planonce-mark-primary.png',
-  'public/brand/planonce-mark-normal.png',
-  'public/brand/planonce-mark-light.png',
-  'public/brand/planonce-mark-dark.png'
-];
-
+const read = (rel) => fs.readFileSync(path.join(root, rel), 'utf8');
+const exists = (rel) => fs.existsSync(path.join(root, rel));
 const errors = [];
 const warnings = [];
-const read = (rel) => fs.readFileSync(path.join(root, rel), 'utf8');
-
-for (const rel of required) {
-  if (!fs.existsSync(path.join(root, rel))) errors.push(`Missing required file: ${rel}`);
-}
+const required = [
+  'astro.config.mjs','package.json','project-metadata.json','src/pages/index.astro',
+  'src/layouts/BaseLayout.astro','src/layouts/DocsLayout.astro','src/styles/global.css',
+  'src/styles/landing.css','src/styles/docs.css','src/styles/motion.css','src/data/site.ts',
+  'src/data/release.generated.ts','src/data/providers.generated.ts','src/data/provider-brands.ts',
+  'src/scripts/app.ts','src/scripts/theme.ts','src/scripts/search.ts','src/scripts/providers.ts','src/scripts/motion.ts',
+  'public/llms.txt','public/site.webmanifest','public/providers/THIRD_PARTY_BRANDS.md',
+  'src/pages/docs/index.mdx','src/pages/docs/getting-started.mdx','src/pages/docs/workflows.mdx',
+  'src/pages/docs/reliability.mdx','src/pages/docs/architecture.mdx','src/pages/docs/providers.mdx',
+  'src/pages/docs/security-review.mdx','src/pages/docs/artifacts.mdx','src/pages/docs/evals.mdx',
+  'src/pages/docs/troubleshooting.mdx','src/pages/docs/design-system.mdx'
+];
+for (const rel of required) if (!exists(rel)) errors.push(`Missing required file: ${rel}`);
 
 const allFiles = [];
-function walk(dir) {
+const walk = (dir) => {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (['node_modules', 'dist', 'static-preview', '.astro'].includes(entry.name)) continue;
+    if (['node_modules','dist','.astro'].includes(entry.name)) continue;
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) walk(full);
-    else allFiles.push(full);
+    entry.isDirectory() ? walk(full) : allFiles.push(full);
   }
-}
+};
 walk(root);
-
 for (const file of allFiles) {
   if (!/\.(astro|mdx|css|ts|mjs|json|txt|svg)$/.test(file)) continue;
-  const rel = path.relative(root, file);
-  const relPosix = rel.replace(/\\/g, '/');
-  if (relPosix === 'scripts/validate-source.mjs') continue;
-  if (relPosix === 'src/components/CurvedProgress.astro') {
-    // allow scroll listener for organic spine; still check other rules
-    const text = fs.readFileSync(file, 'utf8');
-    if (/\b(TODO|TBD|FIXME)\b/.test(text)) errors.push(`Placeholder token found in ${rel}`);
-    continue;
-  }
+  const rel = path.relative(root, file).replace(/\\/g,'/');
+  if (rel === 'scripts/validate-source.mjs' || rel === 'scripts/modernization-contract.mjs') continue;
   const text = fs.readFileSync(file, 'utf8');
-  // v1.0 allows em dashes for editorial typography — no longer an error
   if (/\b(TODO|TBD|FIXME)\b/.test(text)) errors.push(`Placeholder token found in ${rel}`);
-  if (text.includes("window.addEventListener('scroll'") || text.includes('window.addEventListener("scroll"')) {
-    errors.push(`Hand-rolled scroll listener found in ${rel}`);
-  }
+  if (/cdn\.simpleicons\.org|cdn\.jsdelivr\.net\/npm\/simple-icons/.test(text)) errors.push(`Remote provider logo CDN found in ${rel}`);
 }
+if (allFiles.some((file) => file.endsWith('.html'))) errors.push('Canonical source contains generated HTML.');
 
-const htmlSources = allFiles.filter((file) => file.endsWith('.html'));
-for (const file of htmlSources) errors.push(`Canonical source contains generated HTML: ${path.relative(root, file)}`);
+const pkg = JSON.parse(read('package.json'));
+if (pkg.version !== '1.0.0') errors.push('Website package version must be 1.0.0.');
+if (pkg.dependencies?.astro !== '7.2.9') errors.push('Astro must be pinned to 7.2.9.');
+if (pkg.dependencies?.['@astrojs/mdx'] !== '7.0.8') errors.push('@astrojs/mdx must be pinned to 7.0.8.');
+if (pkg.dependencies?.motion !== '13.1.1') errors.push('Motion must be pinned to 13.1.1.');
+for (const script of ['build','check','validate','check:release','check:modernization']) if (!pkg.scripts?.[script]) errors.push(`Missing npm script: ${script}`);
 
-const requiredProviderIds = [
-  'claude-code', 'codex', 'opencode', 'cursor', 'gemini-cli', 'github-copilot',
-  'cline', 'kilo', 'kiro-cli', 'roo', 'windsurf', 'qwen-code', 'goose', 'openhands'
-];
-const providersSource = read('src/data/providers.ts');
-for (const id of requiredProviderIds) {
-  if (!providersSource.includes(`id: '${id}'`)) errors.push(`Provider registry missing: ${id}`);
+const providerIds = ['claude-code','codex','opencode','cursor','gemini-cli','github-copilot','cline','kilo','kiro-cli','roo','windsurf','qwen-code','goose','openhands'];
+const providers = read('src/data/providers.generated.ts');
+for (const id of providerIds) {
+  if (!providers.includes(`id: '${id}'`)) errors.push(`Provider registry missing: ${id}`);
+  for (const theme of ['light','dark']) if (!exists(`public/providers/${id}/mark-${theme}.svg`)) errors.push(`Provider ${id} missing ${theme} asset.`);
 }
-
-const siteData = read('src/data/site.ts');
-for (const token of [
-  "version: '1.0.0'",
-  "name: 'planonce-task'",
-  'Plan fingerprint',
-  'Revision-bound evidence',
-  'Failure routing',
-  'Snapshot + locks',
-  'Executable evals'
-]) {
-  if (!siteData.includes(token)) errors.push(`v1.0 site data missing: ${token}`);
-}
-
-const globalCss = read('src/styles/global.css');
-if (!globalCss.includes('@media (prefers-reduced-motion: reduce)')) errors.push('Reduced motion handling is missing.');
-for (const token of ['--accent: #4f46e5', '--brand-cyan: #06b6d4', '--brand-violet: #7c3aed', '--radius: 14px']) {
-  if (!globalCss.includes(token)) errors.push(`Brand/design token missing: ${token}`);
-}
-if (globalCss.includes('#a7f432') || globalCss.includes('#b9ff54')) errors.push('Legacy signal-lime brand tokens still present.');
-
-const landing = read('src/pages/index.astro');
-const heroMatch = landing.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
-if (!heroMatch) errors.push('Hero H1 not found.');
-const subMatch = landing.match(/<p class="hero-copy[^>]*>([^<]+)<\/p>/);
-if (!subMatch) errors.push('Hero subtext not found.');
-else {
-  const words = subMatch[1].trim().split(/\s+/).length;
-  if (words > 22) errors.push(`Hero subtext has ${words} words; expected 22 or fewer.`);
-}
-for (const token of ['<BrandOrbit />', '<WorkflowRail />', '<ProviderTabs />', 'planonce-task', 'Workflow reliability layer', 'Agent OS v3.0.0', 'GSD Core v1.12.0']) {
-  if (!landing.includes(token)) errors.push(`Landing contract missing: ${token}`);
-}
-if (!landing.includes('site.install')) errors.push('Landing install command is not sourced from site data.');
+if ((providers.match(/\{ id:/g) || []).length !== 14) errors.push('Provider registry must contain exactly 14 providers.');
+if ((providers.match(/tier: 'first-class'/g) || []).length !== 11) errors.push('Provider registry must contain exactly 11 first-class providers.');
 
 const base = read('src/layouts/BaseLayout.astro');
-for (const token of ['data-theme-toggle', 'data-search-open', 'IntersectionObserver', 'navigator.clipboard', 'brand/planonce-mark-primary.png']) {
-  if (!base.includes(token)) errors.push(`Base interaction/brand contract missing: ${token}`);
+for (const token of ['ClientRouter','astro:page-load','astro:after-swap','SoftwareSourceCode']) if (!base.includes(token)) errors.push(`BaseLayout missing ${token}.`);
+const app = read('src/scripts/app.ts');
+for (const token of ['AbortController','setupTheme','setupSearch','setupProviders','setupMotion']) if (!app.includes(token)) errors.push(`Lifecycle app missing ${token}.`);
+const motion = read('src/scripts/motion.ts');
+if (!motion.includes("from 'motion/mini'")) errors.push('Motion mini import missing.');
+const motionCss = read('src/styles/motion.css');
+for (const token of ['prefers-reduced-motion:reduce','conic-gradient','provider-travel','::view-transition-old']) if (!motionCss.replaceAll(' ','').includes(token.replaceAll(' ',''))) errors.push(`Motion CSS missing ${token}.`);
+
+const landing = read('src/pages/index.astro');
+for (const token of ['<ProviderConstellation />','<ProviderTicker />','<ReliabilityLoop />','<WorkflowRail />','<ProviderTabs />','<BrandOrbit />','<BorderBeam>','FIX_REVERIFY','BLOCKED_AMEND']) if (!landing.includes(token)) errors.push(`Landing contract missing: ${token}`);
+if (landing.includes('ProviderMarquee')) errors.push('Legacy ProviderMarquee remains on landing.');
+if (!landing.includes('site.install')) errors.push('Landing install command is not sourced from site data.');
+
+const docsLayout = read('src/layouts/DocsLayout.astro');
+for (const token of ['START','CORE CONCEPTS','OPERATIONS','REFERENCE','DocsBreadcrumbs','DocsMobileNav','Previous','Next','Edit on GitHub']) if (!docsLayout.includes(token)) errors.push(`Docs layout missing ${token}.`);
+for (const file of allFiles.filter((file) => file.endsWith('.mdx'))) {
+  const rel = path.relative(root, file).replace(/\\/g, '/');
+  const text = fs.readFileSync(file, 'utf8');
+  if (/\]\(\/docs\//.test(text) || /^\s*href:\s*\/docs\//m.test(text)) {
+    errors.push(`Base-unsafe /docs/ link found in ${rel}`);
+  }
 }
 
-const docs = [
-  'src/pages/docs/index.mdx',
-  'src/pages/docs/getting-started.mdx',
-  'src/pages/docs/workflows.mdx',
-  'src/pages/docs/reliability.mdx',
-  'src/pages/docs/architecture.mdx',
-  'src/pages/docs/providers.mdx',
-  'src/pages/docs/security-review.mdx',
-  'src/pages/docs/design-system.mdx'
-];
-for (const rel of docs) {
+for (const rel of required.filter((rel) => rel.endsWith('.mdx'))) {
   const text = read(rel);
   if (!text.startsWith('---\n')) errors.push(`Missing frontmatter in ${rel}`);
-  if (!text.includes('layout: ../../layouts/DocsLayout.astro')) errors.push(`Docs layout missing in ${rel}`);
+  if (!text.includes('layout: ../../layouts/DocsLayout.astro')) errors.push(`DocsLayout missing in ${rel}`);
   if (!text.includes('description:')) errors.push(`Description missing in ${rel}`);
   if (!text.includes('toc:')) errors.push(`TOC metadata missing in ${rel}`);
 }
 
 const reliability = read('src/pages/docs/reliability.mdx');
-for (const token of ['planonce.state/v1', 'approved_plan_digest', 'FIX_REVERIFY', 'BLOCKED_AMEND', 'DIAGNOSE', '.planonce/locks/', 'Executable evals']) {
-  if (!reliability.includes(token)) errors.push(`Reliability docs missing: ${token}`);
-}
+for (const token of ['planonce.state/v1','approved_plan_digest','FIX_REVERIFY','BLOCKED_AMEND','DIAGNOSE','.planonce/locks/','Executable evals']) if (!reliability.includes(token)) errors.push(`Reliability docs missing: ${token}`);
+const artifacts = read('src/pages/docs/artifacts.mdx');
+for (const token of ['CONTEXT.md','DESIGN.md','PLAN.md','STATE.md','VERIFY.md','SHA-256']) if (!artifacts.includes(token)) errors.push(`Artifact docs missing: ${token}`);
 
-const architecture = read('src/pages/docs/architecture.mdx');
-for (const token of ['Agent OS v3.0.0', 'GSD Core v1.12.0', 'One orchestration authority', 'Self-contained skills']) {
-  if (!architecture.includes(token)) errors.push(`Architecture docs missing: ${token}`);
-}
-
-const design = read('src/pages/docs/design-system.mdx');
-for (const token of ['crescent moon', 'planonce-logo-light.png', 'planonce-logo-dark.png', 'brand cyan', 'brand violet']) {
-  if (!design.toLowerCase().includes(token.toLowerCase())) errors.push(`Design docs missing: ${token}`);
-}
-
-const packageJson = JSON.parse(read('package.json'));
-if (packageJson.version !== '1.0.0') errors.push('Website package version is not 1.0.0.');
-if (packageJson.dependencies?.astro !== '7.2.9') errors.push('Astro is not pinned to 7.2.9.');
-if (packageJson.dependencies?.['@astrojs/mdx'] !== '7.0.8') errors.push('@astrojs/mdx is not pinned to 7.0.8.');
-if (!packageJson.scripts?.build || !packageJson.scripts?.validate || !packageJson.scripts?.check) errors.push('Expected build/check/validate scripts are missing.');
+const globalCss = read('src/styles/global.css');
+if (globalCss.includes('Playfair')) errors.push('Playfair remains in production typography after simplification.');
+if (!globalCss.includes('--cyan:') || !globalCss.includes('--violet:')) errors.push('Orbital color tokens missing.');
+if (!globalCss.includes(':focus-visible')) errors.push('Focus-visible styling missing.');
 
 const manifest = JSON.parse(read('public/site.webmanifest'));
 if (manifest.name !== 'PlanOnce') errors.push('Web manifest name mismatch.');
-if (!manifest.icons?.some((icon) => icon.src === '/brand/planonce-mark-primary.png')) errors.push('Web manifest is missing the moon-orbit icon.');
 
-const publicRoutes = new Set([
-  '/', '/docs/', '/docs/getting-started/', '/docs/workflows/', '/docs/reliability/', '/docs/architecture/', '/docs/providers/', '/docs/security-review/', '/docs/design-system/',
-  '/llms.txt', '/site.webmanifest', '/brand/planonce-logo-primary.png', '/brand/planonce-logo-normal.png', '/brand/planonce-logo-light.png', '/brand/planonce-logo-dark.png',
-  '/brand/planonce-mark-primary.png', '/brand/planonce-mark-normal.png', '/brand/planonce-mark-light.png', '/brand/planonce-mark-dark.png'
-]);
-const linkRegex = /href=["']([^"'#?]+)(?:#[^"']*)?["']/g;
-for (const file of allFiles.filter((f) => /\.(astro|mdx)$/.test(f))) {
-  const text = fs.readFileSync(file, 'utf8');
-  let match;
-  while ((match = linkRegex.exec(text))) {
-    const href = match[1];
-    if (href.startsWith('http') || href.startsWith('mailto:')) continue;
-    if (href.startsWith('/') && !publicRoutes.has(href) && !href.startsWith('/#')) {
-      warnings.push(`Unregistered internal route ${href} in ${path.relative(root, file)}`);
-    }
-  }
-}
+const stale = allFiles.filter((file) => /\.(astro|mdx|ts|txt|md)$/.test(file)).filter((file) => !file.endsWith('modernization-contract.mjs')).filter((file) => /PlanOnce v0\.[0-9]\.0|v0\.[0-9]\b/.test(fs.readFileSync(file,'utf8')));
+for (const file of stale) errors.push(`Stale pre-v1.0 release copy found in ${path.relative(root,file)}`);
 
 if (errors.length) {
-  console.error('PlanOnce website source validation: FAIL');
-  for (const error of errors) console.error(`- ${error}`);
-  if (warnings.length) for (const warning of warnings) console.error(`- warning: ${warning}`);
+  console.error(`PlanOnce website source validation: FAIL (${errors.length})`);
+  errors.forEach((error) => console.error(`- ${error}`));
+  warnings.forEach((warning) => console.error(`- warning: ${warning}`));
   process.exit(1);
 }
-
 console.log('PlanOnce website source validation: PASS');
 console.log(`Checked ${allFiles.length} source/public files.`);
-console.log('Version/content sync v1.0.0: PASS');
-console.log('Moon-orbit brand variants: PASS');
-console.log('Provider matrix 14 targets: PASS');
-console.log('Reliability + architecture docs: PASS');
-console.log('Hero/design/theme contracts: PASS');
-console.log('Reduced motion/accessibility contracts: PASS');
-console.log('No canonical generated HTML: PASS');
-if (warnings.length) {
-  console.log(`Warnings: ${warnings.length}`);
-  for (const warning of warnings) console.log(`- ${warning}`);
-}
+console.log('Release v1.0.0 + generated facts: PASS');
+console.log('Provider matrix 14 / first-class 11 + local assets: PASS');
+console.log('ClientRouter + lifecycle-safe scripts + Motion mini: PASS');
+console.log('Grouped docs IA + Artifacts/Evals/Troubleshooting: PASS');
+console.log('Reduced motion + no legacy provider CDN/marquee: PASS');

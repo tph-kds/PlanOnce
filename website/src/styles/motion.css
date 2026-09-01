@@ -1,0 +1,35 @@
+.reveal{opacity:0;transform:translateY(16px)}
+.reveal[data-visible='true']{opacity:1;transform:none}
+.gradient-text{background:linear-gradient(135deg,var(--cyan),var(--accent),var(--violet));background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradient-shift 4s ease infinite}
+@keyframes gradient-shift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.gradient-bg{background:linear-gradient(135deg,var(--cyan),var(--accent),var(--violet));background-size:200% 200%;animation:gradient-shift 4s ease infinite}
+.hero h1 em{color:var(--accent);background:linear-gradient(135deg,var(--cyan),var(--accent),var(--violet));background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradient-shift 4s ease infinite}
+.display{background:linear-gradient(135deg,var(--ink),var(--accent));background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradient-shift 6s ease infinite}
+[data-theme='dark'] .display{background:linear-gradient(135deg,var(--ink),var(--cyan),var(--accent));background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradient-shift 6s ease infinite}
+.border-beam{display:inline-grid;position:relative;padding:1px;border-radius:13px;overflow:hidden;isolation:isolate}
+.border-beam::before{content:"";position:absolute;inset:-160%;z-index:-2;background:conic-gradient(from 0deg,transparent 0 32%,var(--cyan) 39%,var(--accent) 48%,var(--violet) 57%,transparent 66% 100%);animation:border-orbit 7s linear infinite;opacity:.78}
+.border-beam::after{content:"";position:absolute;inset:1px;z-index:-1;border-radius:12px;background:var(--paper)}
+.border-beam-inner{display:inline-flex;border-radius:12px}
+.border-beam:hover::before{animation-duration:4.5s;opacity:1}.border-beam:focus-within::before{animation-play-state:paused}
+@keyframes border-orbit{to{transform:rotate(1turn)}}
+/* ProviderTicker animation lives in landing.css; reduced-motion override stays here */
+@keyframes provider-travel{to{transform:translateX(-50%)}}
+.orbit-path{stroke-dasharray:8 10;animation:orbit-dash 26s linear infinite}.ship-star{transform-origin:444px 224px;animation:star-pulse 4s ease-in-out infinite}
+@keyframes orbit-dash{to{stroke-dashoffset:-180}}@keyframes star-pulse{50%{opacity:.7}}
+::view-transition-old(root){animation:page-out .22s ease both}::view-transition-new(root){animation:page-in .32s cubic-bezier(.22,1,.36,1) both}
+@keyframes page-out{to{opacity:.96;transform:translateY(-4px)}}@keyframes page-in{from{opacity:.96;transform:translateY(8px)}}
+.faq details::details-content{block-size:0;opacity:0;overflow:hidden;transition:block-size .28s ease,content-visibility .28s allow-discrete,opacity .2s ease}.faq details[open]::details-content{block-size:auto;opacity:1}
+@media (prefers-reduced-motion: reduce) {
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .reveal{opacity:1!important;transform:none!important}
+  .provider-ticker-track{animation:none!important;transform:none!important}.provider-ticker-set[aria-hidden='true']{display:none}
+  .border-beam::before{animation:none!important;transform:rotate(35deg)}
+  .orbit-path{animation:none!important;stroke-dasharray:none}.ship-star{animation:none!important}
+  [data-workflow-path]{stroke-dashoffset:0!important}
+  ::view-transition-old(root),::view-transition-new(root){animation:none!important}
+  .gradient-text,.gradient-bg,.hero h1 em,.display{animation:none!important;background-size:100% 100%!important}
+  body::before{animation:none!important;background-size:100% 100%!important;background-position:0% 0%!important}
+}
+@keyframes gradient-line-flow{0%,100%{background-position:0% 0%}25%{background-position:0% 50%}50%{background-position:0% 100%}75%{background-position:0% 50%}}
+@keyframes status-pulse{0%,100%{opacity:1}50%{opacity:.6}}

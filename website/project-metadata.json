@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "status": "Stable",
+  "skillCount": 12,
+  "workflowCount": 6,
+  "providerCount": 14,
+  "firstClassProviderCount": 11,
+  "evalCount": 7,
+  "agentOsVersion": "3.0.0",
+  "gsdVersion": "1.12.0",
+  "note": "Standalone website snapshot. In the full repository, RELEASE_MANIFEST.json and VERSION are authoritative."
+}

@@ -9,11 +9,15 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "validate": "node scripts/validate-source.mjs"
+    "sync:metadata": "node scripts/sync-project-metadata.mjs",
+    "check:release": "node scripts/check-release-sync.mjs",
+    "check:modernization": "node scripts/modernization-contract.mjs",
+    "validate": "npm run check:release && node scripts/validate-source.mjs && npm run check:modernization"
   },
   "dependencies": {
     "@astrojs/mdx": "7.0.8",
-    "astro": "7.2.9"
+    "astro": "7.2.9",
+    "motion": "13.1.1"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",

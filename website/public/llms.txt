@@ -1,72 +1,30 @@
 # PlanOnce v1.0.0
 
-PlanOnce is an open-source framework for building high-quality software with any AI coding agent.
+PlanOnce is an open-source production engineering control layer for AI coding agents. It routes work to the smallest safe Greenfield/Brownfield workflow, establishes one accepted planning authority, executes inside bounded scope, verifies revision-bound evidence, and keeps the final ship decision human-readable.
 
-Core principle: route to the smallest safe workflow, plan once, execute in bounded steps, verify revision-bound fresh evidence, recover without unnecessary replanning, and keep humans in control at meaningful gates.
-
-## Main documentation
+## Canonical website documentation
 
 - /docs/ - Overview and v1.0 contract
-- /docs/getting-started/ - Installation, initialization, planonce-task, and first controlled change
-- /docs/workflows/ - Greenfield and Brownfield workflow guide
-- /docs/reliability/ - Artifact schemas, plan fingerprints, evidence freshness, recovery, workspace locks, and evals
-- /docs/architecture/ - PlanOnce authority with Agent OS v3.0.0 and GSD Core v1.12.0 upstream engines
-- /docs/providers/ - Provider support and installation
-- /docs/security-review/ - Security, stale evidence, production review, backlog, and readiness
-- /docs/design-system/ - Moon-orbit website design system and brand assets
+- /docs/getting-started/ - Install, verify, and run the first controlled task
+- /docs/workflows/ - Greenfield/Brownfield Small, Normal, and Large routes
+- /docs/reliability/ - Plan fingerprint, fresh evidence, failure routing, workspace safety
+- /docs/architecture/ - PlanOnce authority, Agent OS 3.0.0, GSD Core 1.12.0
+- /docs/providers/ - 14 provider targets and discovery paths
+- /docs/security-review/ - Security, finding-scoped fixes, readiness, supply-chain review
+- /docs/artifacts/ - CONTEXT, DESIGN, PLAN, STATE, VERIFY schemas
+- /docs/evals/ - Deterministic workflow evaluation harness
+- /docs/troubleshooting/ - Provider discovery and workflow recovery
+- /docs/design-system/ - Orbital visual/motion/accessibility contributor contract
 
-## Canonical skill names
+## Release facts
 
-- planonce-init
-- planonce-task
-- planonce-green-small
-- planonce-green-normal
-- planonce-green-large
-- planonce-brown-small
-- planonce-brown-normal
-- planonce-brown-large
-- planonce-security
-- planonce-security-fix
-- planonce-review
-- planonce-skill-audit
+- Version: 1.0.0
+- Agent Skills: 12
+- Workflows: 6
+- Provider targets: 14
+- First-class adapters: 11
+- Deterministic evals: 7
+- Agent OS pin: 3.0.0
+- GSD Core pin: 1.12.0
 
-## Workflow control loop
-
-CLASSIFY -> CONTEXT -> SHAPE -> APPROVE -> EXECUTE -> VERIFY -> REVIEW -> SHIP
-
-planonce-task is route-only and exits before implementation planning.
-
-Normal and Large workflows fingerprint the human-approved PLAN.md. Verification is bound to the relevant Git revision, working-tree digest, and accepted plan digest. Failed checks route to FIX_REVERIFY, BLOCKED_AMEND, or DIAGNOSE based on evidence.
-
-## Installation
-
-Primary cross-provider install:
-
-npx skills add <owner>/planonce-agent-skills --all
-
-Project-local copy:
-
-npx skills add <owner>/planonce-agent-skills --all --copy -y
-
-Validated provider ids include:
-
-- claude-code
-- codex
-- opencode
-- cursor
-- gemini-cli
-- github-copilot
-- cline
-- kilo
-- kiro-cli
-- roo
-- windsurf
-- qwen-code
-- goose
-- openhands
-
-Example targeted install:
-
-npx skills add <owner>/planonce-agent-skills --skill '*' -a opencode -y
-
-Replace <owner> after the GitHub repository owner is finalized.
+Core repository engineering truth takes precedence over explanatory website prose when they differ.

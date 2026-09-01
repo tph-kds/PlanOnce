@@ -1,0 +1,18 @@
+{
+  "provider": "Qwen Code",
+  "slug": "qwen-code",
+  "research_date": "2026-09-01",
+  "official_identity_source": "https://github.com/QwenLM/qwen-code",
+  "normalized_geometry_source": "https://github.com/lobehub/lobe-icons",
+  "official_light_dark_assets_verified": false,
+  "included_files_are_byte_identical_official_downloads": false,
+  "included_variant_method": "exact/normalized current public geometry + contrast-safe monochrome theme adaptation",
+  "confidence": "medium-high",
+  "note": "Qwen Code repository publishes a product favicon SVG. This pack uses the canonical Qwen mark for compact provider grids; no separate official light/dark Qwen Code logo pair was surfaced.",
+  "files": [
+    "icon-light.svg",
+    "icon-dark.svg",
+    "icon-light.png",
+    "icon-dark.png"
+  ]
+}

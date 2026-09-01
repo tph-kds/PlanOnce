@@ -22,7 +22,7 @@ Run before release:
 python scripts/release_gate.py
 ```
 
-## v0.7 reliability authority
+## v1.0 reliability authority
 
 - Prefer `planonce-task` as the generic entry point, but keep it route-only; implementation planning belongs to exactly one selected Greenfield/Brownfield skill.
 - Preserve `planonce.* /v1` artifact frontmatter when editing work artifacts.

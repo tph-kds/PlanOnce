@@ -8,14 +8,14 @@ toc:
     label: What PlanOnce is
   - id: core-contract
     label: Core contract
-  - id: release-v10
+  - id: release-v1
     label: Release v1.0
   - id: durable-state
     label: Durable state
   - id: documentation-map
     label: Documentation map
 next:
-  href: /docs/getting-started/
+  href: ./getting-started/
   label: Getting started
 ---
 
@@ -72,7 +72,7 @@ Execution may decompose an accepted plan into bounded phases or waves. It must n
 
 ## Release v1.0
 
-PlanOnce v1.0 adds a **Workflow Reliability Layer** that makes important promises machine-checkable without requiring a daemon or database:
+PlanOnce v1.0 introduces a **Workflow Reliability Layer** that makes important promises machine-checkable without requiring a daemon or database:
 
 - `planonce-task` is a route-only entry point that selects one canonical implementation workflow;
 - Markdown artifacts carry stable `planonce.* /v1` metadata schemas;
@@ -83,7 +83,7 @@ PlanOnce v1.0 adds a **Workflow Reliability Layer** that makes important promise
 - deterministic runtime evals run as part of the release gate;
 - a provider-neutral adapter protocol allows the same eval scenarios to be exercised with real coding agents.
 
-Read [Reliability layer](/docs/reliability/) for the full contract.
+Read [Reliability layer](./reliability/) for the full contract.
 
 ## Durable state
 
@@ -110,10 +110,10 @@ Important decisions do not live only in chat history. A PlanOnce project may kee
 
 | Page | Use it for |
 | --- | --- |
-| [Getting started](/docs/getting-started/) | Installation, initialization, `planonce-task`, and first controlled change |
-| [Workflow guide](/docs/workflows/) | Greenfield and Brownfield behavior by risk and change size |
-| [Reliability layer](/docs/reliability/) | Schemas, plan fingerprints, evidence freshness, recovery, locks, and evals |
-| [Runtime architecture](/docs/architecture/) | PlanOnce authority and pinned Agent OS/GSD upstream engines |
-| [Providers](/docs/providers/) | Cross-provider installation and runtime guidance |
-| [Security and review](/docs/security-review/) | Security findings, stale evidence, backlog, and ship readiness |
-| [Design system](/docs/design-system/) | Moon-orbit visual system and contributor rules |
+| [Getting started](./getting-started/) | Installation, initialization, `planonce-task`, and first controlled change |
+| [Workflow guide](./workflows/) | Greenfield and Brownfield behavior by risk and change size |
+| [Reliability layer](./reliability/) | Schemas, plan fingerprints, evidence freshness, recovery, locks, and evals |
+| [Runtime architecture](./architecture/) | PlanOnce authority and pinned Agent OS/GSD upstream engines |
+| [Providers](./providers/) | Cross-provider installation and runtime guidance |
+| [Security and review](./security-review/) | Security findings, stale evidence, backlog, and ship readiness |
+| [Design system](./design-system/) | Moon-orbit visual system and contributor rules |

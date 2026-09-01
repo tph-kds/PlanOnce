@@ -1,0 +1,9 @@
+---
+import AnimatedCounter from './AnimatedCounter.astro';
+import { releaseFacts } from '../data/release.generated';
+---
+<section class="fact-strip" aria-label="PlanOnce release facts">
+  <div class="container fact-grid reveal">
+    {releaseFacts.map(([value, label]) => <AnimatedCounter value={value} label={label} />)}
+  </div>
+</section>

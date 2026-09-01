@@ -1,0 +1,18 @@
+{
+  "provider": "Codex",
+  "slug": "codex",
+  "research_date": "2026-09-01",
+  "official_identity_source": "https://github.com/openai/codex",
+  "normalized_geometry_source": "https://github.com/lobehub/lobe-icons/blob/master/src/Codex/components/Mono.tsx",
+  "official_light_dark_assets_verified": false,
+  "included_files_are_byte_identical_official_downloads": false,
+  "included_variant_method": "exact/normalized current public geometry + contrast-safe monochrome theme adaptation",
+  "confidence": "high",
+  "note": "Current Codex product glyph (terminal mark inside Codex shape); no separate official light/dark logo pair surfaced.",
+  "files": [
+    "icon-light.svg",
+    "icon-dark.svg",
+    "icon-light.png",
+    "icon-dark.png"
+  ]
+}

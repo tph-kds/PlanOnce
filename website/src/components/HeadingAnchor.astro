@@ -1,0 +1,6 @@
+---
+import Icon from './Icon.astro';
+interface Props { id: string; label: string; }
+const { id, label } = Astro.props;
+---
+<a class="heading-anchor-inline" href={`#${id}`} aria-label={`Link to ${label}`}><Icon name="route" size={15} /></a>

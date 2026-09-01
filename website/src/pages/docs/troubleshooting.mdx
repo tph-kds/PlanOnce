@@ -1,0 +1,59 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: Troubleshooting
+heading: Diagnose the workflow before adding more ceremony.
+description: Practical recovery for discovery, provider paths, stale evidence, dirty worktrees, lock conflicts, blocked amendments, and capability gaps.
+toc:
+  - id: skill-discovery
+    label: Skill discovery
+  - id: kiro
+    label: Kiro resources
+  - id: kilo
+    label: Kilo paths
+  - id: stale-evidence
+    label: Stale evidence
+  - id: worktree
+    label: Dirty worktree
+  - id: locks
+    label: Scope locks
+  - id: blocked-amend
+    label: Blocked amendment
+  - id: capability
+    label: Provider capability
+---
+
+## Skill discovery
+
+If PlanOnce is installed but the host does not discover a skill, verify the exact Skills CLI target and the provider's project/global discovery path first. Do not copy the same skill into multiple provider folders until you know which path the host actually reads.
+
+Use the [provider matrix](../providers/) as the website reference and the core registry as engineering truth.
+
+## Kiro resources
+
+Custom Kiro agents may need to expose `skill://.kiro/skills/*/SKILL.md` in their resource configuration. A correct install path is not sufficient if the custom agent cannot see that resource surface.
+
+## Kilo paths
+
+Kilo's compatibility mapping can differ from current discovery behavior. Treat installation and discovery as two separate checks: confirm where the Skills CLI wrote the skill, then confirm the running Kilo environment actually discovers that location.
+
+## Stale evidence
+
+A previously passing test becomes stale when relevant revision/worktree state or the accepted plan digest changes. Do not manually flip verification back to passing. Rerun the relevant deterministic evidence on the current state.
+
+## Dirty worktree
+
+PlanOnce should preserve user-owned changes. Before destructive operations, inspect the workspace, isolate high-risk work where appropriate, and avoid treating unrelated modifications as disposable setup noise.
+
+## Scope locks
+
+A lock conflict means another active scope overlaps the files or responsibility this workflow intends to change. Resolve ownership or narrow the scope; do not bypass the lock merely to keep an autonomous run moving.
+
+## Blocked amendment
+
+Use `BLOCKED_AMEND` when reality invalidates an accepted assumption or plan decision. The correct recovery is to surface the contradiction, amend the plan with human approval, establish a new digest, then resume bounded execution.
+
+Do not route a plan contradiction through `FIX_REVERIFY`; that would preserve the wrong authority.
+
+## Provider capability
+
+A provider without fresh-worker or isolated-workspace support can still use PlanOnce if the selected workflow does not require those capabilities. The adapter should degrade explicitly rather than pretending the capability exists.

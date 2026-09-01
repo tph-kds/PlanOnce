@@ -1,0 +1,17 @@
+---
+import Icon from './Icon.astro';
+interface Group { label: string; items: { href: string; label: string }[]; }
+interface Props { groups: Group[]; currentPath: string; }
+const { groups, currentPath } = Astro.props;
+---
+<div class="docs-mobile-bar">
+  <button class="icon-button" type="button" data-docs-menu-open aria-label="Open documentation navigation"><Icon name="menu" /></button>
+  <strong>PlanOnce Docs</strong>
+  <button class="icon-button" type="button" data-search-open aria-label="Search documentation"><Icon name="search" /></button>
+</div>
+<dialog class="docs-mobile-dialog" data-docs-menu>
+  <div class="docs-mobile-dialog-head"><strong>Documentation</strong><button class="icon-button" type="button" data-docs-menu-close aria-label="Close documentation navigation"><Icon name="x" /></button></div>
+  <nav aria-label="Mobile documentation navigation">
+    {groups.map((group) => <section><span>{group.label}</span>{group.items.map((item) => <a href={item.href} aria-current={currentPath === item.href ? 'page' : undefined}>{item.label}</a>)}</section>)}
+  </nav>
+</dialog>
