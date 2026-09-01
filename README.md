@@ -14,7 +14,7 @@
 [![Release gate](https://img.shields.io/badge/release_gate-PASS-success?style=flat-square)](#validate-the-pack)
 [![Website](https://img.shields.io/badge/website-live-7c3aed?style=flat-square)](website/)
 
-**PlanOnce** is an **open-source framework for building high-quality software with any AI coding agent**.
+**PlanOnce** is an **open-source framework** with **pinned upstream** (Agent OS v3.0.0 + GSD 1.12.0) for building high-quality software with any AI coding agent.
 It is a **single-install** production engineering control layer that turns planning, execution, verification,
 security review, and ship readiness into **one durable workflow contract**.
 

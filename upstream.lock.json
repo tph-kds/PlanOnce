@@ -1,5 +1,5 @@
 {
-  "planonce_version": "0.7.0",
+  "planonce_version": "1.0.0",
   "update_policy": "release-pinned-no-runtime-auto-update",
   "agent_os": {
     "repo": "https://github.com/buildermethods/agent-os",

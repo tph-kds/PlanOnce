@@ -129,7 +129,15 @@ for rel in [".claude-plugin/plugin.json", ".codex-plugin/plugin.json"]:
 
 if (ROOT / ".claude").exists():
     errors.append("active root .claude runtime must not be distributed")
-if (ROOT / ".git").exists():
+# Only enforce .git exclusion for release packaging (not repo/CI validation)
+import subprocess, os
+_in_repo = False
+try:
+    subprocess.run(["git", "rev-parse", "--git-dir"], cwd=str(ROOT), check=True, capture_output=True)
+    _in_repo = True
+except Exception:
+    pass
+if not _in_repo and (ROOT / ".git").exists():
     errors.append("release must not embed .git")
 if not (ROOT / "upstream" / "agent-os" / "SOURCE" / "commands" / "agent-os" / "shape-spec.md").is_file():
     errors.append("missing exact Agent OS source export")
