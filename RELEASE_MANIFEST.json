@@ -7,8 +7,8 @@
   "provider_targets_count": 14,
   "first_class_provider_adapters_count": 11,
   "skill_tree_fingerprint": "6d0925fa1e84d07dea076000a28d1c14be9368c102ddbd0abf5fa53cc6a50870",
-  "source_files_count": 18104,
-  "source_tree_sha256": "9ccff86c6aeff8c5171c2a21bf3ebae2818fa1b0cd94c389e513ad640e7d5bfb",
+  "source_files_count": 18378,
+  "source_tree_sha256": "6d0df0925de5556696e9e8209fb072549d37824555482ebabb74152ef094dfb3",
   "source_tree_hash_algorithm": "sha256(sorted relative path + NUL + bytes + NUL), excluding RELEASE_MANIFEST.json and caches",
   "upstream_runtime": {
     "agent_os_version": "v3.0.0",
