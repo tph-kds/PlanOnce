@@ -20,7 +20,10 @@ def release_files() -> list[Path]:
         rel = path.relative_to(ROOT)
         if rel.as_posix() in EXCLUDED_FILES:
             continue
-        if any(part in EXCLUDED_DIRS for part in rel.parts):
+        if any(part in EXCLUDED_DIRS or part.endswith(".pyc") for part in rel.parts):
+            continue
+        # Skip hidden local-only artifacts
+        if any(part.startswith(".serena") or part.startswith(".plans") or part.startswith(".agents") or part.startswith(".devin") for part in rel.parts):
             continue
         files.append(path)
     return sorted(files, key=lambda path: path.relative_to(ROOT).as_posix())
