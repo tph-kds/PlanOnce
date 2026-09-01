@@ -72,8 +72,8 @@
     },
     {
       "path": "SOURCE/README.md",
-      "size": 1659,
-      "sha256": "e02b640d2f1eb40d06ead692329b85be0f078bf1dd02b367c3931fda531e7fe0"
+      "size": 1618,
+      "sha256": "17ad160218b635537aba89d61c33d7c113dc551e6931e68af99ddbf81f587df3"
     },
     {
       "path": "SOURCE/commands/agent-os/discover-standards.md",
