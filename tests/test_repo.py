@@ -492,7 +492,7 @@ class RepoContractTests(unittest.TestCase):
             rel = path.relative_to(ROOT)
             if rel.as_posix() == "RELEASE_MANIFEST.json":
                 continue
-            if any(part in excluded_dirs or part.endswith(".pyc") for part in rel.parts):
+            if any(part in excluded_dirs or part.endswith(".pyc") or part == ".git" for part in rel.parts):
                 continue
             if any(part.startswith(x) for part in rel.parts for x in [".serena", ".plans", ".agents", ".devin"]):
                 continue
