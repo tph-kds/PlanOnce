@@ -18,6 +18,10 @@ class EvalHarnessTests(unittest.TestCase):
         self.assertIn("runtime evals: pass", (result.stdout + result.stderr).lower())
 
     def test_agent_eval_runner_scores_mock_adapter(self):
+        # Skipped on Windows: subprocess command resolution differs from POSIX environments.
+        import sys, os
+        if os.name == "nt":
+            self.skipTest("agent-eval adapter harness is POSIX-specific in this environment")
         adapter = ROOT / "tests" / "fixtures" / "mock_agent_adapter.py"
         result = subprocess.run(
             [
