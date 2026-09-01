@@ -1,0 +1,3 @@
+# Force LF for vendored upstream sources so SHA-256 manifests stay consistent
+upstream/agent-os/** text eol=lf
+upstream/gsd-core/** text eol=lf
