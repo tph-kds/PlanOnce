@@ -54,13 +54,41 @@ def release_files() -> list[Path]:
     return sorted(files, key=lambda path: path.relative_to(ROOT).as_posix())
 
 
+def _file_bytes_for_hash(path: Path, rel_posix: str) -> bytes:
+    """Return canonical bytes for hashing: use git blob for tracked files to ensure LF determinism."""
+    import subprocess
+
+    try:
+        # Use git show for tracked files (handles eol normalization via .gitattributes)
+        result = subprocess.run(
+            ["git", "show", f"HEAD:{rel_posix}"],
+            cwd=str(ROOT),
+            capture_output=True,
+            check=False,
+        )
+        if result.returncode == 0:
+            return result.stdout
+    except Exception:
+        pass
+    # Fallback: working tree bytes, normalized CRLF -> LF for cross-platform determinism
+    try:
+        data = path.read_bytes()
+        # Only normalize if file appears text-like (avoid corrupting binary)
+        # Heuristic: if data contains null byte, treat as binary
+        if b"\x00" not in data:
+            data = data.replace(b"\r\n", b"\n")
+        return data
+    except Exception:
+        return path.read_bytes()
+
+
 def source_tree_hash(files: list[Path]) -> str:
     digest = hashlib.sha256()
     for path in files:
         rel = path.relative_to(ROOT).as_posix().encode("utf-8")
         digest.update(rel)
         digest.update(b"\0")
-        digest.update(path.read_bytes())
+        digest.update(_file_bytes_for_hash(path, rel.decode("utf-8")))
         digest.update(b"\0")
     return digest.hexdigest()
 

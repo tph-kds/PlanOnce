@@ -513,12 +513,25 @@ class RepoContractTests(unittest.TestCase):
                 continue
             files.append(path)
         files.sort(key=lambda path: path.relative_to(ROOT).as_posix())
+
+        def _canonical_bytes(p: Path, rel_posix: str) -> bytes:
+            try:
+                r2 = subprocess.run(["git", "show", f"HEAD:{rel_posix}"], cwd=str(ROOT), capture_output=True, check=False)
+                if r2.returncode == 0:
+                    return r2.stdout
+            except Exception:
+                pass
+            data = p.read_bytes()
+            if b"\x00" not in data:
+                data = data.replace(b"\r\n", b"\n")
+            return data
+
         digest = hashlib.sha256()
         for path in files:
             rel = path.relative_to(ROOT).as_posix().encode("utf-8")
             digest.update(rel)
             digest.update(b"\0")
-            digest.update(path.read_bytes())
+            digest.update(_canonical_bytes(path, rel.decode("utf-8")))
             digest.update(b"\0")
         self.assertEqual(manifest["source_files_count"], len(files))
         self.assertEqual(manifest["source_tree_sha256"], digest.hexdigest())
