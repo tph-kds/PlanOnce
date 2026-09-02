@@ -384,12 +384,22 @@ discoveries, and tests. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the workflo
 
 ## ⭐ Star history
 
-<a href="https://star-history.com/#tph-kds/PlanOnce&Date">
+<!-- <a href="https://star-history.com/#tph-kds/PlanOnce&Date">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=tph-kds/PlanOnce&type=Date&theme=dark" />
     <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=tph-kds/PlanOnce&type=Date" />
     <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=tph-kds/PlanOnce&type=Date" />
   </picture>
+</a> -->
+
+## Star History
+
+<a href="https://www.star-history.com/?type=date&repos=tph-kds%2FPlanOnce">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=tph-kds/PlanOnce&type=date&theme=dark&legend=top-left&sealed_token=csYaIjSHosBo70seiJUTCf1u9ZYpaK5_S25BUmbEd2OgB1X96JXAluddp18-v9-yVay0ieiy8tn0YRY7OiFNvLFRI_uMZ56zlnwRL4E8P30vvqil1Wu_UmNTW1DvC4OYJBdv39nbRmTssM1Hwa2W-EIhK0aFkrYHH9TmjwaueF-4GNYVszH-kOiOVPZt" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=tph-kds/PlanOnce&type=date&legend=top-left&sealed_token=csYaIjSHosBo70seiJUTCf1u9ZYpaK5_S25BUmbEd2OgB1X96JXAluddp18-v9-yVay0ieiy8tn0YRY7OiFNvLFRI_uMZ56zlnwRL4E8P30vvqil1Wu_UmNTW1DvC4OYJBdv39nbRmTssM1Hwa2W-EIhK0aFkrYHH9TmjwaueF-4GNYVszH-kOiOVPZt" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=tph-kds/PlanOnce&type=date&legend=top-left&sealed_token=csYaIjSHosBo70seiJUTCf1u9ZYpaK5_S25BUmbEd2OgB1X96JXAluddp18-v9-yVay0ieiy8tn0YRY7OiFNvLFRI_uMZ56zlnwRL4E8P30vvqil1Wu_UmNTW1DvC4OYJBdv39nbRmTssM1Hwa2W-EIhK0aFkrYHH9TmjwaueF-4GNYVszH-kOiOVPZt" />
+ </picture>
 </a>
 
 ---
