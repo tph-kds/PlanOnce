@@ -483,14 +483,29 @@ class RepoContractTests(unittest.TestCase):
 
     def test_release_manifest_source_tree_hash_matches_release_tree(self):
         import hashlib
+        import subprocess
+
         manifest = json.loads((ROOT / "RELEASE_MANIFEST.json").read_text(encoding="utf-8"))
-        excluded_dirs = {"__pycache__", ".pytest_cache"}
+        excluded_dirs = {"__pycache__", ".pytest_cache", "node_modules", "dist", ".astro"}
+        # Respect .gitignore via git ls-files --others --ignored
+        try:
+            r = subprocess.run(
+                ["git", "ls-files", "--others", "--ignored", "--exclude-standard", "-z"],
+                cwd=str(ROOT),
+                capture_output=True,
+                check=False,
+            )
+            ignored = set(r.stdout.decode("utf-8", errors="replace").split("\0")) if r.returncode == 0 else set()
+        except Exception:
+            ignored = set()
         files = []
         for path in ROOT.rglob("*"):
             if not path.is_file():
                 continue
             rel = path.relative_to(ROOT)
             if rel.as_posix() == "RELEASE_MANIFEST.json":
+                continue
+            if rel.as_posix() in ignored:
                 continue
             if any(part in excluded_dirs or part.endswith(".pyc") or part == ".git" for part in rel.parts):
                 continue

@@ -8,17 +8,42 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "RELEASE_MANIFEST.json"
-EXCLUDED_DIRS = {"__pycache__", ".pytest_cache"}
+EXCLUDED_DIRS = {"__pycache__", ".pytest_cache", "node_modules", "dist", ".astro"}
 EXCLUDED_FILES = {"RELEASE_MANIFEST.json"}
 
 
+def _git_ignored_files() -> set[str]:
+    """Return set of gitignored paths (relative posix) via git ls-files."""
+    import subprocess
+
+    try:
+        result = subprocess.run(
+            ["git", "ls-files", "--others", "--ignored", "--exclude-standard", "-z"],
+            cwd=str(ROOT),
+            capture_output=True,
+            check=False,
+        )
+        if result.returncode != 0:
+            return set()
+        raw = result.stdout.decode("utf-8", errors="replace")
+        if not raw:
+            return set()
+        return {p for p in raw.split("\0") if p}
+    except Exception:
+        return set()
+
+
 def release_files() -> list[Path]:
+    ignored = _git_ignored_files()
     files: list[Path] = []
     for path in ROOT.rglob("*"):
         if not path.is_file():
             continue
         rel = path.relative_to(ROOT)
-        if rel.as_posix() in EXCLUDED_FILES:
+        rel_posix = rel.as_posix()
+        if rel_posix in EXCLUDED_FILES:
+            continue
+        if rel_posix in ignored:
             continue
         if any(part in EXCLUDED_DIRS or part.endswith(".pyc") or part == ".git" for part in rel.parts):
             continue
