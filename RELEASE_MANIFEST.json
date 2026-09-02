@@ -2,13 +2,13 @@
   "project": "PlanOnce Agent Skills",
   "version": "1.0.0",
   "release_profile": "workflow-reliability-production",
-  "built_on": "2026-08-31",
+  "built_on": "2026-09-02",
   "skills_count": 12,
   "provider_targets_count": 14,
   "first_class_provider_adapters_count": 11,
-  "skill_tree_fingerprint": "face7a64cd10273921ef83728895ecdfff20f3d205f565d0454461f41bf1c8b6",
-  "source_files_count": 1112,
-  "source_tree_sha256": "37c9a9c19c6c355bbd4cf81b1c62c7781446f6831f2a5c6faae4525d0fa70223",
+  "skill_tree_fingerprint": "e37ed3d103637032f4d648c916bfc63643f856a4bf2e7a559c194ad64dbcc480",
+  "source_files_count": 1115,
+  "source_tree_sha256": "f90920560ccf22a8763c1365abeb61cde8c83a6d5ff4bf6ec5f6a4721167f0af",
   "source_tree_hash_algorithm": "sha256(sorted relative path + NUL + bytes + NUL), excluding RELEASE_MANIFEST.json and caches",
   "upstream_runtime": {
     "agent_os_version": "v3.0.0",
@@ -35,12 +35,12 @@
       "DIAGNOSE"
     ],
     "cooperative_scope_locks": true,
-    "deterministic_runtime_eval_cases": 7,
+    "deterministic_runtime_eval_cases": 10,
     "external_agent_eval_protocol": "planonce.agent-eval-input/v1 -> planonce.agent-eval-result/v1"
   },
   "verification": {
     "contract_tests": "58/58 PASS",
-    "runtime_evals": "7/7 PASS",
+    "runtime_evals": "10/10 PASS",
     "agent_eval_harness_mock": "4/4 PASS",
     "real_external_agent_evals": "NOT_RUN_PROVIDER_CREDENTIALS_ENV_SPECIFIC",
     "release_gate": "PASS",

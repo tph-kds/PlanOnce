@@ -115,7 +115,13 @@ class ReliabilityContractTests(unittest.TestCase):
 
         self.assertEqual(route_task(existing=False, size="small")["selected_skill"], "planonce-green-small")
         self.assertEqual(route_task(existing=True, size="normal")["selected_skill"], "planonce-brown-normal")
-        self.assertEqual(route_task(existing=True, size="small", security_boundary=True)["selected_skill"], "planonce-brown-large")
+        # Security-sensitive does not automatically mean Large: refresh-token rotation preserving API stays Normal
+        self.assertEqual(route_task(existing=True, size="normal", security_sensitive=True)["selected_skill"], "planonce-brown-normal")
+        self.assertTrue(route_task(existing=True, size="normal", security_sensitive=True)["needs_security_review"])
+        self.assertEqual(route_task(existing=True, size="small", security_boundary=True)["selected_skill"], "planonce-brown-small")
+        self.assertEqual(route_task(existing=True, size="small", auth_model_change=True)["selected_skill"], "planonce-brown-large")
+        self.assertEqual(route_task(existing=True, size="small", tenant_isolation_change=True)["selected_skill"], "planonce-brown-large")
+        self.assertEqual(route_task(existing=True, size="small", credential_architecture_change=True)["selected_skill"], "planonce-brown-large")
         self.assertEqual(route_task(existing=False, size="normal", destructive_migration=True)["selected_skill"], "planonce-green-large")
         self.assertEqual(route_task(existing=True, size="small", public_contract_break=True)["selected_skill"], "planonce-brown-large")
 

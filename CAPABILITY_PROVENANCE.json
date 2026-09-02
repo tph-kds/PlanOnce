@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "generated_on": "2026-09-02",
+  "upstream_pins": {
+    "agent_os": {"tag": "v3.0.0", "commit": "809fb4e3e20451e3dd9ad9b253111776db373518"},
+    "gsd_core": {"tag": "v1.12.0", "commit": "ceed559", "profile": "core,audit"}
+  },
+  "capabilities": {
+    "standards_discovery": {
+      "source": "agent-os",
+      "source_commands": ["discover-standards", "index-standards", "inject-standards"],
+      "compiled_into": ["planonce-init", "planonce-task", "planonce-green-*", "planonce-brown-*"],
+      "portable": true,
+      "machine_enforced": "partial",
+      "tests": ["test_init_discovers_only_non_obvious", "test_standards_selective_load"]
+    },
+    "brownfield_mapping": {
+      "source": "gsd-core",
+      "source_runtime": ["onboard", "map-codebase"],
+      "compiled_into": ["planonce-brown-small", "planonce-brown-normal", "planonce-brown-large"],
+      "portable": true,
+      "machine_enforced": "partial",
+      "tests": ["test_brownfield_requires_existing_evidence"]
+    },
+    "one_plan_authority": {
+      "source": "PlanOnce",
+      "compiled_into": ["planonce-green-normal", "planonce-green-large", "planonce-brown-normal", "planonce-brown-large", "planonce-task"],
+      "portable": true,
+      "machine_enforced": "partial -> target:yes via gate execution",
+      "tests": ["no-duplicate-planning", "validate_work_detects_plan_digest_drift"]
+    },
+    "bounded_execution_waves": {
+      "source": "gsd-core + PlanOnce",
+      "source_runtime": ["execute-phase"],
+      "compiled_into": ["planonce-green-normal", "planonce-green-large", "planonce-brown-normal", "planonce-brown-large"],
+      "portable": true,
+      "machine_enforced": "partial",
+      "tests": ["test_normal_workflows_use_one_plan_and_bounded_waves"]
+    },
+    "plan_digest": {
+      "source": "PlanOnce",
+      "algorithm": "normalized SHA-256 (CRLF->LF, trim trailing whitespace, strip trailing blank lines, one LF) -> sha256:<hex>",
+      "compiled_into": ["all implementation workflows", "scripts/reliability.py", "references/RELIABILITY_GUIDANCE.md"],
+      "portable": true,
+      "machine_enforced": "yes",
+      "tests": ["test_frontmatter_parser_and_plan_digest_are_stable", "plan-digest-detects-mutation", "hash-plan alias"],
+      "cli": ["python scripts/reliability.py plan-digest <plan>", "python scripts/reliability.py hash-plan <plan>", "planonce hash-plan"]
+    },
+    "revision_bound_evidence": {
+      "source": "PlanOnce + gsd-core verify-work",
+      "binds": ["approved_plan_digest", "revision (git HEAD or unavailable)", "working_tree_digest (excluding .planonce/)", "verification_command/result/timestamp"],
+      "compiled_into": ["all implementation workflows"],
+      "portable": true,
+      "machine_enforced": "yes via validate-work / evidence check / readiness",
+      "tests": ["test_revision_bound_evidence_becomes_stale_after_change"],
+      "cli": ["python scripts/reliability.py validate-work <workdir> --repo .", "python scripts/reliability.py evidence <workdir> --repo ."]
+    },
+    "human_approval": {
+      "source": "PlanOnce",
+      "state": "approval: {status: pending|approved, plan_digest: sha256:<hex>, approved_by: human, approved_at: timestamp}",
+      "compiled_into": ["all implementation workflows"],
+      "portable": true,
+      "machine_enforced": "target:yes via approve + gate execution",
+      "tests": ["gate blocks when approval missing or digest mismatch"],
+      "cli": ["python scripts/reliability.py approve <workdir>", "python scripts/reliability.py gate <workdir> --repo .", "planonce approve", "planonce gate execution"]
+    },
+    "state_transitions": {
+      "source": "PlanOnce",
+      "states": ["DISCOVERY", "PLANNED", "AWAITING_APPROVAL", "APPROVED", "EXECUTING", "VERIFYING", "REVIEWING", "READY", "BLOCKED", "COMPLETE", "NOT_STARTED", "IMPLEMENTED_NOT_VERIFIED", "VERIFIED"],
+      "compiled_into": ["all implementation workflows", "scripts/reliability.py"],
+      "portable": true,
+      "machine_enforced": "yes via verify-state",
+      "tests": ["test_state_and_evidence_contracts_support_resume"],
+      "cli": ["python scripts/reliability.py verify-state --from <s> --to <s>"]
+    },
+    "failure_routing": {
+      "source": "PlanOnce + gsd-core",
+      "routes": ["FIX_REVERIFY (implementation defect)", "BLOCKED_AMEND (plan invalid)", "DIAGNOSE (unknown)"],
+      "compiled_into": ["all implementation workflows"],
+      "portable": true,
+      "machine_enforced": "partial -> yes via failure-route helper",
+      "tests": ["test_failure_route_distinguishes_fix_from_amendment"]
+    },
+    "security_gate": {
+      "source": "PlanOnce",
+      "required_for": ["Large mandatory", "Small/Normal on security trigger or repo policy"],
+      "compiled_into": ["planonce-security", "planonce-security-fix", "all implementation workflows"],
+      "portable": true,
+      "machine_enforced": "partial (policy + routing needs_security_review flag)",
+      "tests": ["security-diff-scan", "security-boundary-escalation"]
+    },
+    "readiness_gate": {
+      "source": "PlanOnce",
+      "required_for": ["Normal/Large: planonce-review READY/READY_WITH_BACKLOG + fresh evidence + human ship"],
+      "compiled_into": ["planonce-review", "all implementation workflows"],
+      "portable": true,
+      "machine_enforced": "target:yes via readiness check",
+      "cli": ["python scripts/reliability.py readiness <workdir> --repo .", "planonce readiness"]
+    },
+    "workspace_safety": {
+      "source": "gsd-core + PlanOnce",
+      "features": ["baseline snapshot", "preserve dirty changes", "prefer isolated worktree for Large/risky", "cooperative scope locks under .planonce/locks/"],
+      "compiled_into": ["all implementation workflows"],
+      "portable": true,
+      "machine_enforced": "yes via lock-acquire/release + snapshot",
+      "tests": ["scope-lock-conflict", "test_scope_lock_rejects_overlap"]
+    },
+    "provider_neutrality": {
+      "source": "PlanOnce",
+      "capabilities": ["Ask human", "Read/write", "Run command", "Fresh worker (optional)", "Isolated workspace (optional)"],
+      "fallbacks": "sequential compact handoff when subagents unavailable; chat question when no native ask tool",
+      "compiled_into": ["all skills via references/PROVIDER_GUIDANCE.md", "providers/*.md", "providers/registry.json"],
+      "portable": true,
+      "machine_enforced": "partial",
+      "tests": ["provider-no-subagents", "test_provider_adapters_are_present_and_capability_based"]
+    }
+  },
+  "upgrade_impact": {
+    "description": "When upstream changes, diff this file's source fields to determine affected capabilities, skills, and evals.",
+    "example": "new GSD release -> upstream diff -> affected capability -> affected PlanOnce skills -> affected evals -> release note"
+  }
+}

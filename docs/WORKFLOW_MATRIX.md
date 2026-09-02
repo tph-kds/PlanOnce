@@ -16,11 +16,13 @@ Choose the smallest workflow that can safely contain the change. **Escalation is
 Upgrade to **Large** when any of these materially apply:
 
 - a **one-way door** decision: rollback requires migration, breaks a published contract, or is practically irreversible;
-- authentication or **authorization** boundary changes, tenant isolation, secrets/credential handling, or other security-boundary changes;
-- payment/financial correctness, destructive migration, data loss risk, cross-service consistency, or public API compatibility;
+- **authorization model change**, **tenant isolation/boundary change**, **credential/key storage architecture change**, **token claims/validation contract change**, or **cross-service authentication semantics change**;
+- payment/financial correctness, destructive migration, data loss risk, cross-service consistency, or public API compatibility (including public security contract);
 - a new subsystem or architectural boundary;
 - rollout/rollback requires multiple deployment stages;
 - the plan cannot fit into independently verifiable bounded waves without hidden assumptions.
+
+**Security-sensitive does not automatically mean Large.** Use **Normal** when all are true: existing architecture intact, public API contract intact, authorization model unchanged, tenant boundary unchanged, credential/key architecture unchanged, blast radius bounded, rollback straightforward, regression coverage strong. Require **Large** only when changing authorization model, tenant isolation, token claims/validation, credential storage, key-management, cross-service auth semantics, public security contract, or irreversible security migration. Security-sensitive Normal flows automatically require `planonce-security` before ship.
 
 Upgrade Small → Normal when multiple components/contracts become involved or the micro-plan stops being obviously reviewable.
 

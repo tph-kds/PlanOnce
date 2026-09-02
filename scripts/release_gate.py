@@ -14,6 +14,7 @@ COMMANDS = [
     [sys.executable, "scripts/verify_release_manifest.py"],
     [sys.executable, "scripts/audit_skill_pack.py"],
     [sys.executable, "scripts/run_evals.py"],
+    [sys.executable, "scripts/verify_consumer_install.py"],
     [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py", "-v"],
 ]
 
