@@ -26,7 +26,7 @@ def provider_map(data: dict) -> dict[str, dict]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Print a PlanOnce npx installation command for selected coding agents.")
-    parser.add_argument("--repo", default="<owner>/planonce-agent-skills", help="GitHub owner/repo, URL, or local path")
+    parser.add_argument("--repo", default="tph-kds/PlanOnce", help="GitHub owner/repo, URL, or local path")
     parser.add_argument("--providers", help="Comma-separated exact npx agent IDs")
     parser.add_argument("--global", dest="global_install", action="store_true", help="Add -g for a global installation")
     parser.add_argument("--copy", action="store_true", help="Add --copy instead of the default symlink/canonical install")

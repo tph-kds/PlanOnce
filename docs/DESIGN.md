@@ -26,7 +26,7 @@ Understand evidence → select standards → shape once → human approve → ex
 
 ## Distribution model
 
-1. `npx skills add <owner>/planonce-agent-skills --all` is the primary community install surface.
+1. `npx skills add tph-kds/PlanOnce --all` is the primary community install surface.
 2. Targeted installs use exact IDs from `providers/registry.json`, such as `opencode`, `kilo`, `kiro-cli`, `roo`, and `windsurf`.
 3. First-class providers have a dedicated capability adapter under `providers/`; extended providers use `providers/generic.md` until specialization provides real value.
 4. Path mismatches between an upstream provider and the Skills CLI are documented explicitly rather than hidden. Kilo Code is currently the notable example.

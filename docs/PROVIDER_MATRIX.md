@@ -7,19 +7,19 @@ Checked against the current `vercel-labs/skills` agent registry on **2026-08-30*
 Install all PlanOnce skills to all agents selected/discovered by the Skills CLI:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --all
+npx skills add tph-kds/PlanOnce --all
 ```
 
 Install all PlanOnce skills to a selected provider set:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --skill '*' -a claude-code -a codex -a opencode -a kilo -a kiro-cli -a roo -a cursor -a gemini-cli -a github-copilot -a cline -a windsurf -y
+npx skills add tph-kds/PlanOnce --skill '*' -a claude-code -a codex -a opencode -a kilo -a kiro-cli -a roo -a cursor -a gemini-cli -a github-copilot -a cline -a windsurf -y
 ```
 
 Extended portable targets can be added with the same command:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --skill '*' -a qwen-code -a goose -a openhands -y
+npx skills add tph-kds/PlanOnce --skill '*' -a qwen-code -a goose -a openhands -y
 ```
 
 ## Validated target IDs
@@ -48,7 +48,7 @@ The Skills CLI supports additional agents beyond this table. PlanOnce only claim
 Use the exact target ID:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --skill '*' -a opencode -y
+npx skills add tph-kds/PlanOnce --skill '*' -a opencode -y
 ```
 
 Current OpenCode docs discover all of these project sources:
@@ -66,7 +66,7 @@ The current Skills CLI uses `.agents/skills/` for project-scope OpenCode install
 Use the exact target ID:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --skill '*' -a kilo -y
+npx skills add tph-kds/PlanOnce --skill '*' -a kilo -y
 ```
 
 There is an upstream path transition worth keeping visible:
@@ -82,7 +82,7 @@ Because the Skills CLI maintains a canonical Agent Skills copy during its normal
 Use **`kiro-cli`**, not `kiro`:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --skill '*' -a kiro-cli -y
+npx skills add tph-kds/PlanOnce --skill '*' -a kiro-cli -y
 ```
 
 Kiro's default agent automatically discovers workspace `.kiro/skills/` and global `~/.kiro/skills/`.
@@ -101,7 +101,7 @@ For a custom Kiro agent, add skills to its `resources`:
 ## Roo Code and Windsurf
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --skill '*' -a roo -a windsurf -y
+npx skills add tph-kds/PlanOnce --skill '*' -a roo -a windsurf -y
 ```
 
 PlanOnce keeps these adapters capability-based. Provider-specific modes may change how commands or edits are executed, but do not change the accepted PlanOnce plan, human gates, or evidence requirements.
@@ -113,7 +113,7 @@ Maintainers and advanced users can avoid hand-typing IDs:
 ```bash
 python scripts/install_matrix.py --list
 python scripts/install_matrix.py --providers opencode,kilo,kiro-cli,roo
-python scripts/install_matrix.py --providers claude-code,codex,opencode,cursor,gemini-cli --repo tph-kds/planonce-agent-skills
+python scripts/install_matrix.py --providers claude-code,codex,opencode,cursor,gemini-cli --repo tph-kds/PlanOnce
 ```
 
 The helper prints the `npx skills add ...` command; it never downloads or installs anything itself.

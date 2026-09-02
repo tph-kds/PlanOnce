@@ -63,19 +63,19 @@ PlanOnce turns these promises into one durable workflow contract that any AI cod
 Primary cross-provider install:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --all
+npx skills add tph-kds/PlanOnce --all
 ```
 
 For project-local copies that can be committed:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --all --copy -y
+npx skills add tph-kds/PlanOnce --all --copy -y
 ```
 
 Or target supported agents explicitly using the exact Skills CLI IDs:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --skill '*' \
+npx skills add tph-kds/PlanOnce --skill '*' \
   -a claude-code -a codex -a opencode -a kilo -a kiro-cli -a roo \
   -a cursor -a gemini-cli -a github-copilot -a cline -a windsurf -y
 ```
@@ -83,7 +83,7 @@ npx skills add <owner>/planonce-agent-skills --skill '*' \
 Additional tracked portable targets:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --skill '*' -a qwen-code -a goose -a openhands -y
+npx skills add tph-kds/PlanOnce --skill '*' -a qwen-code -a goose -a openhands -y
 ```
 
 > Important: Kiro's Skills CLI ID is `kiro-cli`, not `kiro`. Current Kilo docs prefer `.kilo/skills/` and

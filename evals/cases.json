@@ -159,7 +159,7 @@
   {
     "id": "distribution-npx-all",
     "prompt": "Install PlanOnce across supported coding agents from the repo.",
-    "expected": "npx skills add <owner>/planonce-agent-skills --all"
+    "expected": "npx skills add tph-kds/PlanOnce --all"
   },
   {
     "id": "distribution-native-plugin-manifests",

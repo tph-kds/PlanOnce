@@ -6,10 +6,10 @@ PlanOnce has **no runtime dependency that the end user must install separately**
 
 ## Easiest: install all skills
 
-After the repository is published, install every PlanOnce skill through the Skills CLI:
+Install every PlanOnce skill through the Skills CLI:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --all
+npx skills add tph-kds/PlanOnce --all
 ```
 
 This is the simplest community-facing command because `--all` installs every skill to all selected/supported agent targets without individual prompts.
@@ -17,7 +17,7 @@ This is the simplest community-facing command because `--all` installs every ski
 For project-local copies that should be committed rather than linked:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --all --copy -y
+npx skills add tph-kds/PlanOnce --all --copy -y
 ```
 
 Use `-g` only when PlanOnce should be global rather than project-scoped.
@@ -27,23 +27,23 @@ Use `-g` only when PlanOnce should be global rather than project-scoped.
 Use exact Skills CLI agent IDs, not product display names:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --skill '*' -a claude-code -a codex -a opencode -a kilo -a kiro-cli -a roo -a cursor -a gemini-cli -a github-copilot -a cline -a windsurf -y
+npx skills add tph-kds/PlanOnce --skill '*' -a claude-code -a codex -a opencode -a kilo -a kiro-cli -a roo -a cursor -a gemini-cli -a github-copilot -a cline -a windsurf -y
 ```
 
 Additional tracked Agent Skills targets:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --skill '*' -a qwen-code -a goose -a openhands -y
+npx skills add tph-kds/PlanOnce --skill '*' -a qwen-code -a goose -a openhands -y
 ```
 
 Common one-provider commands:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --skill '*' -a opencode -y
-npx skills add <owner>/planonce-agent-skills --skill '*' -a kilo -y
-npx skills add <owner>/planonce-agent-skills --skill '*' -a kiro-cli -y
-npx skills add <owner>/planonce-agent-skills --skill '*' -a roo -y
-npx skills add <owner>/planonce-agent-skills --skill '*' -a windsurf -y
+npx skills add tph-kds/PlanOnce --skill '*' -a opencode -y
+npx skills add tph-kds/PlanOnce --skill '*' -a kilo -y
+npx skills add tph-kds/PlanOnce --skill '*' -a kiro-cli -y
+npx skills add tph-kds/PlanOnce --skill '*' -a roo -y
+npx skills add tph-kds/PlanOnce --skill '*' -a windsurf -y
 ```
 
 See `docs/PROVIDER_MATRIX.md` for the pinned ID/path matrix and provider-specific caveats.
@@ -82,7 +82,7 @@ Kiro can then expose installed skills as slash commands using their canonical sk
 The exact target is `opencode`:
 
 ```bash
-npx skills add <owner>/planonce-agent-skills --skill '*' -a opencode -y
+npx skills add tph-kds/PlanOnce --skill '*' -a opencode -y
 ```
 
 Current OpenCode documentation discovers `.opencode/skills/`, `.claude/skills/`, and portable `.agents/skills/` at project scope. The current Skills CLI uses `.agents/skills/` for OpenCode, so PlanOnce remains directly discoverable without duplicating the skill tree.
