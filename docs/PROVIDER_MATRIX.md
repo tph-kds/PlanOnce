@@ -117,3 +117,15 @@ python scripts/install_matrix.py --providers claude-code,codex,opencode,cursor,g
 ```
 
 The helper prints the `npx skills add ...` command; it never downloads or installs anything itself.
+
+## Troubleshooting (Windows)
+
+If `npx skills add ... --skill '*' ...` reports `No matching skills found for: '*'` in PowerShell, the shell preserved the single quotes. Use the canonical `--all` form or PowerShell-native double quotes:
+
+```powershell
+npx skills add tph-kds/PlanOnce --all
+npx skills add tph-kds/PlanOnce --skill "*" -a opencode -y
+npx.cmd skills add tph-kds/PlanOnce --skill "*" -a opencode -y
+```
+
+This is a shell quoting / shim issue, not a missing skill. PlanOnce always ships 12 skills with valid `SKILL.md` frontmatter.

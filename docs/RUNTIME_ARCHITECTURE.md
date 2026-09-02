@@ -52,3 +52,35 @@ The preserved `core,audit` Claude profile is available under `upstream/gsd-core/
 ## End-user rule
 
 End users install **PlanOnce only**. They do not need a separate Agent OS or GSD installation for the PlanOnce workflows to operate.
+
+### What is actually installed on a private project
+
+`npx skills add tph-kds/PlanOnce --all --copy -y` copies **only** the `skills/` tree:
+
+```text
+your-project/
+  .agents/skills/planonce-*/  SKILL.md + references/ + assets/
+  # (other agent dirs like .claude/skills/ when --agent '*' is used)
+```
+
+`upstream/`, `scripts/`, `docs/` and provider-local paths are **not** copied. This is intentional. Verified by `tests/test_repo.py::test_each_skill_is_self_contained_for_installers_that_copy_only_skill_dirs` and live sandbox audit (`C:\Users\ADMIN\AppData\Local\Temp\opencode\tmp-planonce-enduser-test`): all 12 `SKILL.md` resolve every `references/*.md` and `assets/*.template.*` offline, with 0 absolute paths and 0 hard `upstream/` or `scripts/` requires.
+
+* `references/UPSTREAM_RUNTIME.md` + `UPSTREAM_GUIDANCE.md` **compile** the needed Agent OS v3.0.0 + GSD Core v1.12.0 semantics into the skill; raw sources stay in `upstream/` for PlanOnce maintenance/audit only.
+* `references/RELIABILITY_GUIDANCE.md` **replaces** `scripts/reliability.py` when helpers are absent: same `planonce.*/v1` schemas, same normalized SHA-256, same `FIX_REVERIFY`/`BLOCKED_AMEND`/`DIAGNOSE` and revision-bound evidence rules. `scripts/reliability.py` is an optional convenience (`may validate`), never a prerequisite.
+* Templates under `assets/` carry the canonical `change_id`/`workflow`/`schema` frontmatter, so `planonce-init` → `planonce-task` → any `planonce-green|brown-*` can create `.planonce/PROJECT.md` and `.planonce/work/<change>/{CONTEXT,PLAN,STATE,VERIFY}.md` without extra dependencies.
+
+### Offline / Git-less fallback (also in `references/RELIABILITY_GUIDANCE.md`)
+
+* **Plan digest** without `scripts/reliability.py` (produces identical `sha256:<hex>`):
+
+  ```bash
+  # Python (any OS, no extra deps)
+  python -c "import hashlib,pathlib; p=pathlib.Path('.planonce/work/<change>/PLAN.md'); t=p.read_text(encoding='utf-8').replace('\r\n','\n').replace('\r','\n'); n='\n'.join(l.rstrip() for l in t.split('\n')).rstrip('\n')+'\n'; print('sha256:'+hashlib.sha256(n.encode()).hexdigest())"
+  # Node
+  node -e "const fs=require('fs'),c=require('crypto'); let t=fs.readFileSync('.planonce/work/<change>/PLAN.md','utf8').replace(/\r\n/g,'\n').replace(/\r/g,'\n'); t=t.split('\n').map(l=>l.trimEnd()).join('\n').replace(/\n+$/,'')+'\n'; console.log('sha256:'+c.createHash('sha256').update(t).digest('hex'))"
+  # Git Bash / WSL
+  python3 -c "import hashlib,pathlib; print('sha256:'+hashlib.sha256(open('.planonce/work/<change>/PLAN.md',encoding='utf-8').read().replace('\r\n','\n').replace('\r','\n').split('\n').__class__(''.join(l.rstrip() for l in open('.planonce/work/<change>/PLAN.md',encoding='utf-8').read().replace('\r\n','\n').replace('\r','\n').split('\n')).rstrip('\n')+'\n'.encode()).hexdigest())"
+  ```
+
+* **Revision-bound evidence** without Git: `VERIFY.md` records `revision: unavailable`, `working_tree_digest: unavailable` (see `scripts/reliability.py::workspace_snapshot` / `RELIABILITY_GUIDANCE.md`). The human ship gate still applies; stale-evidence rules simply treat `unavailable` as “re-verify when relevant files change”.
+* **No drive-by requirements**: Brownfield workflows forbid unrelated refactors; Small workflows record `approved_plan_digest: NOT_APPLICABLE` and keep the micro-plan in `CONTEXT.md`.

@@ -48,4 +48,13 @@ python scripts/reliability.py plan-digest .planonce/work/<change>/PLAN.md
 python scripts/reliability.py validate-work .planonce/work/<change> --repo .
 ```
 
-Targeted skill installs use the same algorithm from their bundled `references/RELIABILITY_GUIDANCE.md`.
+Targeted skill installs (no `scripts/` on disk) use the same algorithm from their bundled `references/RELIABILITY_GUIDANCE.md`. Portable one-liners producing the identical `sha256:<hex>`:
+
+```bash
+# Python (Windows/macOS/Linux, no deps)
+python -c "import hashlib,pathlib; p=pathlib.Path('.planonce/work/<change>/PLAN.md'); t=p.read_text(encoding='utf-8').replace('\r\n','\n').replace('\r','\n'); n='\n'.join(l.rstrip() for l in t.split('\n')).rstrip('\n')+'\n'; print('sha256:'+hashlib.sha256(n.encode()).hexdigest())"
+# Node
+node -e "const fs=require('fs'),c=require('crypto'); let t=fs.readFileSync('.planonce/work/<change>/PLAN.md','utf8').replace(/\r\n/g,'\n').replace(/\r/g,'\n'); t=t.split('\n').map(l=>l.trimEnd()).join('\n').replace(/\n+$/,'')+'\n'; console.log('sha256:'+c.createHash('sha256').update(t).digest('hex'))"
+```
+
+See `docs/RUNTIME_ARCHITECTURE.md#end-user-rule` for the full offline/Git-less guarantee.

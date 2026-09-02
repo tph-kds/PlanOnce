@@ -114,6 +114,10 @@ python scripts/install_matrix.py --providers opencode,kilo,kiro-cli,roo
 
 It validates exact `npx` IDs and prints the command you can run.
 
+## Private project guarantee (no Agent OS / GSD required)
+
+PlanOnce is self-contained. After `npx skills add tph-kds/PlanOnce --all --copy -y` the private project contains only the skill templates (`references/` + `assets/`) — `upstream/` and `scripts/` stay in the PlanOnce repository for maintenance. All 12 skills run offline via bundled `references/RELIABILITY_GUIDANCE.md` (same normalized digest and `FIX_REVERIFY`/`BLOCKED_AMEND` rules as `scripts/reliability.py`). No hard `python scripts/...` dependency. Verified by sandbox install to an empty Git repo (`C:\Users\ADMIN\AppData\Local\Temp\opencode\tmp-planonce-enduser-test`). For Git-less projects, `VERIFY.md` uses `revision: unavailable` / `working_tree_digest: unavailable`; the human ship gate still applies.
+
 ## Verify after install
 
 Ask the target agent to list or invoke one of these canonical skill names:
@@ -139,3 +143,46 @@ Use planonce-review to review this diff for production readiness.
 ```
 
 If a provider does not discover the skill, first check its installed path against `docs/PROVIDER_MATRIX.md`, then confirm the `SKILL.md` frontmatter is valid and restart/reload the provider session if skill discovery happens at session startup.
+
+## Troubleshooting end-user install
+
+**`No matching skills found for: '*'` on Windows PowerShell**
+
+Cause: PowerShell's `npx` shim is `npx.ps1`. With the default `Restricted` execution policy, the shim is either blocked or it preserves the surrounding single quotes, so the Skills CLI receives `'*'` (including quotes) instead of `*` and fails to match. This is **not** a PlanOnce repository error — PlanOnce ships 12 valid `SKILL.md` files and `npx skills add ... --all` works without any wildcard.
+
+Fix — pick one:
+
+```powershell
+# 1) Preferred: avoid the wildcard entirely (works everywhere)
+npx skills add tph-kds/PlanOnce --all
+
+# 2) PowerShell-native quoting
+npx skills add tph-kds/PlanOnce --skill "*" -a opencode -y
+# or
+npx --yes skills add tph-kds/PlanOnce --skill "*" -a opencode -y
+
+# 3) Bypass the .ps1 shim entirely (CMD / PowerShell)
+npx.cmd skills add tph-kds/PlanOnce --skill "*" -a opencode -y
+
+# 4) If you see "running scripts is disabled", allow the shim once:
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
+On `cmd.exe` or bash/zsh the original `'*'` form works; on PowerShell use `"*"` or `--all`.
+
+**`Symlinks failed / Files were copied instead` on Windows**
+
+The Skills CLI defaults to symlinks. Windows requires Developer Mode for non-elevated symlinks. The CLI automatically falls back to copying, which is correct for PlanOnce (skills remain discoverable via `.agents/skills/`). To silence the warning, install with `--copy` explicitly:
+
+```bash
+npx skills add tph-kds/PlanOnce --all --copy -y
+```
+
+**Stale `skills` package cached by `npx`**
+
+`npx` caches the `skills` CLI. If you see old help output, force the latest:
+
+```bash
+npx --yes skills@latest add tph-kds/PlanOnce --all
+npm view skills version  # should be >= 1.5.18; 1.5.23 is latest as of 2026-08-19
+```

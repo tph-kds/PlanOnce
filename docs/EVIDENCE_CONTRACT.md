@@ -31,3 +31,5 @@ Repository-level installs can check this with:
 ```bash
 python scripts/reliability.py validate-work .planonce/work/<change> --repo .
 ```
+
+Targeted installs (end-user `npx skills add` without `scripts/`) enforce the same rules from `references/RELIABILITY_GUIDANCE.md` bundled in each skill: normalized SHA-256 for `PLAN.md` → `STATE.md:approved_plan_digest`, `VERIFY.md:revision/working_tree_digest` bound to current worktree (or `unavailable` when Git is absent), and `FIX_REVERIFY` vs `BLOCKED_AMEND` routing. See `docs/RUNTIME_ARCHITECTURE.md#end-user-rule` and `docs/ARTIFACT_SCHEMA.md#helper`.

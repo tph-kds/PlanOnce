@@ -86,6 +86,8 @@ Additional tracked portable targets:
 npx skills add tph-kds/PlanOnce --skill '*' -a qwen-code -a goose -a openhands -y
 ```
 
+> Windows PowerShell: use `"*"` or avoid the wildcard via `npx skills add tph-kds/PlanOnce --all`. If `npx` is blocked by `Restricted` execution policy, run `npx.cmd ...` or `npx --yes skills@latest add ... --all`. See `docs/INSTALLATION.md#troubleshooting-end-user-install`.
+
 > Important: Kiro's Skills CLI ID is `kiro-cli`, not `kiro`. Current Kilo docs prefer `.kilo/skills/` and
 > also load `.agents/skills/`, while the current Skills CLI source still contains a legacy
 > `.kilocode/skills/` mapping for `kilo`; PlanOnce documents and tests this discrepancy rather than

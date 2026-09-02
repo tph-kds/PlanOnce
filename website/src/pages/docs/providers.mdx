@@ -78,6 +78,8 @@ npx skills add tph-kds/PlanOnce --skill '*' -a roo -y
 npx skills add tph-kds/PlanOnce --skill '*' -a windsurf -y
 ```
 
+> Windows PowerShell: the CLI expects unquoted `*`. Use `--all` or double-quoted `"*"` / `npx.cmd`. Single-quoted `'*'` is bash syntax and PowerShell may preserve the quotes, yielding `No matching skills found for: '*'`. This is a shell/shim issue, not a missing skill.
+
 Install across the complete first-class set:
 
 ```bash
